@@ -6,48 +6,55 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model app\models\Project */
 
-$this->title = 'd';
-$this->params['breadcrumbs'][] = ['label' => 'โครงการ'];
+$this->title = $model->project_id;
+$this->params['breadcrumbs'][] = ['label' => 'Projects', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="project-view">
 
+    <h1><?= Html::encode($this->title) ?></h1>
 
-
-        <p>
-        <?php
-        if ($model->project_status == \app\models\Project::PROJECT_ACTIVE){
-            ?>
-            <div class="alert alert-success">
-                <strong>Warning!</strong> โครงการของคุณได้รับการอนุมัติเรียบร้อยแล้ว คุณสามารถสร้างกิจกรรมได้ที่นี่
-            </div>
-            <?php
-            echo Html::a('เพิ่มกิจกรรม', ['/activity/create',
-                'proj_id' => $model->project_id,
-                'proj_name' => $model->project_name,
-            ], ['class' => 'btn btn-primary']);
-        } else { ?>
-            <div class="alert alert-warning">
-                <strong>เตือน!</strong> โครงการของคุณยังไม่ได้รับการอนุมัติ
-            </div>
-        <?php } ?>
-
-
-
-        </p>
-
-        <?= DetailView::widget([
-            'model' => $model,
-            'attributes' => [
-                //'project_id',
-                'project_name',
-                //'created_by',
-                [
-                    'label' => 'สร้างโดย',
-                    'value' => $model->createdBy->username,
-                ],
-                ['format' => 'html', 'label' => 'สถานะโครงการ', 'value' => '<code><i>' . $model->getProjectStatus($model->project_status) . '</i></code>'],
+    <p>
+        <?= Html::a('Update', ['update', 'id' => $model->project_id], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('Delete', ['delete', 'id' => $model->project_id], [
+            'class' => 'btn btn-danger',
+            'data' => [
+                'confirm' => 'Are you sure you want to delete this item?',
+                'method' => 'post',
             ],
         ]) ?>
+    </p>
+
+    <?= DetailView::widget([
+        'model' => $model,
+        'attributes' => [
+            'project_id',
+            'project_name',
+            'organization_id',
+            'responsibler_id',
+            'project_laksana_id',
+            'strategic_id',
+            'goal_id',
+            'strategy_id',
+            'indicator_id',
+            'element_id',
+            'product_id',
+            'rationale:ntext',
+            'objective:ntext',
+            'project_kpi_id',
+            'projecti_paomai_id',
+            'lakshana_activity:ntext',
+            'project_plan_id',
+//            /'project_start',
+//            'project_end',
+            'project_location',
+            'project_evaluation:ntext',
+            'project_benefit:ntext',
+            'created_by',
+            'project_money',
+            'budget_budget_type',
+            'project_status',
+        ],
+    ]) ?>
 
 </div>

@@ -21,7 +21,10 @@
         "kartik-v/yii2-grid": "@dev",
         "dmstr/yii2-adminlte-asset": "2.*",
         "kartik-v/yii2-tabs-x": "@dev",
-        "kartik-v/yii2-widget-growl": "*"
+        "kartik-v/yii2-widget-growl": "*",
+        "unclead/yii2-multiple-input": "~2.0",
+        "kartik-v/yii2-widget-datepicker": "@dev",
+        "kartik-v/yii2-date-range": "dev-master"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",

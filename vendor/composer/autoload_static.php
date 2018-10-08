@@ -27,6 +27,12 @@ class ComposerStaticInit80e71f4d4d6aacd77fcfe86e66cc6b60
             'yii\\bootstrap\\' => 14,
             'yii\\' => 4,
         ),
+        'u' => 
+        array (
+            'unclead\\multipleinput\\tests\\' => 28,
+            'unclead\\multipleinput\\examples\\' => 31,
+            'unclead\\multipleinput\\' => 22,
+        ),
         'r' => 
         array (
             'rmrevin\\yii\\fontawesome\\' => 24,
@@ -39,8 +45,11 @@ class ComposerStaticInit80e71f4d4d6aacd77fcfe86e66cc6b60
         array (
             'kartik\\tabs\\' => 12,
             'kartik\\plugins\\tabs\\' => 20,
+            'kartik\\growl\\' => 13,
             'kartik\\grid\\' => 12,
             'kartik\\dialog\\' => 14,
+            'kartik\\daterange\\' => 17,
+            'kartik\\date\\' => 12,
             'kartik\\base\\' => 12,
         ),
         'd' => 
@@ -122,6 +131,18 @@ class ComposerStaticInit80e71f4d4d6aacd77fcfe86e66cc6b60
         array (
             0 => __DIR__ . '/..' . '/yiisoft/yii2',
         ),
+        'unclead\\multipleinput\\tests\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/unclead/yii2-multiple-input/tests',
+        ),
+        'unclead\\multipleinput\\examples\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/unclead/yii2-multiple-input/examples',
+        ),
+        'unclead\\multipleinput\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/unclead/yii2-multiple-input/src',
+        ),
         'rmrevin\\yii\\fontawesome\\' => 
         array (
             0 => __DIR__ . '/..' . '/rmrevin/yii2-fontawesome',
@@ -140,6 +161,10 @@ class ComposerStaticInit80e71f4d4d6aacd77fcfe86e66cc6b60
         array (
             0 => __DIR__ . '/..' . '/kartik-v/bootstrap-tabs-x',
         ),
+        'kartik\\growl\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/kartik-v/yii2-widget-growl',
+        ),
         'kartik\\grid\\' => 
         array (
             0 => __DIR__ . '/..' . '/kartik-v/yii2-grid/src',
@@ -147,6 +172,14 @@ class ComposerStaticInit80e71f4d4d6aacd77fcfe86e66cc6b60
         'kartik\\dialog\\' => 
         array (
             0 => __DIR__ . '/..' . '/kartik-v/yii2-dialog/src',
+        ),
+        'kartik\\daterange\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/kartik-v/yii2-date-range/src',
+        ),
+        'kartik\\date\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/kartik-v/yii2-widget-datepicker/src',
         ),
         'kartik\\base\\' => 
         array (

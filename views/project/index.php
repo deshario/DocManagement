@@ -25,6 +25,13 @@ $this->params['breadcrumbs'][] = $this->title;
 
             //'project_id',
             'project_name',
+            'project_money',
+            ['attribute' => 'budget_budget_type',
+                'headerOptions' => ['width' => '50px'],
+                'value' => function ($model) {
+                    //return $model->budgetBudgetType->budget_type_name;
+                },
+            ],
             ['attribute' => 'created_by',
                 'headerOptions' => ['width' => '50px'],
                 'value' => function ($model) {

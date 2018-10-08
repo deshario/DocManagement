@@ -64,6 +64,7 @@ use yii\bootstrap\Modal;
                             ['label' => 'ตัวชีวัด', 'icon' => 'arrow-right', 'url' => ['indicator/index'],],
                             ['label' => 'องค์ประกอบ', 'icon' => 'arrow-right', 'url' => ['element/index'],],
                             ['label' => 'ผลผลิต', 'icon' => 'arrow-right', 'url' => ['product/index'],],
+                            ['label' => 'แหล่งที่มาของงบประมาณ', 'icon' => 'arrow-right', 'url' => ['budget-type/index'],],
                             ['label' => 'ผู้รับผิดชอบโครงการ', 'icon' => 'arrow-right', 'url' => ['responsibler/index'],],
                         ],
                     ],

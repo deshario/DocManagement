@@ -19,9 +19,53 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'project_name') ?>
 
-    <?= $form->field($model, 'created_by') ?>
+    <?= $form->field($model, 'organization_id') ?>
 
-    <?= $form->field($model, 'project_status') ?>
+    <?= $form->field($model, 'responsibler_id') ?>
+
+    <?= $form->field($model, 'project_laksana_id') ?>
+
+    <?php // echo $form->field($model, 'strategic_id') ?>
+
+    <?php // echo $form->field($model, 'goal_id') ?>
+
+    <?php // echo $form->field($model, 'strategy_id') ?>
+
+    <?php // echo $form->field($model, 'indicator_id') ?>
+
+    <?php // echo $form->field($model, 'element_id') ?>
+
+    <?php // echo $form->field($model, 'product_id') ?>
+
+    <?php // echo $form->field($model, 'rationale') ?>
+
+    <?php // echo $form->field($model, 'objective') ?>
+
+    <?php // echo $form->field($model, 'project_kpi_id') ?>
+
+    <?php // echo $form->field($model, 'projecti_paomai_id') ?>
+
+    <?php // echo $form->field($model, 'lakshana_activity') ?>
+
+    <?php // echo $form->field($model, 'project_plan_id') ?>
+
+    <?php // echo $form->field($model, 'project_start') ?>
+
+    <?php // echo $form->field($model, 'project_end') ?>
+
+    <?php // echo $form->field($model, 'project_location') ?>
+
+    <?php // echo $form->field($model, 'project_evaluation') ?>
+
+    <?php // echo $form->field($model, 'project_benefit') ?>
+
+    <?php // echo $form->field($model, 'created_by') ?>
+
+    <?php // echo $form->field($model, 'project_money') ?>
+
+    <?php // echo $form->field($model, 'budget_budget_type') ?>
+
+    <?php // echo $form->field($model, 'project_status') ?>
 
     <div class="form-group">
         <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>

@@ -5,6 +5,13 @@ namespace app\controllers;
 use app\components\AccessRule;
 use app\models\Activity;
 use app\models\Managers;
+use app\models\Procced;
+use app\models\ProjectKpi;
+use app\models\ProjectLaksana;
+use app\models\ProjectPaomai;
+use app\models\ProjectPlan;
+use app\models\ProjectType;
+use http\Exception;
 use Yii;
 use app\models\Project;
 use app\models\ProjectSearch;
@@ -92,7 +99,71 @@ class ProjectController extends Controller
     {
         $model = new Project();
         if ($model->load(Yii::$app->request->post())) {
+            $user_id = Yii::$app->user->identity->id;
+            $transaction = Yii::$app->db->beginTransaction();
+            try {
+                $items = Yii::$app->request->post();
+                $temp_project_kpi_id = 0;
+                $temp_project_plan_id = 0;
+
+                //var_dump($items['Project']['temp_project_kpi_id']);
+                //var_dump($items['Project']['temp_project_plan_id']);
+
+                foreach($items['Project']['temp_project_kpi_id'] as $key => $val){
+                    $project_kpi = new ProjectKpi();
+                    $project_kpi->kpi_name = $val['kpi_name'];
+                    $project_kpi->kpi_goal = $val['kpi_goal'];
+                    $project_kpi->kpi_owner = $user_id;
+                    $project_kpi->save();
+                    $temp_project_kpi_id = $project_kpi->kpi_id;
+                }
+
+                foreach($items['Project']['temp_project_plan_id'] as $key => $val){
+                    $project_plan = new ProjectPlan();
+                    $project_plan->plan_process = $val['plan_process'];
+                    $project_plan->plan_detail = $val['plan_detail'];
+                    $project_plan->plan_date = $val['plan_date'];
+                    $project_plan->plan_place = $val['plan_place'];
+                    $project_plan->plan_owner = $user_id;
+                    $project_plan->save();
+                    $temp_project_plan_id = $project_plan->plan_id;
+                }
+                $transaction->commit();
+
+            } catch (Exception $e) {
+                $transaction->rollBack();
+                Yii::$app->session->setFlash('error', 'มีข้อผิดพลาดในการบันทึก');
+                return $this->redirect(['index']);
+            }
+
+            $project_paomai = new ProjectPaomai();
+            $project_paomai->paomai_type = $project_paomai->paomai_quantity;
+            $project_paomai->paomai_value = $model->paomai_type_1;
+            $project_paomai->paomai_owner = $user_id;
+            $project_paomai->save();
+
+            $project_paomai = new ProjectPaomai();
+            $project_paomai->paomai_type = $project_paomai->paomai_quality;
+            $project_paomai->paomai_value = $model->paomai_type_2;
+            $project_paomai->paomai_owner = $user_id;
+            $project_paomai->save();
+
+            $project_laksana = new ProjectLaksana();
+            $project_laksana->project_type_id = $model->temp_type;
+            $project_laksana->procced_id = $model->temp_procced;
+            $project_laksana->save();
+
+
+            $model->projecti_paomai_id = $project_paomai->paomai_id;
             $model->created_by = Yii::$app->user->identity->id;
+            $model->project_status = Project::PROJECT_ACTIVE;
+            $model->project_laksana_id = $project_laksana->laksana_id;
+            $model->project_kpi_id = $temp_project_kpi_id;
+            $model->project_plan_id = $temp_project_plan_id;
+
+            $model->temp_project_kpi_id = \yii\helpers\Json::encode($model->temp_project_kpi_id);
+            $model->temp_project_plan_id = \yii\helpers\Json::encode($model->temp_project_plan_id);
+
             if ($model->validate() && $model->save()) {
                 $activity = new Activity();
                 $activity->root_project_id = $model->project_id;
@@ -101,9 +172,11 @@ class ProjectController extends Controller
                 //return $this->redirect(['view', 'id' => $model->project_id]);
                 return $this->redirect(['/site/routing']);
             } else {
+                //return $model->getErrors();
                 return $this->redirect(['/site/routing']);
             }
         }
+
         return $this->render('create', [
             'model' => $model,
         ]);

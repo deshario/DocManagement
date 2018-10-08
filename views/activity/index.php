@@ -18,6 +18,15 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php foreach ($dataProvider->models as $model) {
         $project_id = $model->rootProject->project_id;
         $project_name = $model->rootProject->project_name;
+        $project_name = $model->rootProject->project_name;
+
+
+        $org_name = $model->rootProject->organization->organization_name;
+        $strategic_name = $model->rootProject->strategic->strategic_name;
+        $strategic_name = $model->rootProject->goal->goal_name;
+
+        $type_name = $model->rootProject->projectLaksana->projectType->type_name;
+
         $username = $model->rootProject->createdBy->username;
         $project_status_no = $model->rootProject->project_status;
     }
@@ -47,24 +56,54 @@ $this->params['breadcrumbs'][] = $this->title;
 
     $content = "
     <form class='form-horizontal'>
+    
         <div class='form-group'>
-            <label class='col-sm-2 control-label'>ชื่อโครงการ</label>
+            <label class='col-sm-2 control-label'>ชื่อโครงการ </label>
             <div class='col-sm-10'>
                 <input type='text' class='form-control' value='$project_name' readonly>
             </div>
         </div>
-        <div class='form-group'>
-            <label class='col-sm-2 control-label'>ผู้สร้าง</label>
+        
+          <div class='form-group'>
+            <label class='col-sm-2 control-label'>ชื่อหน่วยงาน</label>
             <div class='col-sm-10'>
-                <input type='text' class='form-control' value='$username' readonly>
+                <input type='text' class='form-control' value='$org_name' readonly>
             </div>
         </div>
-        <div class='form-group'>
-            <label class='col-sm-2 control-label'>สถานะโครงการ</label>
+        
+          <div class='form-group'>
+            <label class='col-sm-2 control-label'>ผู้รับผิดชอบ</label>
             <div class='col-sm-10'>
-                <input type='text' class='form-control' value='$project_status' readonly>
+                <input type='text' class='form-control' value='$project_name' readonly>
             </div>
-        </div>
+            </div>
+            
+             <div class='form-group'>
+            <label class='col-sm-2 control-label'>ประเภท</label>
+            <div class='col-sm-10'>
+                <input type='text' class='form-control' value='$type_name' readonly>
+            </div>
+            </div>
+            
+            <div class='form-group'>
+            <label class='col-sm-2 control-label'>ยุทธศาสตร์</label>
+            <div class='col-sm-10'>
+                <input type='text' class='form-control' value='$strategic_name' readonly>
+            </div>
+            </div>
+            
+            <div class='form-group'>
+            <label class='col-sm-2 control-label'>เป้าประสงค์</label>
+            <div class='col-sm-10'>
+                <input type='text' class='form-control' value='$strategic_name' readonly>
+            </div>
+            </div>
+            
+        
+             
+            
+       
+        
     </form>
     ";
     ?>
