@@ -31,10 +31,9 @@ $this->params['breadcrumbs'][] = $this->title;
         $project_status_no = $model->rootProject->project_status;
     }
     $project = new \app\models\Project();
-    $project_status = $project->getProjectStatus($project_status_no);
     ?>
 
-    <?php $contentd = GridView::widget([
+    <?php $contendt = GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
@@ -60,50 +59,45 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class='form-group'>
             <label class='col-sm-2 control-label'>ชื่อโครงการ </label>
             <div class='col-sm-10'>
-                <input type='text' class='form-control' value='$project_name' readonly>
+                <input type='text' class='form-control' value='' readonly>
             </div>
         </div>
         
           <div class='form-group'>
             <label class='col-sm-2 control-label'>ชื่อหน่วยงาน</label>
             <div class='col-sm-10'>
-                <input type='text' class='form-control' value='$org_name' readonly>
+                <input type='text' class='form-control' value='' readonly>
             </div>
         </div>
         
           <div class='form-group'>
             <label class='col-sm-2 control-label'>ผู้รับผิดชอบ</label>
             <div class='col-sm-10'>
-                <input type='text' class='form-control' value='$project_name' readonly>
+                <input type='text' class='form-control' value='' readonly>
             </div>
             </div>
             
              <div class='form-group'>
             <label class='col-sm-2 control-label'>ประเภท</label>
             <div class='col-sm-10'>
-                <input type='text' class='form-control' value='$type_name' readonly>
+                <input type='text' class='form-control' value='' readonly>
             </div>
             </div>
             
             <div class='form-group'>
             <label class='col-sm-2 control-label'>ยุทธศาสตร์</label>
             <div class='col-sm-10'>
-                <input type='text' class='form-control' value='$strategic_name' readonly>
+                <input type='text' class='form-control' value='' readonly>
             </div>
             </div>
             
             <div class='form-group'>
             <label class='col-sm-2 control-label'>เป้าประสงค์</label>
             <div class='col-sm-10'>
-                <input type='text' class='form-control' value='$strategic_name' readonly>
+                <input type='text' class='form-control' value='' readonly>
             </div>
             </div>
             
-        
-             
-            
-       
-        
     </form>
     ";
     ?>
@@ -124,10 +118,10 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             [
                 'label' => '<i class="fa fa-envelope-o"></i>&nbsp; กิจกรรมทั้งหมด',
-                'linkOptions' => ['data-url' => Url::to(['filtering?project_id=' . $model->root_project_id])],
+                'linkOptions' => ['data-url' => Url::to(['filtering?project_id=' . 1])],
             ],
-            ['label' => '<i class="fa fa-plus"></i>&nbsp; เพิ่มกิจกรรม', 'url' => Url::to(['create',
-                'proj_id' => $project_id, 'proj_name' => $project_name, 'proj_status' => $project_status_no])]
+//            ['label' => '<i class="fa fa-plus"></i>&nbsp; เพิ่มกิจกรรม', 'url' => Url::to(['create', 'proj_id' => $project_id, 'proj_name' => $project_name, 'proj_status' => $project_status_no])]
+            ['label' => '<i class="fa fa-plus"></i>&nbsp; เพิ่มกิจกรรม', 'url' => Url::to(['create'])]
         ];
 
         echo TabsX::widget([
