@@ -21,23 +21,30 @@ $this->params['breadcrumbs'][] = $this->title;
         'showOnEmpty' => false,
         'summary' => '',
         'columns' => [
-            //['class' => 'yii\grid\SerialColumn'],
+            ['class' => 'kartik\grid\SerialColumn', 'header' => '', ],
 
             //'project_id',
             'project_name',
-            'project_money',
+            ['attribute' => 'project_money',
+                'headerOptions' => ['width' => '5%'],
+                'value' => function ($model) {
+                    return $model->project_money;
+                },
+                'format'=>['decimal', 0],
+            ],
             ['attribute' => 'budget_budget_type',
+                'label' => 'แหลงที่มาของงบ',
                 'headerOptions' => ['width' => '50px'],
                 'value' => function ($model) {
-                    //return $model->budgetBudgetType->budget_type_name;
+                    return $model->budgetBudgetType->budget_type_name;
                 },
             ],
-            ['attribute' => 'created_by',
-                'headerOptions' => ['width' => '50px'],
-                'value' => function ($model) {
-                    return $model->createdBy->username;
-                },
-            ],
+//            ['attribute' => 'created_by',
+//                'headerOptions' => ['width' => '50px'],
+//                'value' => function ($model) {
+//                    return $model->createdBy->username;
+//                },
+//            ],
             ['format' => 'html',
                 'attribute' => 'created_by',
                 'label' => 'สถานะโครงการ',

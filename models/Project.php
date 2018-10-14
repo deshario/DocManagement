@@ -16,6 +16,7 @@ use yii\helpers\ArrayHelper;
  * @property int $strategic_id ยุทธศาสตร์
  * @property int $goal_id เป้าประสงค์
  * @property int $strategy_id กลยุทธ์
+ * @property int $realted_subject_id รายวิชาที่สอดคล่อง
  * @property int $indicator_id ตัวชีวัด
  * @property int $element_id องค์ประกอบ
  * @property int $product_id ผลผลิต
@@ -101,6 +102,7 @@ class Project extends \yii\db\ActiveRecord
 //            [['product_id'], 'exist', 'skipOnError' => true, 'targetClass' => Product::className(), 'targetAttribute' => ['product_id' => 'product_id']],
 //            //[['project_budget_id'], 'exist', 'skipOnError' => true, 'targetClass' => ProjectBudget::className(), 'targetAttribute' => ['project_budget_id' => 'budget_id']],
 //            [['project_kpi_id'], 'exist', 'skipOnError' => true, 'targetClass' => ProjectKpi::className(), 'targetAttribute' => ['project_kpi_id' => 'kpi_id']],
+//            [['realted_subject_id'], 'exist', 'skipOnError' => true, 'targetClass' => RealtedSubject::className(), 'targetAttribute' => ['realted_subject_id' => 'subject_id']],
 //            [['project_laksana_id'], 'exist', 'skipOnError' => true, 'targetClass' => ProjectLaksana::className(), 'targetAttribute' => ['project_laksana_id' => 'laksana_id']],
 //            [['projecti_paomai_id'], 'exist', 'skipOnError' => true, 'targetClass' => ProjectPaomai::className(), 'targetAttribute' => ['projecti_paomai_id' => 'paomai_id']],
 //            [['project_plan_id'], 'exist', 'skipOnError' => true, 'targetClass' => ProjectPlan::className(), 'targetAttribute' => ['project_plan_id' => 'plan_id']],
@@ -129,6 +131,7 @@ class Project extends \yii\db\ActiveRecord
             'product_id' => 'ผลผลิต',
             'rationale' => 'หลักการและเหตุผล',
             'objective' => 'วัตถุประสงค์',
+            'realted_subject_id' => 'รายวิชาที่สอดคล่อง',
             'project_kpi_id' => 'เป้าหมายตัวชีวัด',
             'projecti_paomai_id' => 'เป้าหมาย',
             'lakshana_activity' => 'ลักษณะกิจกรรม',
@@ -209,6 +212,11 @@ class Project extends \yii\db\ActiveRecord
     public function getProduct()
     {
         return $this->hasOne(Product::className(), ['product_id' => 'product_id']);
+    }
+
+    public function getRealtedSubject()
+    {
+        return $this->hasOne(RealtedSubject::className(), ['subject_id' => 'realted_subject_id']);
     }
 
     /**
@@ -333,5 +341,13 @@ class Project extends \yii\db\ActiveRecord
     public function getBudgetTypeList(){
         $list = BudgetType::find()->orderBy('budget_type_id')->all();
         return ArrayHelper::map($list,'budget_type_id','budget_type_name');
+    }
+
+    public function getRealtedSubjectList(){
+        $list = RealtedSubject::find()->orderBy('subject_id')->all();
+        foreach($list as &$lib){
+            $lib->subject_name = $lib->subject_name.' | '.$lib->subject_teacher;
+        }
+        return ArrayHelper::map($list,'subject_id','subject_name');
     }
 }

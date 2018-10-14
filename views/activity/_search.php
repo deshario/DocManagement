@@ -21,15 +21,9 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'activity_name') ?>
 
-    <?= $form->field($model, 'activity_organization') ?>
-
     <?= $form->field($model, 'activity_rationale') ?>
 
-    <?php // echo $form->field($model, 'activity_type') ?>
-
-    <?php // echo $form->field($model, 'activity_place') ?>
-
-    <?php // echo $form->field($model, 'activity_department') ?>
+    <?= $form->field($model, 'activity_type') ?>
 
     <?php // echo $form->field($model, 'objective') ?>
 
@@ -43,13 +37,31 @@ use yii\widgets\ActiveForm;
 
     <?php // echo $form->field($model, 'goal_goal_id') ?>
 
+    <?php // echo $form->field($model, 'responsible_by') ?>
+
     <?php // echo $form->field($model, 'strategy_strategy_id') ?>
 
     <?php // echo $form->field($model, 'indicator_indicator_id') ?>
 
+    <?php // echo $form->field($model, 'realted_subject_id') ?>
+
     <?php // echo $form->field($model, 'element_element_id') ?>
 
     <?php // echo $form->field($model, 'product_product_id') ?>
+
+    <?php // echo $form->field($model, 'project_laksana_id') ?>
+
+    <?php // echo $form->field($model, 'project_paomai_id') ?>
+
+    <?php // echo $form->field($model, 'project_plan_id') ?>
+
+    <?php // echo $form->field($model, 'budget_type_id') ?>
+
+    <?php // echo $form->field($model, 'activity_money') ?>
+
+    <?php // echo $form->field($model, 'budget_details_id') ?>
+
+    <?php // echo $form->field($model, 'activity_status') ?>
 
     <div class="form-group">
         <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>

@@ -4,10 +4,7 @@ use kartik\daterange\DateRangePicker;
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 use unclead\multipleinput\MultipleInput;
-
-
 ?>
-
 
 <div class="project-form">
 

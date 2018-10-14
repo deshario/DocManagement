@@ -18,8 +18,8 @@ class ActivitySearch extends Activity
     public function rules()
     {
         return [
-            [['activity_id', 'root_project_id', 'organization_organization_id', 'strategic_strategic_id', 'goal_goal_id', 'strategy_strategy_id', 'indicator_indicator_id', 'element_element_id', 'product_product_id'], 'integer'],
-            [['activity_name', 'activity_rationale', 'activity_type', 'activity_place', 'objective', 'evaluation', 'benefit'], 'safe'],
+            [['activity_id', 'root_project_id', 'organization_organization_id', 'strategic_strategic_id', 'goal_goal_id', 'responsible_by', 'strategy_strategy_id', 'indicator_indicator_id', 'realted_subject_id', 'element_element_id', 'product_product_id', 'project_laksana_id', 'project_paomai_id', 'project_plan_id', 'budget_type_id', 'activity_money', 'budget_details_id', 'activity_status'], 'integer'],
+            [['activity_name', 'activity_rationale', 'activity_type', 'objective', 'evaluation', 'benefit'], 'safe'],
         ];
     }
 
@@ -64,16 +64,24 @@ class ActivitySearch extends Activity
             'organization_organization_id' => $this->organization_organization_id,
             'strategic_strategic_id' => $this->strategic_strategic_id,
             'goal_goal_id' => $this->goal_goal_id,
+            'responsible_by' => $this->responsible_by,
             'strategy_strategy_id' => $this->strategy_strategy_id,
             'indicator_indicator_id' => $this->indicator_indicator_id,
+            'realted_subject_id' => $this->realted_subject_id,
             'element_element_id' => $this->element_element_id,
             'product_product_id' => $this->product_product_id,
+            'project_laksana_id' => $this->project_laksana_id,
+            'project_paomai_id' => $this->project_paomai_id,
+            'project_plan_id' => $this->project_plan_id,
+            'budget_type_id' => $this->budget_type_id,
+            'activity_money' => $this->activity_money,
+            'budget_details_id' => $this->budget_details_id,
+            'activity_status' => $this->activity_status,
         ]);
 
         $query->andFilterWhere(['like', 'activity_name', $this->activity_name])
             ->andFilterWhere(['like', 'activity_rationale', $this->activity_rationale])
             ->andFilterWhere(['like', 'activity_type', $this->activity_type])
-            ->andFilterWhere(['like', 'activity_place', $this->activity_place])
             ->andFilterWhere(['like', 'objective', $this->objective])
             ->andFilterWhere(['like', 'evaluation', $this->evaluation])
             ->andFilterWhere(['like', 'benefit', $this->benefit]);

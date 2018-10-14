@@ -153,7 +153,6 @@ class ProjectController extends Controller
             $project_laksana->procced_id = $model->temp_procced;
             $project_laksana->save();
 
-
             $model->projecti_paomai_id = $project_paomai->paomai_id;
             $model->created_by = Yii::$app->user->identity->id;
             $model->project_status = Project::PROJECT_ACTIVE;

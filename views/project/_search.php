@@ -29,6 +29,8 @@ use yii\widgets\ActiveForm;
 
     <?php // echo $form->field($model, 'goal_id') ?>
 
+    <?php // echo $form->field($model, 'realted_subject_id') ?>
+
     <?php // echo $form->field($model, 'strategy_id') ?>
 
     <?php // echo $form->field($model, 'indicator_id') ?>
@@ -49,9 +51,7 @@ use yii\widgets\ActiveForm;
 
     <?php // echo $form->field($model, 'project_plan_id') ?>
 
-    <?php // echo $form->field($model, 'project_start') ?>
-
-    <?php // echo $form->field($model, 'project_end') ?>
+    <?php // echo $form->field($model, 'project_duration') ?>
 
     <?php // echo $form->field($model, 'project_location') ?>
 

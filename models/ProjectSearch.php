@@ -18,7 +18,7 @@ class ProjectSearch extends Project
     public function rules()
     {
         return [
-            [['project_id', 'organization_id', 'responsibler_id', 'project_laksana_id', 'strategic_id', 'goal_id', 'strategy_id', 'indicator_id', 'element_id', 'product_id', 'project_kpi_id', 'projecti_paomai_id', 'project_plan_id', 'created_by', 'project_money', 'budget_budget_type', 'project_status'], 'integer'],
+            [['project_id', 'organization_id', 'responsibler_id', 'project_laksana_id', 'strategic_id', 'goal_id', 'realted_subject_id', 'strategy_id', 'indicator_id', 'element_id', 'product_id', 'project_kpi_id', 'projecti_paomai_id', 'project_plan_id', 'created_by', 'project_money', 'budget_budget_type', 'project_status'], 'integer'],
             [['project_name', 'rationale', 'objective', 'lakshana_activity', 'project_duration', 'project_location', 'project_evaluation', 'project_benefit'], 'safe'],
         ];
     }
@@ -65,6 +65,7 @@ class ProjectSearch extends Project
             'project_laksana_id' => $this->project_laksana_id,
             'strategic_id' => $this->strategic_id,
             'goal_id' => $this->goal_id,
+            'realted_subject_id' => $this->realted_subject_id,
             'strategy_id' => $this->strategy_id,
             'indicator_id' => $this->indicator_id,
             'element_id' => $this->element_id,

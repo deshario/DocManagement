@@ -2,11 +2,16 @@
 
 namespace app\controllers;
 
+use app\models\BudgetDetails;
 use app\models\Element;
 use app\models\Goal;
 use app\models\Indicator;
 use app\models\Organization;
 use app\models\Project;
+use app\models\ProjectLaksana;
+use app\models\ProjectPaomai;
+use app\models\ProjectPlan;
+use app\models\ProjectSearch;
 use app\models\Strategic;
 use app\models\Strategy;
 use kartik\growl\Growl;
@@ -57,9 +62,10 @@ class ActivityController extends Controller
     public function actionIndex($project_id,$project_name,$project_status = 10)
     {
         if($project_status == Project::PROJECT_ACTIVE){
-            $searchModel = new ActivitySearch();
+            //$searchModel = new ActivitySearch();
+            $searchModel = new ProjectSearch();
             $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-            $dataProvider->query->where('root_project_id = '.$project_id);
+            $dataProvider->query->where('project_id = '.$project_id);
 
             return $this->render('index', [
                 'searchModel' => $searchModel,
@@ -108,12 +114,64 @@ class ActivityController extends Controller
     public function actionCreate()
     {
         $model = new Activity();
-        if ($model->load(Yii::$app->request->post())) {
-            $model->root_project_id = 1;
+        if ($model->load(Yii::$app->request->post())){
+            $transaction = Yii::$app->db->beginTransaction();
+            try {
+                $temp_project_plan_id = 0;
+                $temp_project_budget_details_id = 0;
+                $items = Yii::$app->request->post();
+                $user_id = Yii::$app->user->identity->id;
+                $model->root_project_id = Yii::$app->request->get('proj_id');
+
+                foreach($items['Activity']['project_plan_id'] as $key => $val){
+                    $budget_details = new BudgetDetails();
+                    $budget_details->detail_name = $val['plan_detail'];
+                    $budget_details->detail_price = $val['plan_amount'];
+                    $budget_details->activity_id = 1;
+                    $budget_details->save();
+                    $temp_project_budget_details_id = $budget_details->detail_id;
+                }
+
+                foreach($items['Activity']['temp_project_plan_id'] as $key => $val){
+                    $project_plan = new ProjectPlan();
+                    $project_plan->plan_process = $val['plan_process'];
+                    $project_plan->plan_detail = $val['plan_detail'];
+                    $project_plan->plan_date = $val['plan_date'];
+                    $project_plan->plan_place = $val['plan_place'];
+                    $project_plan->plan_owner = $user_id;
+                    $project_plan->save();
+                    $temp_project_plan_id = $project_plan->plan_id;
+                }
+
+                $project_laksana = new ProjectLaksana();
+                $project_laksana->project_type_id = $model->temp_type;
+                $project_laksana->procced_id = $model->temp_procced;
+                $project_laksana->save();
+
+                $project_paomai = new ProjectPaomai();
+                $project_paomai->project_quantity = $model->paomai_quantity;
+                $project_paomai->project_quality = $model->paomai_quality;
+                $project_paomai->save();
+
+                $model->project_paomai_id = $project_paomai->paomai_id;
+                $model->project_laksana_id = $project_laksana->laksana_id;
+                $model->budget_details_id = $temp_project_budget_details_id;
+                $model->project_plan_id = $temp_project_plan_id;
+                $model->activity_status = Project::PROJECT_ACTIVE;
+
+                $transaction->commit();
+
             if($model->validate() && $model->save()){
                 //return $this->redirect(['view', 'id' => $model->activity_id]);
                 return $this->redirect(['/project/view', 'id' => $model->root_project_id]);
             }
+
+            }catch (Exception $e) {
+                $transaction->rollBack();
+                Yii::$app->session->setFlash('error', 'มีข้อผิดพลาดในการบันทึก');
+                return $this->redirect(['index']);
+            }
+
         }
 
         return $this->render('create', [

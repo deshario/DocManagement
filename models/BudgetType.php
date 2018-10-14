@@ -10,7 +10,8 @@ use Yii;
  * @property int $budget_type_id
  * @property string $budget_type_name ชืองบประมาณ
  *
- * @property ProjectBudget[] $projectBudgets
+ * @property Activity[] $activities
+ * @property Project[] $projects
  */
 class BudgetType extends \yii\db\ActiveRecord
 {
@@ -46,8 +47,16 @@ class BudgetType extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getProjectBudgets()
+    public function getActivities()
     {
-        return $this->hasMany(ProjectBudget::className(), ['budget_type_id' => 'budget_type_id']);
+        return $this->hasMany(Activity::className(), ['budget_type_id' => 'budget_type_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getProjects()
+    {
+        return $this->hasMany(Project::className(), ['budget_budget_type' => 'budget_type_id']);
     }
 }

@@ -5,12 +5,12 @@ namespace app\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\ProjectPaomai;
+use app\models\RealtedSubject;
 
 /**
- * ProjectPaomaiSearch represents the model behind the search form of `app\models\ProjectPaomai`.
+ * RealtedSubjectSearch represents the model behind the search form of `app\models\RealtedSubject`.
  */
-class ProjectPaomaiSearch extends ProjectPaomai
+class RealtedSubjectSearch extends RealtedSubject
 {
     /**
      * {@inheritdoc}
@@ -18,8 +18,8 @@ class ProjectPaomaiSearch extends ProjectPaomai
     public function rules()
     {
         return [
-            [['paomai_id'], 'integer'],
-            [['project_quantity', 'project_quality'], 'safe'],
+            [['subject_id'], 'integer'],
+            [['subject_name', 'subject_teacher'], 'safe'],
         ];
     }
 
@@ -41,7 +41,7 @@ class ProjectPaomaiSearch extends ProjectPaomai
      */
     public function search($params)
     {
-        $query = ProjectPaomai::find();
+        $query = RealtedSubject::find();
 
         // add conditions that should always apply here
 
@@ -59,11 +59,11 @@ class ProjectPaomaiSearch extends ProjectPaomai
 
         // grid filtering conditions
         $query->andFilterWhere([
-            'paomai_id' => $this->paomai_id,
+            'subject_id' => $this->subject_id,
         ]);
 
-        $query->andFilterWhere(['like', 'project_quantity', $this->project_quantity])
-            ->andFilterWhere(['like', 'project_quality', $this->project_quality]);
+        $query->andFilterWhere(['like', 'subject_name', $this->subject_name])
+            ->andFilterWhere(['like', 'subject_teacher', $this->subject_teacher]);
 
         return $dataProvider;
     }

@@ -4,19 +4,19 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\ProjectPaomai */
+/* @var $model app\models\RealtedSubject */
 
-$this->title = $model->paomai_id;
-$this->params['breadcrumbs'][] = ['label' => 'Project Paomais', 'url' => ['index']];
+$this->title = $model->subject_id;
+$this->params['breadcrumbs'][] = ['label' => 'Realted Subjects', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="project-paomai-view">
+<div class="realted-subject-view">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Update', ['update', 'id' => $model->paomai_id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'id' => $model->paomai_id], [
+        <?= Html::a('Update', ['update', 'id' => $model->subject_id], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('Delete', ['delete', 'id' => $model->subject_id], [
             'class' => 'btn btn-danger',
             'data' => [
                 'confirm' => 'Are you sure you want to delete this item?',
@@ -28,9 +28,9 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            'paomai_id',
-            'project_quantity:ntext',
-            'project_quality:ntext',
+            'subject_id',
+            'subject_name',
+            'subject_teacher',
         ],
     ]) ?>
 

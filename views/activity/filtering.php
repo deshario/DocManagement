@@ -1,26 +1,51 @@
 <?php
 
-use kartik\tabs\TabsX;
 use yii\helpers\Html;
-use yii\grid\GridView;
-use yii\helpers\Url; ?>
+use kartik\grid\GridView;
+?>
 
-<div class="row">
-    <?php foreach ($dataProvider->models as $model) { ?>
+<?= GridView::widget([
+    'dataProvider' => $dataProvider,
+    'filterModel' => $searchModel,
+    'hover' => true,
+    'showOnEmpty' => false,
+    'summary' => '',
+    'columns' => [
+        ['class' => 'kartik\grid\SerialColumn', 'header' => '', ],
+        //'activity_id',
+        ['attribute' => 'activity_name', 'label' => 'รายการ',
+            'pageSummary'=>'รวมจำนวนทั้งสิ้น',
 
-        <div class="col-md-3">
-            <div class="thumbnail">
-                <!--                    <img src="--><?php //echo Yii::getAlias('@web').'/img/folder_blue.png'; ?><!--" class="img-responsive"/>-->
-                <p align="center"><i class="fa fa-file-text-o fa-5x" aria-hidden="true" style="margin-top: 25px"></i></p>
-                <div class="caption">
-                    <h3 align="center"><?= $model->activity_name; ?></h3>
-                    <p align="center">
-                        <?= Html::a('ดูรายละเอียด', ['view','id' => $model->activity_id], ['class' => 'btn btn-success']); ?>
-                        <?= Html::a('แก้ไข', ['update','id' => $model->activity_id], ['class' => 'btn btn-primary']); ?>
-                    </p>
-                </div>
-            </div>
-        </div>
+            //'mergeHeader'=>true,
+//            'contentOptions' => ['class' => 'text-center'],
+//            'vAlign' => GridView::ALIGN_MIDDLE,
+//            'headerOptions' => ['width' => '50px'],
 
-    <?php } ?>
-</div>
+            'headerOptions' => ['width' => '80%'],
+            'pageSummaryOptions'=>['class'=>'text-right'],
+            ],
+
+
+        ['attribute' => 'activity_name',
+            'label' => 'จำนวนเงิน',
+            'headerOptions' => ['width' => '5%'],
+            'value' => function ($model) {
+                return '500';
+            },
+            'format'=>['decimal', 0],
+            'pageSummary' => true,
+        ],
+
+        ['class' => 'kartik\grid\ActionColumn',
+            'headerOptions' => ['class' => 'text-center', 'style' => 'cursor:default; color:#428bca;'],
+            'contentOptions' => ['class' => 'text-center'],
+            'header' => 'คำสั่ง'],
+    ],
+
+    'showPageSummary' => true,
+    //ageSummaryRowOptions' => 'kv-page-summary success',
+    'showFooter' => false,
+    'resizableColumns' => false,
+    'responsiveWrap' => false,
+]);
+?>
