@@ -27,11 +27,10 @@ $project_name = Yii::$app->request->get('proj_name');
             </div>
 
             <div class="col-md-3">
-                <?= $form->field($model, 'activity_money')->textInput(['maxlength' => true]) ?>
                 <?= $form->field($model, 'activity_money')->widget(MaskMoney::classname(), [
                     'pluginOptions' => [
-                        'prefix' => '$ ',
-                        'suffix' => ' ¢',
+                        'prefix' => '฿ ',
+                        'suffix' => '',
                         'allowNegative' => false
                     ]
                 ]); ?>

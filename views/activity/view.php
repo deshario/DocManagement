@@ -13,12 +13,12 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="activity-view">
 
-
     <div class="panel panel-default">
         <div class="panel-heading">
             <h3 class="panel-title"><?= $this->title; ?></h3>
         </div>
         <div class="panel-body">
+
             <?= DetailView::widget([
                 'model' => $model,
                 'attributes' => [
@@ -29,7 +29,6 @@ $this->params['breadcrumbs'][] = $this->title;
                     //'activity_organization',
                     'activity_rationale:ntext',
                     'activity_type',
-                    'activity_place',
                     // 'activity_department',
                     'objective:ntext',
                     'evaluation:ntext',
@@ -42,6 +41,8 @@ $this->params['breadcrumbs'][] = $this->title;
                     ['attribute' => 'indicator_indicator_id', 'value' => $model->indicatorIndicator->indicator_name],
                     ['attribute' => 'element_element_id', 'value' => $model->elementElement->element_name],
                     ['attribute' => 'product_product_id', 'value' => $model->productProduct->product_name],
+                    //['attribute' => 'activity_temp_files', 'value' => $model->activityTempFiles->file_source],
+                    ['attribute'=>'activity_temp_files','value'=>$model->listDownloadFiles($model->activityTempFiles->file_source,$model->rootProject->project_name),'format'=>'html'],
 
                     //'organization_organization_id',
                     //'strategic_strategic_id',
@@ -51,31 +52,31 @@ $this->params['breadcrumbs'][] = $this->title;
                     //'element_element_id',
                     //'product_product_id',
 
-                    'activity_id',
-                    'root_project_id',
-                    'activity_name',
-                    'activity_rationale:ntext',
-                    'activity_type:ntext',
-                    'activity_place',
-                    'objective:ntext',
-                    'evaluation:ntext',
-                    'benefit:ntext',
-                    'organization_organization_id',
-                    'strategic_strategic_id',
-                    'realted_subject_id',
-                    'goal_goal_id',
-                    'responsible_by',
-                    'strategy_strategy_id',
-                    'indicator_indicator_id',
-                    'element_element_id',
-                    'product_product_id',
-                    'project_laksana_id',
-                    'project_paomai_id',
-                    'project_plan_id',
-                    'budget_type_id',
-                    'activity_money',
-                    'budget_details_id',
-                    'activity_status',
+//                    'activity_id',
+//                    'root_project_id',
+//                    'activity_name',
+//                    'activity_rationale:ntext',
+//                    'activity_type:ntext',
+//                    'activity_place',
+//                    'objective:ntext',
+//                    'evaluation:ntext',
+//                    'benefit:ntext',
+//                    'organization_organization_id',
+//                    'strategic_strategic_id',
+//                    'realted_subject_id',
+//                    'goal_goal_id',
+//                    'responsible_by',
+//                    'strategy_strategy_id',
+//                    'indicator_indicator_id',
+//                    'element_element_id',
+//                    'product_product_id',
+//                    'project_laksana_id',
+//                    'project_paomai_id',
+//                    'project_plan_id',
+//                    'budget_type_id',
+//                    'activity_money',
+//                    'budget_details_id',
+//                    'activity_status',
                 ],
             ]) ?>
         </div>

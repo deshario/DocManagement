@@ -45,9 +45,15 @@ class ComposerStaticInit80e71f4d4d6aacd77fcfe86e66cc6b60
         array (
             'kartik\\tabs\\' => 12,
             'kartik\\plugins\\tabs\\' => 20,
+            'kartik\\plugins\\fileinput\\' => 25,
+            'kartik\\mpdf\\' => 12,
+            'kartik\\money\\' => 13,
             'kartik\\growl\\' => 13,
             'kartik\\grid\\' => 12,
+            'kartik\\form\\' => 12,
+            'kartik\\file\\' => 12,
             'kartik\\dialog\\' => 14,
+            'kartik\\detail\\' => 14,
             'kartik\\daterange\\' => 17,
             'kartik\\date\\' => 12,
             'kartik\\base\\' => 12,
@@ -78,7 +84,12 @@ class ComposerStaticInit80e71f4d4d6aacd77fcfe86e66cc6b60
         ),
         'P' => 
         array (
+            'Psr\\Log\\' => 8,
             'Psr\\Http\\Message\\' => 17,
+        ),
+        'M' => 
+        array (
+            'Mpdf\\' => 5,
         ),
         'G' => 
         array (
@@ -161,6 +172,18 @@ class ComposerStaticInit80e71f4d4d6aacd77fcfe86e66cc6b60
         array (
             0 => __DIR__ . '/..' . '/kartik-v/bootstrap-tabs-x',
         ),
+        'kartik\\plugins\\fileinput\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/kartik-v/bootstrap-fileinput',
+        ),
+        'kartik\\mpdf\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/kartik-v/yii2-mpdf/src',
+        ),
+        'kartik\\money\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/kartik-v/yii2-money/src',
+        ),
         'kartik\\growl\\' => 
         array (
             0 => __DIR__ . '/..' . '/kartik-v/yii2-widget-growl',
@@ -169,9 +192,21 @@ class ComposerStaticInit80e71f4d4d6aacd77fcfe86e66cc6b60
         array (
             0 => __DIR__ . '/..' . '/kartik-v/yii2-grid/src',
         ),
+        'kartik\\form\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/kartik-v/yii2-widget-activeform/src',
+        ),
+        'kartik\\file\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/kartik-v/yii2-widget-fileinput/src',
+        ),
         'kartik\\dialog\\' => 
         array (
             0 => __DIR__ . '/..' . '/kartik-v/yii2-dialog/src',
+        ),
+        'kartik\\detail\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/kartik-v/yii2-detail-view/src',
         ),
         'kartik\\daterange\\' => 
         array (
@@ -233,9 +268,17 @@ class ComposerStaticInit80e71f4d4d6aacd77fcfe86e66cc6b60
         array (
             0 => __DIR__ . '/..' . '/symfony/browser-kit',
         ),
+        'Psr\\Log\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/psr/log/Psr/Log',
+        ),
         'Psr\\Http\\Message\\' => 
         array (
             0 => __DIR__ . '/..' . '/psr/http-message/src',
+        ),
+        'Mpdf\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/mpdf/mpdf/src',
         ),
         'GuzzleHttp\\Psr7\\' => 
         array (
@@ -318,6 +361,11 @@ class ComposerStaticInit80e71f4d4d6aacd77fcfe86e66cc6b60
     );
 
     public static $classMap = array (
+        'FPDF_TPL' => __DIR__ . '/..' . '/setasign/fpdi/fpdf_tpl.php',
+        'FPDI' => __DIR__ . '/..' . '/setasign/fpdi/fpdi.php',
+        'FilterASCII85' => __DIR__ . '/..' . '/setasign/fpdi/filters/FilterASCII85.php',
+        'FilterASCIIHexDecode' => __DIR__ . '/..' . '/setasign/fpdi/filters/FilterASCIIHexDecode.php',
+        'FilterLZW' => __DIR__ . '/..' . '/setasign/fpdi/filters/FilterLZW.php',
         'PHPUnit\\Exception' => __DIR__ . '/..' . '/phpunit/phpunit/src/Exception.php',
         'PHPUnit\\Framework\\Assert' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/Assert.php',
         'PHPUnit\\Framework\\AssertionFailedError' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/AssertionFailedError.php',
@@ -857,6 +905,8 @@ class ComposerStaticInit80e71f4d4d6aacd77fcfe86e66cc6b60
         'TheSeer\\Tokenizer\\TokenCollectionException' => __DIR__ . '/..' . '/theseer/tokenizer/src/TokenCollectionException.php',
         'TheSeer\\Tokenizer\\Tokenizer' => __DIR__ . '/..' . '/theseer/tokenizer/src/Tokenizer.php',
         'TheSeer\\Tokenizer\\XMLSerializer' => __DIR__ . '/..' . '/theseer/tokenizer/src/XMLSerializer.php',
+        'fpdi_pdf_parser' => __DIR__ . '/..' . '/setasign/fpdi/fpdi_pdf_parser.php',
+        'pdf_context' => __DIR__ . '/..' . '/setasign/fpdi/pdf_context.php',
     );
 
     public static function getInitializer(ClassLoader $loader)

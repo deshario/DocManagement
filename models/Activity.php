@@ -4,6 +4,8 @@ namespace app\models;
 
 use Yii;
 use yii\helpers\ArrayHelper;
+use yii\helpers\Html;
+use yii\helpers\Json;
 
 /**
  * This is the model class for table "activity".
@@ -32,6 +34,7 @@ use yii\helpers\ArrayHelper;
  * @property int $activity_money งบประมาณ
  * @property int $budget_details_id รายละเอียดของงบประมาณ
  * @property int $activity_status สถานะ
+ * @property int $activity_temp_files ไฟล์ประกอบ
  *
  * @property BudgetDetails $budgetDetails
  * @property BudgetType $budgetType
@@ -82,13 +85,14 @@ class Activity extends \yii\db\ActiveRecord
         return [
             //[['root_project_id', 'product_product_id'], 'required'],
             [['activity_money'], 'required'],
-            [['root_project_id', 'organization_organization_id', 'strategic_strategic_id', 'goal_goal_id', 'strategy_strategy_id', 'indicator_indicator_id', 'element_element_id', 'product_product_id','responsible_by'], 'integer'],
+            [['root_project_id', 'organization_organization_id', 'strategic_strategic_id', 'goal_goal_id', 'activity_temp_files', 'strategy_strategy_id', 'indicator_indicator_id', 'element_element_id', 'product_product_id','responsible_by'], 'integer'],
             [['activity_rationale', 'objective', 'evaluation', 'benefit'], 'string'],
             [['activity_name'], 'string', 'max' => 45],
             [['activity_type'], 'string', 'max' => 255],
             [['temp_type', 'temp_procced', 'paomai_quantity','paomai_quality' ,'activity_plan'], 'safe'],
 
           //  [['temp_project_name','temp_organization','temp_strategic','temp_goal','temp_strategy','temp_indicator','temp_element','temp_product'], 'required'],
+            [['activity_temp_files'], 'exist', 'skipOnError' => true, 'targetClass' => ActivityFiles::className(), 'targetAttribute' => ['activity_temp_files' => 'file_id']],
             [['budget_details_id'], 'exist', 'skipOnError' => true, 'targetClass' => BudgetDetails::className(), 'targetAttribute' => ['budget_details_id' => 'detail_id']],
             [['budget_type_id'], 'exist', 'skipOnError' => true, 'targetClass' => BudgetType::className(), 'targetAttribute' => ['budget_type_id' => 'budget_type_id']],
             [['element_element_id'], 'exist', 'skipOnError' => true, 'targetClass' => Element::className(), 'targetAttribute' => ['element_element_id' => 'element_id']],
@@ -130,6 +134,7 @@ class Activity extends \yii\db\ActiveRecord
             'indicator_indicator_id' => 'ตัวชี้วัด',
             'element_element_id' => 'องค์ประกอบ',
             'product_product_id' => 'ผลผลิต',
+            'activity_temp_files' => 'ไฟล์ประกอบ',
 
             'temp_project_name' => 'ชื่อโครงการ',
             'temp_organization' => 'ชื่อหน่วยงาน',
@@ -151,14 +156,20 @@ class Activity extends \yii\db\ActiveRecord
             'budget_details_id' => 'รายละเอียดของงบประมาณ',
             'activity_status' => 'สถานะ',
 
-            'paomai_type_1' => 'เชิงปริมาณ',
-            'paomai_type_2' => 'เชิงคุณภาพ',
+            'paomai_quantity' => 'เชิงปริมาณ',
+            'paomai_quality' => 'เชิงคุณภาพ',
         ];
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
+
+    public function getActivityTempFiles()
+    {
+        return $this->hasOne(ActivityFiles::className(), ['file_id' => 'activity_temp_files']);
+    }
+
     public function getBudgetDetails()
     {
         return $this->hasOne(BudgetDetails::className(), ['detail_id' => 'budget_details_id']);
@@ -315,4 +326,30 @@ class Activity extends \yii\db\ActiveRecord
         $list = Responsibler::find()->orderBy('responsible_id')->all();
         return ArrayHelper::map($list,'responsible_id','responsible_by');
     }
+
+    public function listDownloadFiles($type,$project_name){
+        $docs_file = '';
+            //$data = $type==='activity_temp_files'?$this->activity_temp_files:$this->activity_temp_files;
+            $files = Json::decode($type);
+            if(is_array($files)){
+                $docs_file ='<ul class="list-group-item">';
+                foreach ($files as $key => $value) {
+                    $docs_file .= '<li class="list-group-item">'.Html::a($value,['/activity-files/download',
+                            'id'=>$this->activity_id,
+                            'file'=>$key,
+                            'file_name'=>$value,
+                            'project_name'=>$project_name,
+                        ]).'</li>';
+                }
+                $docs_file .='</ul>';
+            }
+        return $docs_file;
+    }
+    /*
+     * <ul class="list-group">
+  <li class="list-group-item">First item</li>
+  <li class="list-group-item">Second item</li>
+  <li class="list-group-item">Third item</li>
+</ul>
+    */
 }

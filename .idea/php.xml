@@ -79,6 +79,16 @@
       <path value="$PROJECT_DIR$/vendor/kartik-v/yii2-widget-datepicker" />
       <path value="$PROJECT_DIR$/vendor/unclead/yii2-multiple-input" />
       <path value="$PROJECT_DIR$/vendor/kartik-v/yii2-krajee-base" />
+      <path value="$PROJECT_DIR$/vendor/kartik-v/yii2-money" />
+      <path value="$PROJECT_DIR$/vendor/kartik-v/bootstrap-fileinput" />
+      <path value="$PROJECT_DIR$/vendor/kartik-v/yii2-widget-fileinput" />
+      <path value="$PROJECT_DIR$/vendor/psr/log" />
+      <path value="$PROJECT_DIR$/vendor/setasign/fpdi" />
+      <path value="$PROJECT_DIR$/vendor/paragonie/random_compat" />
+      <path value="$PROJECT_DIR$/vendor/mpdf/mpdf" />
+      <path value="$PROJECT_DIR$/vendor/kartik-v/yii2-mpdf" />
+      <path value="$PROJECT_DIR$/vendor/kartik-v/yii2-detail-view" />
+      <path value="$PROJECT_DIR$/vendor/kartik-v/yii2-widget-activeform" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="5.4.0" />

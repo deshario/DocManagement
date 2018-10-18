@@ -55,8 +55,9 @@ class Project extends \yii\db\ActiveRecord
 {
     public $items;
 
-    const PROJECT_DEACTIVE = 10;
-    const PROJECT_ACTIVE = 20;
+    //const PROJECT_DEACTIVE = 10;
+    const PROJECT_RUNNING = 10;
+    const PROJECT_FINISHED = 20;
 
     public $temp_type;
     public $temp_procced;
@@ -75,6 +76,10 @@ class Project extends \yii\db\ActiveRecord
     public $temp_project_kpi_id;
     public $temp_project_plan_id;
 
+    public $paomai_quantity; // เป้าหมายเชิงปริมาณ
+    public $paomai_quality; // เป้าหมายเชิงคุณภาพ
+
+    public $file;
 
     public static function tableName()
     {
@@ -84,31 +89,32 @@ class Project extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['organization_id', 'responsibler_id', 'project_kpi_id','project_plan_id','project_laksana_id', 'strategic_id', 'project_money', 'goal_id', 'strategy_id', 'indicator_id', 'element_id', 'product_id', 'projecti_paomai_id', 'created_by', 'budget_budget_type', 'project_status'], 'integer'],
+            [['project_money'], 'required'],
+            [['organization_id', 'responsibler_id', 'project_kpi_id','project_plan_id','project_laksana_id', 'strategic_id', 'goal_id', 'strategy_id', 'indicator_id', 'element_id', 'product_id', 'projecti_paomai_id', 'created_by', 'budget_budget_type', 'project_status'], 'integer'],
             [['rationale', 'objective', 'lakshana_activity', 'project_evaluation'], 'string'],
             [['project_duration'], 'safe'],
-            [['temp_project_kpi_id','temp_project_plan_id'], 'safe'],
+            [['temp_project_kpi_id','temp_project_plan_id','file'], 'safe'],
             [['plan_process','plan_detail','plan_date','plan_place'], 'safe'],
-            [['temp_type', 'temp_procced', 'kpi_name', 'kpi_goal','paomai_type_1','paomai_type_2'], 'safe'],
+            [['temp_type', 'temp_procced', 'kpi_name', 'kpi_goal','paomai_quantity','paomai_quality'], 'safe'],
             [['project_name', 'project_location'], 'string', 'max' => 255],
             [['project_benefit'], 'string', 'max' => 45],
 
-//            [['budget_budget_type'], 'exist', 'skipOnError' => true, 'targetClass' => BudgetType::className(), 'targetAttribute' => ['budget_budget_type' => 'budget_type_id']],
-//            [['element_id'], 'exist', 'skipOnError' => true, 'targetClass' => Element::className(), 'targetAttribute' => ['element_id' => 'element_id']],
-//            [['goal_id'], 'exist', 'skipOnError' => true, 'targetClass' => Goal::className(), 'targetAttribute' => ['goal_id' => 'goal_id']],
-//            [['indicator_id'], 'exist', 'skipOnError' => true, 'targetClass' => Indicator::className(), 'targetAttribute' => ['indicator_id' => 'indicator_id']],
-//            [['created_by'], 'exist', 'skipOnError' => true, 'targetClass' => Managers::className(), 'targetAttribute' => ['created_by' => 'id']],
-//            [['organization_id'], 'exist', 'skipOnError' => true, 'targetClass' => Organization::className(), 'targetAttribute' => ['organization_id' => 'organization_id']],
-//            [['product_id'], 'exist', 'skipOnError' => true, 'targetClass' => Product::className(), 'targetAttribute' => ['product_id' => 'product_id']],
-//            //[['project_budget_id'], 'exist', 'skipOnError' => true, 'targetClass' => ProjectBudget::className(), 'targetAttribute' => ['project_budget_id' => 'budget_id']],
-//            [['project_kpi_id'], 'exist', 'skipOnError' => true, 'targetClass' => ProjectKpi::className(), 'targetAttribute' => ['project_kpi_id' => 'kpi_id']],
-//            [['realted_subject_id'], 'exist', 'skipOnError' => true, 'targetClass' => RealtedSubject::className(), 'targetAttribute' => ['realted_subject_id' => 'subject_id']],
-//            [['project_laksana_id'], 'exist', 'skipOnError' => true, 'targetClass' => ProjectLaksana::className(), 'targetAttribute' => ['project_laksana_id' => 'laksana_id']],
-//            [['projecti_paomai_id'], 'exist', 'skipOnError' => true, 'targetClass' => ProjectPaomai::className(), 'targetAttribute' => ['projecti_paomai_id' => 'paomai_id']],
-//            [['project_plan_id'], 'exist', 'skipOnError' => true, 'targetClass' => ProjectPlan::className(), 'targetAttribute' => ['project_plan_id' => 'plan_id']],
-//            [['responsibler_id'], 'exist', 'skipOnError' => true, 'targetClass' => Responsibler::className(), 'targetAttribute' => ['responsibler_id' => 'responsible_id']],
-//            [['strategic_id'], 'exist', 'skipOnError' => true, 'targetClass' => Strategic::className(), 'targetAttribute' => ['strategic_id' => 'strategic_id']],
-//            [['strategy_id'], 'exist', 'skipOnError' => true, 'targetClass' => Strategy::className(), 'targetAttribute' => ['strategy_id' => 'strategy_id']],
+            [['budget_budget_type'], 'exist', 'skipOnError' => true, 'targetClass' => BudgetType::className(), 'targetAttribute' => ['budget_budget_type' => 'budget_type_id']],
+            [['element_id'], 'exist', 'skipOnError' => true, 'targetClass' => Element::className(), 'targetAttribute' => ['element_id' => 'element_id']],
+            [['goal_id'], 'exist', 'skipOnError' => true, 'targetClass' => Goal::className(), 'targetAttribute' => ['goal_id' => 'goal_id']],
+            [['indicator_id'], 'exist', 'skipOnError' => true, 'targetClass' => Indicator::className(), 'targetAttribute' => ['indicator_id' => 'indicator_id']],
+            [['created_by'], 'exist', 'skipOnError' => true, 'targetClass' => Managers::className(), 'targetAttribute' => ['created_by' => 'id']],
+            [['organization_id'], 'exist', 'skipOnError' => true, 'targetClass' => Organization::className(), 'targetAttribute' => ['organization_id' => 'organization_id']],
+            [['product_id'], 'exist', 'skipOnError' => true, 'targetClass' => Product::className(), 'targetAttribute' => ['product_id' => 'product_id']],
+            //[['project_budget_id'], 'exist', 'skipOnError' => true, 'targetClass' => ProjectBudget::className(), 'targetAttribute' => ['project_budget_id' => 'budget_id']],
+            [['project_kpi_id'], 'exist', 'skipOnError' => true, 'targetClass' => ProjectKpi::className(), 'targetAttribute' => ['project_kpi_id' => 'kpi_id']],
+            [['realted_subject_id'], 'exist', 'skipOnError' => true, 'targetClass' => RealtedSubject::className(), 'targetAttribute' => ['realted_subject_id' => 'subject_id']],
+            [['project_laksana_id'], 'exist', 'skipOnError' => true, 'targetClass' => ProjectLaksana::className(), 'targetAttribute' => ['project_laksana_id' => 'laksana_id']],
+            [['projecti_paomai_id'], 'exist', 'skipOnError' => true, 'targetClass' => ProjectPaomai::className(), 'targetAttribute' => ['projecti_paomai_id' => 'paomai_id']],
+            [['project_plan_id'], 'exist', 'skipOnError' => true, 'targetClass' => ProjectPlan::className(), 'targetAttribute' => ['project_plan_id' => 'plan_id']],
+            [['responsibler_id'], 'exist', 'skipOnError' => true, 'targetClass' => Responsibler::className(), 'targetAttribute' => ['responsibler_id' => 'responsible_id']],
+            [['strategic_id'], 'exist', 'skipOnError' => true, 'targetClass' => Strategic::className(), 'targetAttribute' => ['strategic_id' => 'strategic_id']],
+            [['strategy_id'], 'exist', 'skipOnError' => true, 'targetClass' => Strategy::className(), 'targetAttribute' => ['strategy_id' => 'strategy_id']],
         ];
     }
 
@@ -145,19 +151,20 @@ class Project extends \yii\db\ActiveRecord
             'project_status' => 'สถานะโครงการ',
             'project_duration' => 'ระยะเวลาดำเนินการ',
             'budget_budget_type' => 'แหล่งที่มาของงบประมาณ',
+            'file' => 'ไฟล์',
 
             'temp_type' => 'ประเภท',
             'temp_procced' => 'วิธีดำเนินงาน',
             'kpi_name' => 'ตัวชี้วัด (KPI)',
             'kpi_goal' => 'เปาหมาย',
-            'paomai_type_1' => 'เชิงปริมาณ',
-            'paomai_type_2' => 'เชิงคุณภาพ',
+            'paomai_quantity' => 'เชิงปริมาณ',
+            'paomai_quality' => 'เชิงคุณภาพ',
         ];
     }
 
     public $projectStatus = [
-        self::PROJECT_DEACTIVE => 'ไม่ได้รับการอนุมัติ',
-        self::PROJECT_ACTIVE => 'อนุมัติแล้ว',
+        self::PROJECT_RUNNING => 'กำลังดำเนินการ',
+        self::PROJECT_FINISHED => 'เสร็จสิน',
     ];
 
     public function getProjectStatus($status = null){

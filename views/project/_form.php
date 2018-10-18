@@ -4,6 +4,7 @@ use kartik\daterange\DateRangePicker;
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 use unclead\multipleinput\MultipleInput;
+use kartik\money\MaskMoney;
 ?>
 
 <div class="project-form">
@@ -24,7 +25,17 @@ use unclead\multipleinput\MultipleInput;
                 <?= $form->field($model, 'responsibler_id')->dropDownList($model->getResponsiblerList(), ['prompt' => 'กรุณาเลือกผู้รับผิดชอบ']) ?>
             </div>
             <div class="col-md-6">
-                <?= $form->field($model, 'project_money')->textInput() ?>
+                <?= $form->field($model, 'project_money')->widget(MaskMoney::classname(), [
+                    'pluginOptions' => [
+                        'prefix' => '฿ ',
+                        'suffix' => '',
+                        'allowNegative' => false
+                    ]
+                ]); ?>
+            </div>
+
+            <div class="col-md-6">
+                <?= $form->field($model, 'budget_budget_type')->dropDownList($model->getBudgetTypeList(), ['prompt' => 'กรุณาเลือกแหล่งที่มาของงบประมาณ']) ?>
             </div>
 
             <div class="clearfix"></div>
@@ -71,25 +82,20 @@ use unclead\multipleinput\MultipleInput;
                     <div class="col-md-6">
                         <?= $form->field($model, 'indicator_id')->dropDownList($model->getIndicatorList(), ['prompt' => 'กรุณาเลือกองค์กร']) ?>
                     </div>
-                </div>
-            </div>
-
-            <?= $form->field($model, 'element_id')->dropDownList($model->getElementList(), ['prompt' => 'กรุณาเลือกองค์กร']) ?>
-
-            <div class="clearfix"></div>
-
-            <div class="box box-solid box-default">
-                <div class="box-header with-border">
-                    <h3 class="box-title">ผลผลิต</h3>
-                    <div class="box-tools pull-right">
-                        <button class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"
-                                title="Collapse"><i class="fa fa-minus"></i></button>
+                    <div class="col-md-6">
+                        <?= $form->field($model, 'realted_subject_id')->dropDownList(\app\models\Project::getRealtedSubjectList(), ['prompt' => 'กรุณาเลือกองค์กร']) ?>
                     </div>
                 </div>
-                <div class="box-body">
-                    <?= $form->field($model, 'product_id')->radioList($model->getProductList())->label(false) ?>
-                </div>
             </div>
+
+            <div class="col-md-6">
+                <?= $form->field($model, 'element_id')->dropDownList($model->getElementList(), ['prompt' => 'กรุณาเลือกองค์ประกอบ']) ?>
+            </div>
+            <div class="col-md-6">
+                <?= $form->field($model, 'product_id')->dropDownList($model->getProductList(), ['prompt' => 'กรุณาเลือกผลผลิต']) ?>
+            </div>
+
+            <div class="clearfix"></div>
 
             <?= $form->field($model, 'rationale')->textarea(['rows' => 6]) ?>
 
@@ -136,17 +142,15 @@ use unclead\multipleinput\MultipleInput;
                 <div class="box-body">
                     <!-- <?= $form->field($model, 'projecti_paomai_id')->textInput() ?> -->
                     <div class="col-md-6">
-                        <?= $form->field($model, 'paomai_type_1')->textarea(['rows' => 6]) ?>
+                        <?= $form->field($model, 'paomai_quantity')->textarea(['rows' => 6]) ?>
                     </div>
                     <div class="col-md-6">
-                        <?= $form->field($model, 'paomai_type_2')->textarea(['rows' => 6]) ?>
+                        <?= $form->field($model, 'paomai_quality')->textarea(['rows' => 6]) ?>
                     </div>
                 </div>
             </div>
 
             <?= $form->field($model, 'lakshana_activity')->textarea(['rows' => 6]) ?>
-
-            <?= $form->field($model, 'budget_budget_type')->dropDownList($model->getBudgetTypeList(), ['prompt' => 'กรุณาเลือกแหล่งที่มาของงบประมาณ']) ?>
 
             <div class="box box-solid box-default">
                 <div class="box-header with-border">

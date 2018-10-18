@@ -106,8 +106,8 @@ $this->params['breadcrumbs'][] = $this->title;
                 'label' => '<i class="fa fa-envelope-o"></i>&nbsp; กิจกรรมทั้งหมด',
                 'linkOptions' => ['data-url' => Url::to(['filtering?project_id='.$project_id])],
             ],
-            ['label' => '<i class="fa fa-plus"></i>&nbsp; เพิ่มกิจกรรม', 'url' => Url::to(['create', 'proj_id' => $project_id, 'proj_name' => $project_name])]
-//            ['label' => '<i class="fa fa-plus"></i>&nbsp; เพิ่มกิจกรรม', 'url' => Url::to(['create'])]
+            ['label' => '<i class="fa fa-file-text-o"></i>&nbsp; จัดการไฟล์', 'url' => Url::to(['/project/file_management', 'proj_id' => $project_id, 'proj_name' => $project_name])],
+            ['label' => '<i class="fa fa-plus"></i>&nbsp; เพิ่มกิจกรรม', 'url' => Url::to(['create', 'proj_id' => $project_id, 'proj_name' => $project_name])],
         ];
 
         echo TabsX::widget([

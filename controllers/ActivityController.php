@@ -15,6 +15,8 @@ use app\models\ProjectSearch;
 use app\models\Strategic;
 use app\models\Strategy;
 use kartik\growl\Growl;
+use kartik\mpdf\Pdf;
+use Mpdf\Mpdf;
 use Yii;
 use app\models\Activity;
 use app\models\ActivitySearch;
@@ -61,7 +63,7 @@ class ActivityController extends Controller
 
     public function actionIndex($project_id,$project_name,$project_status = 10)
     {
-        if($project_status == Project::PROJECT_ACTIVE){
+        if($project_status == Project::PROJECT_RUNNING){
             //$searchModel = new ActivitySearch();
             $searchModel = new ProjectSearch();
             $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
@@ -106,11 +108,6 @@ class ActivityController extends Controller
         ]);
     }
 
-    /**
-     * Creates a new Activity model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
-     * @return mixed
-     */
     public function actionCreate()
     {
         $model = new Activity();
@@ -123,7 +120,7 @@ class ActivityController extends Controller
                 $user_id = Yii::$app->user->identity->id;
                 $model->root_project_id = Yii::$app->request->get('proj_id');
 
-                foreach($items['Activity']['project_plan_id'] as $key => $val){
+                foreach($items['Activity']['activity_plan'] as $key => $val){
                     $budget_details = new BudgetDetails();
                     $budget_details->detail_name = $val['plan_detail'];
                     $budget_details->detail_price = $val['plan_amount'];
@@ -143,33 +140,32 @@ class ActivityController extends Controller
                     $temp_project_plan_id = $project_plan->plan_id;
                 }
 
-                $project_laksana = new ProjectLaksana();
-                $project_laksana->project_type_id = $model->temp_type;
-                $project_laksana->procced_id = $model->temp_procced;
-                $project_laksana->save();
-
-                $project_paomai = new ProjectPaomai();
-                $project_paomai->project_quantity = $model->paomai_quantity;
-                $project_paomai->project_quality = $model->paomai_quality;
-                $project_paomai->save();
-
-                $model->project_paomai_id = $project_paomai->paomai_id;
-                $model->project_laksana_id = $project_laksana->laksana_id;
-                $model->budget_details_id = $temp_project_budget_details_id;
-                $model->project_plan_id = $temp_project_plan_id;
-                $model->activity_status = Project::PROJECT_ACTIVE;
-
                 $transaction->commit();
-
-            if($model->validate() && $model->save()){
-                //return $this->redirect(['view', 'id' => $model->activity_id]);
-                return $this->redirect(['/project/view', 'id' => $model->root_project_id]);
-            }
 
             }catch (Exception $e) {
                 $transaction->rollBack();
                 Yii::$app->session->setFlash('error', 'มีข้อผิดพลาดในการบันทึก');
                 return $this->redirect(['index']);
+            }
+            $project_paomai = new ProjectPaomai();
+            $project_paomai->project_quantity = $model->paomai_quantity;
+            $project_paomai->project_quality = $model->paomai_quality;
+            $project_paomai->save();
+
+            $project_laksana = new ProjectLaksana();
+            $project_laksana->project_type_id = $model->temp_type;
+            $project_laksana->procced_id = $model->temp_procced;
+            $project_laksana->save();
+
+            $model->project_laksana_id = $project_laksana->laksana_id;
+            $model->project_paomai_id = $project_paomai->paomai_id;
+            $model->budget_details_id = $temp_project_budget_details_id;
+            $model->project_plan_id = $temp_project_plan_id;
+            $model->activity_status = Project::PROJECT_RUNNING;
+
+            if($model->validate() && $model->save()){
+                //return $this->redirect(['view', 'id' => $model->activity_id]);
+                return $this->redirect(['/project/view', 'id' => $model->root_project_id]);
             }
 
         }
@@ -179,13 +175,6 @@ class ActivityController extends Controller
         ]);
     }
 
-    /**
-     * Updates an existing Activity model.
-     * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id
-     * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
-     */
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
@@ -199,13 +188,6 @@ class ActivityController extends Controller
         ]);
     }
 
-    /**
-     * Deletes an existing Activity model.
-     * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param integer $id
-     * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
-     */
     public function actionDelete($id)
     {
         $this->findModel($id)->delete();
@@ -213,13 +195,6 @@ class ActivityController extends Controller
         return $this->redirect(['index']);
     }
 
-    /**
-     * Finds the Activity model based on its primary key value.
-     * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param integer $id
-     * @return Activity the loaded model
-     * @throws NotFoundHttpException if the model cannot be found
-     */
     protected function findModel($id)
     {
         if (($model = Activity::findOne($id)) !== null) {
@@ -227,5 +202,64 @@ class ActivityController extends Controller
         }
 
         throw new NotFoundHttpException('The requested page does not exist.');
+    }
+
+    public function actionAll_files($activity_id)
+    {
+        return $this->render('view_files', [
+            'model' => $this->findModel($activity_id),
+        ]);
+    }
+
+    public function actionPrint_activity($id)
+    {
+        // get your HTML raw content without any layouts or scripts
+        $content = $this->renderPartial('view', [
+            'model' => $this->findModel($id),
+        ]);
+
+
+        $pdf = new Pdf([
+            'mode' => Pdf::MODE_UTF8,
+            // A4 paper format
+            'format' => Pdf::FORMAT_A4,
+            // portrait orientation
+            'orientation' => Pdf::ORIENT_PORTRAIT,
+            // stream to browser inline
+            'destination' => Pdf::DEST_BROWSER,
+            // your html content input
+            'content' => $content,
+            // format content from your own css file if needed or use the
+            // enhanced bootstrap css built by Krajee for mPDF formatting
+            //'cssFile' => '@web/css/boot.css',
+            'cssFile' => '@vendor/kartik-v/yii2-mpdf/src/assets/kv-mpdf-bootstrap.min.css',
+
+            //'cssInline' => '.bd{border:1.5px solid; text-align: center;} .ar{text-align:right} .imgbd{border:1px solid}',
+            'cssInline' => 'body {
+                font-family: "garuda";
+            }
+            .kv-heading-1{font-size:18px}
+            ',
+            'options' => ['title' => 'Preview Report Case: '],
+            // call mPDF methods on the fly
+            'methods' => [
+                //'SetHeader'=>[''],
+                //'SetFooter'=>['{PAGENO}'],
+            ]
+        ]);
+
+        // return the pdf output as per the destination setting
+        return $pdf->render();
+
+        //$html = '<p style="font-family: garuda">test ฮาโล</p>';//$this->render('test');
+//        $html = $this->render('view', [
+//            'model' => $this->findModel(1),
+//        ]);
+//        $stylesheet = file_get_contents('https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css');
+//        $mpdf = new Mpdf();
+//        $mpdf->WriteHTML($stylesheet, 1);
+//        $mpdf->WriteHTML($html);
+//        $mpdf->Output();
+
     }
 }

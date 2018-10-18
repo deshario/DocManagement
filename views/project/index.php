@@ -57,10 +57,11 @@ $this->params['breadcrumbs'][] = $this->title;
                 'header' => 'คำสั่ง',
                 'headerOptions' => ['width' => '100px', 'style' => 'cursor:default; color:#428bca;'],
                 'template' => '{details}&nbsp{approve}&nbsp{deny}',   //{view}&nbsp;
+//                'template' => '{details}&nbsp{manage}',   //{view}&nbsp;
                 'buttons' => [
                     'details' => function ($url, $model) {
                         return Html::a('<button class="btn btn-xs btn-primary primary-tooltip" data-toggle="tooltip"
-                                data-placement="top" title="View Details"><i class="fa fa-search-plus"></i> </button>', $url
+                                data-placement="top" title="ดูรายละเอียด"><i class="fa fa-search-plus"></i> </button>', $url
                         );
                     },
                     'approve' => function ($url, $model) {
@@ -73,6 +74,11 @@ $this->params['breadcrumbs'][] = $this->title;
                         return Html::a('<button class="btn btn-xs btn-danger danger-tooltip" data-toggle="tooltip"
                                 data-placement="top" title="Deny Project"><i class="fa fa-close"></i> </button>', $url,
                             ['data-confirm' => 'Are you sure you want to deny this request ?<br><code>Denying Request will delete request from system !</code>', 'data-method' => 'POST']
+                        );
+                    },
+                    'manage' => function ($url, $model) {
+                        return Html::a('<button class="btn btn-xs btn-success primary-tooltip" data-toggle="tooltip"
+                                data-placement="top" title="จัดการไฟล์"><i class="fa fa-file-text-o"></i> </button>', $url
                         );
                     },
                 ],
@@ -93,6 +99,14 @@ $this->params['breadcrumbs'][] = $this->title;
                     }
                     if ($action == 'deny') {
                         $url = Url::toRoute(['project/deny', 'project_id' => $model->project_id]);
+                        return $url;
+                    }
+                    if ($action == 'manage') {
+                        $url = Url::toRoute(['activity-files/create',
+                            'project_id' => $model->project_id,
+                            'project_name' => $model->project_name,
+                            'project_status' => $model->project_status,
+                        ]);
                         return $url;
                     }
                 }

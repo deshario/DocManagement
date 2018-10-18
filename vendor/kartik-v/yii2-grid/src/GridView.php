@@ -4,7 +4,7 @@
  * @package   yii2-grid
  * @author    Kartik Visweswaran <kartikv2@gmail.com>
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2018
- * @version   3.2.5
+ * @version   3.2.7
  */
 
 namespace kartik\grid;
@@ -1058,9 +1058,16 @@ HTML;
     public function init()
     {
         $this->initModule();
+        if (isset($this->_module->bsVersion)) {
+            $this->bsVersion = $this->_module->bsVersion;
+        }
+        $this->initBsVersion();
         Html::addCssClass($this->options, 'is-bs' . ($this->isBs4() ? '4' : '3'));
         if (empty($this->options['id'])) {
             $this->options['id'] = $this->getId();
+        }
+        if (empty($this->pjaxSettings['options']['id'])) {
+            $this->pjaxSettings['options']['id'] = $this->options['id'] . '-pjax';
         }
         if (!isset($this->itemLabelSingle)) {
             $this->itemLabelSingle = Yii::t('kvgrid', 'item');
@@ -1136,12 +1143,16 @@ HTML;
         $this->initBootstrapStyle();
         $this->containerOptions['id'] = $this->options['id'] . '-container';
         Html::addCssClass($this->containerOptions, 'kv-grid-container');
-        $this->registerAssets();
-        $this->renderPanel();
+        $this->initPanel();
         $this->initLayout();
-        $this->beginPjax();
-        parent::run();
-        $this->endPjax();
+        $this->registerAssets();
+        if ($this->pjax) {
+            $this->beginPjax();
+            parent::run();
+            $this->endPjax();
+        } else {
+            parent::run();
+        }
     }
 
     /**
@@ -1224,30 +1235,8 @@ HTML;
         static::initCss($options, ['btn', $this->_defaultBtnCss]);
         $menuOptions = $this->export['menuOptions'];
         $title = ($icon == '') ? $title : "<i class='{$icon}'></i> {$title}";
-        if (!isset($this->_module->downloadAction)) {
-            $action = ["/{$this->moduleId}/export/download"];
-        } else {
-            $action = (array)$this->_module->downloadAction;
-        }
         $encoding = ArrayHelper::getValue($this->export, 'encoding', 'utf-8');
-        $bom = ArrayHelper::getValue($this->export, 'bom', true);
-        $target = ArrayHelper::getValue($this->export, 'target', self::TARGET_POPUP);
-        $formOptions = [
-            'class' => 'kv-export-form',
-            'style' => 'display:none',
-            'target' => ($target == self::TARGET_POPUP) ? 'kvDownloadDialog' : $target,
-        ];
-        $form = Html::beginForm($action, 'post', $formOptions) . "\n" .
-            Html::hiddenInput('module_id', $this->moduleId) . "\n" .
-            Html::hiddenInput('export_hash') . "\n" .
-            Html::hiddenInput('export_filetype') . "\n" .
-            Html::hiddenInput('export_filename') . "\n" .
-            Html::hiddenInput('export_mime') . "\n" .
-            Html::hiddenInput('export_config') . "\n" .
-            Html::hiddenInput('export_encoding', $encoding) . "\n" .
-            Html::hiddenInput('export_bom', $bom) . "\n" .
-            Html::textarea('export_content') . "\n" .
-            Html::endForm();
+        $bom = (int)ArrayHelper::getValue($this->export, 'bom', 1);
         $items = empty($this->export['header']) ? [] : [$this->export['header']];
         foreach ($this->exportConfig as $format => $setting) {
             $iconOptions = ArrayHelper::getValue($setting, 'iconOptions', []);
@@ -1256,6 +1245,7 @@ HTML;
                 Html::tag('i', '', $iconOptions) . ' ' . $setting['label'];
             $mime = ArrayHelper::getValue($setting, 'mime', 'text/plain');
             $config = ArrayHelper::getValue($setting, 'config', []);
+            $cssStyles = ArrayHelper::getValue($setting, 'cssStyles', []);
             if ($format === self::JSON) {
                 unset($config['jsonReplacer']);
             }
@@ -1268,6 +1258,7 @@ HTML;
                     'class' => 'export-' . $format,
                     'data-mime' => $mime,
                     'data-hash' => $hash,
+                    'data-css-styles' => $cssStyles,
                 ],
                 'options' => $setting['options'],
             ];
@@ -1292,7 +1283,7 @@ HTML;
             /** @noinspection PhpUnnecessaryFullyQualifiedNameInspection */
             $out = \yii\bootstrap\ButtonDropdown::widget($opts);
         }
-        return $out . $form;
+        return $out;
     }
 
     /**
@@ -1377,7 +1368,14 @@ HTML;
         }
         $summaryOptions = $this->summaryOptions;
         $tag = ArrayHelper::remove($summaryOptions, 'tag', 'div');
-        if (($pagination = $this->dataProvider->getPagination()) !== false) {
+        $configItems = [
+            'item' => $this->itemLabelSingle,
+            'items' => $this->itemLabelPlural,
+            'items-few' => $this->itemLabelFew,
+            'items-many' => $this->itemLabelMany,
+        ];
+        $pagination = $this->dataProvider->getPagination();
+        if ($pagination !== false) {
             $totalCount = $this->dataProvider->getTotalCount();
             $begin = $pagination->getPage() * $pagination->pageSize + 1;
             $end = $begin + $count - 1;
@@ -1386,50 +1384,40 @@ HTML;
             }
             $page = $pagination->getPage() + 1;
             $pageCount = $pagination->pageCount;
+            $configSummary = [
+                'begin' => $begin,
+                'end' => $end,
+                'count' => $count,
+                'totalCount' => $totalCount,
+                'page' => $page,
+                'pageCount' => $pageCount,
+            ];
             if (($summaryContent = $this->summary) === null) {
                 return Html::tag($tag, Yii::t('kvgrid',
                     'Showing <b>{begin, number}-{end, number}</b> of <b>{totalCount, number}</b> {totalCount, plural, one{{item}} other{{items}}}.',
-                    [
-                        'begin' => $begin,
-                        'end' => $end,
-                        'count' => $count,
-                        'totalCount' => $totalCount,
-                        'page' => $page,
-                        'pageCount' => $pageCount,
-                        'item' => $this->itemLabelSingle,
-                        'items' => $this->itemLabelPlural,
-                        'items-few' => $this->itemLabelFew,
-                        'items-many' => $this->itemLabelMany,
-                    ]), $summaryOptions);
+                    $configSummary + $configItems
+                ), $summaryOptions);
             }
         } else {
             $begin = $page = $pageCount = 1;
             $end = $totalCount = $count;
+            $configSummary = [
+                'begin' => $begin,
+                'end' => $end,
+                'count' => $count,
+                'totalCount' => $totalCount,
+                'page' => $page,
+                'pageCount' => $pageCount,
+            ];
             if (($summaryContent = $this->summary) === null) {
                 return Html::tag($tag,
-                    Yii::t('kvgrid', 'Total <b>{count, number}</b> {count, plural, one{{item}} other{{items}}}.', [
-                        'begin' => $begin,
-                        'end' => $end,
-                        'count' => $count,
-                        'totalCount' => $totalCount,
-                        'page' => $page,
-                        'pageCount' => $pageCount,
-                        'item' => $this->itemLabelSingle,
-                        'items' => $this->itemLabelPlural,
-                        'items-few' => $this->itemLabelFew,
-                        'items-many' => $this->itemLabelMany,
-                    ]), $summaryOptions);
+                    Yii::t('kvgrid', 'Total <b>{count, number}</b> {count, plural, one{{item}} other{{items}}}.',
+                        $configSummary + $configItems
+                    ), $summaryOptions);
             }
         }
 
-        return Yii::$app->getI18n()->format($summaryContent, [
-            'begin' => $begin,
-            'end' => $end,
-            'count' => $count,
-            'totalCount' => $totalCount,
-            'page' => $page,
-            'pageCount' => $pageCount,
-        ], Yii::$app->language);
+        return Yii::$app->getI18n()->format($summaryContent, $configSummary, Yii::$app->language);
     }
 
     /**
@@ -1450,10 +1438,6 @@ HTML;
         if (isset($this->bsVersion)) {
             return;
         }
-        if (isset($this->_module->bsVersion)) {
-            $this->bsVersion = $this->_module->bsVersion;
-        }
-        $this->initBsVersion();
     }
 
     /**
@@ -1540,6 +1524,38 @@ HTML;
             ],
             'line' => true,
         ];
+        $cssStyles = [
+            '.kv-group-even' => ['background-color' => '#f0f1ff'],
+            '.kv-group-odd' => ['background-color' => '#f9fcff'],
+            '.kv-grouped-row' => ['background-color' => '#fff0f5', 'font-size' => '1.3em', 'padding' => '10px'],
+            '.kv-table-caption' => [
+                'border' => '1px solid #ddd',
+                'border-bottom' => 'none',
+                'font-size' => '1.5em',
+                'padding' => '8px',
+            ],
+            '.kv-table-footer' => ['border-top' => '4px double #ddd', 'font-weight' => 'bold'],
+            '.kv-page-summary td' => [
+                'background-color' => '#ffeeba',
+                'border-top' => '4px double #ddd',
+                'font-weight' => 'bold',
+            ],
+            '.kv-align-center' => ['text-align' => 'center'],
+            '.kv-align-left' => ['text-align' => 'left'],
+            '.kv-align-right' => ['text-align' => 'right'],
+            '.kv-align-top' => ['vertical-align' => 'top'],
+            '.kv-align-bottom' => ['vertical-align' => 'bottom'],
+            '.kv-align-middle' => ['vertical-align' => 'middle'],
+            '.kv-editable-link' => [
+                'color' => '#428bca',
+                'text-decoration' => 'none',
+                'background' => 'none',
+                'border' => 'none',
+                'border-bottom' => '1px dashed',
+                'margin' => '0',
+                'padding' => '2px 1px',
+            ],
+        ];
         $defaultExportConfig = [
             self::HTML => [
                 'label' => Yii::t('kvgrid', 'HTML'),
@@ -1552,11 +1568,15 @@ HTML;
                 'filename' => Yii::t('kvgrid', 'grid-export'),
                 'alertMsg' => Yii::t('kvgrid', 'The HTML export file will be generated for download.'),
                 'options' => ['title' => Yii::t('kvgrid', 'Hyper Text Markup Language')],
-                'mime' => 'text/html',
+                'mime' => 'text/plain',
+                'cssStyles' => $cssStyles,
                 'config' => [
                     'cssFile' => $this->isBs4() ?
-                        'https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css' :
-                        'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css',
+                        [
+                            'https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css',
+                            'https://use.fontawesome.com/releases/v5.3.1/css/all.css',
+                        ] :
+                        ['https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css'],
                 ],
             ],
             self::CSV => [
@@ -1605,6 +1625,7 @@ HTML;
                 'alertMsg' => Yii::t('kvgrid', 'The EXCEL export file will be generated for download.'),
                 'options' => ['title' => Yii::t('kvgrid', 'Microsoft Excel 95+')],
                 'mime' => 'application/vnd.ms-excel',
+                'cssStyles' => $cssStyles,
                 'config' => [
                     'worksheet' => Yii::t('kvgrid', 'ExportWorksheet'),
                     'cssFile' => '',
@@ -1622,22 +1643,14 @@ HTML;
                 'alertMsg' => Yii::t('kvgrid', 'The PDF export file will be generated for download.'),
                 'options' => ['title' => Yii::t('kvgrid', 'Portable Document Format')],
                 'mime' => 'application/pdf',
+                'cssStyles' => $cssStyles,
                 'config' => [
                     'mode' => 'UTF-8',
                     'format' => 'A4-L',
                     'destination' => 'D',
                     'marginTop' => 20,
                     'marginBottom' => 20,
-                    'cssInline' => '.kv-wrap{padding:20px;}' .
-                        '.kv-align-center{text-align:center;}' .
-                        '.kv-align-left{text-align:left;}' .
-                        '.kv-align-right{text-align:right;}' .
-                        '.kv-align-top{vertical-align:top!important;}' .
-                        '.kv-align-bottom{vertical-align:bottom!important;}' .
-                        '.kv-align-middle{vertical-align:middle!important;}' .
-                        '.kv-page-summary{border-top:4px double #ddd;font-weight: bold;}' .
-                        '.kv-table-footer{border-top:4px double #ddd;font-weight: bold;}' .
-                        '.kv-table-caption{font-size:1.5em;padding:8px;border:1px solid #ddd;border-bottom:none;}',
+                    'cssInline' => '.kv-wrap{padding:20px}',
                     'methods' => [
                         'SetHeader' => [
                             ['odd' => $pdfHeader, 'even' => $pdfHeader],
@@ -1830,17 +1843,11 @@ HTML;
     }
 
     /**
-     * Begins the markup for the [[Pjax]] container.
+     * Begins the pjax widget rendering
      */
     protected function beginPjax()
     {
-        if (!$this->pjax) {
-            return;
-        }
         $view = $this->getView();
-        if (empty($this->pjaxSettings['options']['id'])) {
-            $this->pjaxSettings['options']['id'] = $this->options['id'] . '-pjax';
-        }
         $container = 'jQuery("#' . $this->pjaxSettings['options']['id'] . '")';
         $js = $container;
         if (ArrayHelper::getValue($this->pjaxSettings, 'neverTimeout', true)) {
@@ -1870,22 +1877,19 @@ HTML;
     }
 
     /**
-     * Ends the markup for the [[Pjax]] container.
+     * Completes the pjax widget rendering
      */
     protected function endPjax()
     {
-        if (!$this->pjax) {
-            return;
-        }
         echo ArrayHelper::getValue($this->pjaxSettings, 'afterGrid', '');
         Pjax::end();
     }
 
     /**
-     * Sets the grid panel layout based on the [[template]] and [[panel]] settings.
+     * Initializes and sets the grid panel layout based on the [[template]] and [[panel]] settings.
      * @throws InvalidConfigException
      */
-    protected function renderPanel()
+    protected function initPanel()
     {
         if (!$this->bootstrap || !is_array($this->panel) || empty($this->panel)) {
             return;
@@ -2070,11 +2074,19 @@ HTML;
         $NS = '.' . str_replace('-', '_', $gridId);
         if ($this->export !== false && is_array($this->export) && !empty($this->export)) {
             GridExportAsset::register($view);
-            $target = ArrayHelper::getValue($this->export, 'target', self::TARGET_BLANK);
+            if (!isset($this->_module->downloadAction)) {
+                $action = ["/{$this->moduleId}/export/download"];
+            } else {
+                $action = (array)$this->_module->downloadAction;
+            }
             $gridOpts = Json::encode(
                 [
                     'gridId' => $gridId,
-                    'target' => $target,
+                    'action' => Url::to($action),
+                    'module' => $this->moduleId,
+                    'encoding' => ArrayHelper::getValue($this->export, 'encoding', 'utf-8'),
+                    'bom' => (int)ArrayHelper::getValue($this->export, 'bom', 1),
+                    'target' => ArrayHelper::getValue($this->export, 'target', self::TARGET_BLANK),
                     'messages' => $this->export['messages'],
                     'exportConversions' => $this->exportConversions,
                     'showConfirmAlert' => ArrayHelper::getValue($this->export, 'showConfirmAlert', true),
