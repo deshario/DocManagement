@@ -37,6 +37,9 @@ use kartik\money\MaskMoney;
             <div class="col-md-6">
                 <?= $form->field($model, 'budget_budget_type')->dropDownList($model->getBudgetTypeList(), ['prompt' => 'กรุณาเลือกแหล่งที่มาของงบประมาณ']) ?>
             </div>
+            <div class="col-md-6">
+                <?= $form->field($model, 'project_year')->textInput(['maxlength' => true]) ?>
+            </div>
 
             <div class="clearfix"></div>
 

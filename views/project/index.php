@@ -1,6 +1,8 @@
 <?php
 
+use app\models\BudgetType;
 use kartik\tabs\TabsX;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use kartik\grid\GridView;
 use yii\helpers\Url;
@@ -34,9 +36,17 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             ['attribute' => 'budget_budget_type',
                 'label' => 'แหลงที่มาของงบ',
+                'filter'=>ArrayHelper::map(BudgetType::find()->asArray()->all(), 'budget_type_id', 'budget_type_name'),
                 'headerOptions' => ['width' => '50px'],
                 'value' => function ($model) {
                     return $model->budgetBudgetType->budget_type_name;
+                },
+            ],
+            ['attribute' => 'project_year',
+                'headerOptions' => ['width' => '30px'],
+                'contentOptions' => ['class' => 'text-center'],
+                'value' => function ($model) {
+                    return $model->project_year;
                 },
             ],
 //            ['attribute' => 'created_by',
@@ -66,13 +76,13 @@ $this->params['breadcrumbs'][] = $this->title;
                     },
                     'approve' => function ($url, $model) {
                         return Html::a('<button class="btn btn-xs btn-success success-tooltip" id="reload" data-toggle="tooltip"
-                                data-placement="top" title="Approve Project"><i class="fa fa-check"></i> </button>', $url,
+                                data-placement="top" title="อนุมัติโครงการ"><i class="fa fa-lock"></i> </button>', $url,
                             ['data-confirm' => 'Please insure that this request is true ! <br>', 'data-method' => 'POST']
                         );
                     },
                     'deny' => function ($url, $model) {
                         return Html::a('<button class="btn btn-xs btn-danger danger-tooltip" data-toggle="tooltip"
-                                data-placement="top" title="Deny Project"><i class="fa fa-close"></i> </button>', $url,
+                                data-placement="top" title="ปฏิเสธโครงการ"><i class="fa fa-unlock"></i> </button>', $url,
                             ['data-confirm' => 'Are you sure you want to deny this request ?<br><code>Denying Request will delete request from system !</code>', 'data-method' => 'POST']
                         );
                     },
@@ -98,7 +108,8 @@ $this->params['breadcrumbs'][] = $this->title;
                         return $url;
                     }
                     if ($action == 'deny') {
-                        $url = Url::toRoute(['project/deny', 'project_id' => $model->project_id]);
+                        $url = Url::toRoute(['project/deny',
+                            'project_id' => $model->project_id]);
                         return $url;
                     }
                     if ($action == 'manage') {

@@ -42,7 +42,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     ['attribute' => 'element_element_id', 'value' => $model->elementElement->element_name],
                     ['attribute' => 'product_product_id', 'value' => $model->productProduct->product_name],
                     //['attribute' => 'activity_temp_files', 'value' => $model->activityTempFiles->file_source],
-                    ['attribute'=>'activity_temp_files','value'=>$model->listDownloadFiles($model->activityTempFiles->file_source,$model->rootProject->project_name),'format'=>'html'],
+                    //['attribute'=>'activity_temp_files','value'=>$model->listDownloadFiles($model->activityTempFiles->file_source,$model->rootProject->project_name),'format'=>'html'],
 
                     //'organization_organization_id',
                     //'strategic_strategic_id',

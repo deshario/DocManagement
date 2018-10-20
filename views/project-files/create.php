@@ -4,23 +4,20 @@ use kartik\tabs\TabsX;
 use yii\helpers\Html;
 use yii\helpers\Url;
 
-
 $project_name = Yii::$app->request->get('project_name');
-$activity_name = Yii::$app->request->get('activity_name');
-$activity_id = Yii::$app->request->get('activity_id');
+$project_id = Yii::$app->request->get('project_id');
 
 $this->title = 'เพิ่มไฟล์';
 $this->params['breadcrumbs'][] = ['label' => 'โครงการทั้งหมด', 'url' => ['/project/index']];
 $this->params['breadcrumbs'][] = ['label' => $project_name, 'url' => '#'];
-$this->params['breadcrumbs'][] = ['label' => $activity_name, 'url' => '#'];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="activity-files-create">
 
     <?php $content = $this->render('_form', [
         'model' => $model,
-        'activity_name' => $activity_name,
-        'activity_id' => $activity_id,
+        'project_id' => $project_id,
+        'project_name' => $project_name,
     ]) ?>
 
 
@@ -33,7 +30,7 @@ $this->params['breadcrumbs'][] = $this->title;
             $items = [
                 [
                     'label' => '<i class="fa fa-cog"></i>&nbsp; ผสานไฟล์',
-                    'linkOptions' => ['data-url' => Url::to(['/activity-files/custom?id='.$activity_id.'&type=1'])],
+                    'linkOptions' => ['data-url' => Url::to(['/project-files/custom?id='.$project_id.'&type=1'])],
                 ],
                 [
                     'label' => '<i class="fa fa-upload"></i>&nbsp; อัพโหลดไฟล์',

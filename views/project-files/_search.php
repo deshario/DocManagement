@@ -4,11 +4,11 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\ActivityFilesSearch */
+/* @var $model app\models\ProjectFilesSearch */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
-<div class="activity-files-search">
+<div class="project-files-search">
 
     <?php $form = ActiveForm::begin([
         'action' => ['index'],
@@ -19,7 +19,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'file_source') ?>
 
-    <?= $form->field($model, 'activity_id') ?>
+    <?= $form->field($model, 'project_id') ?>
 
     <div class="form-group">
         <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>

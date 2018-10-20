@@ -92,7 +92,6 @@ class Activity extends \yii\db\ActiveRecord
             [['temp_type', 'temp_procced', 'paomai_quantity','paomai_quality' ,'activity_plan'], 'safe'],
 
           //  [['temp_project_name','temp_organization','temp_strategic','temp_goal','temp_strategy','temp_indicator','temp_element','temp_product'], 'required'],
-            [['activity_temp_files'], 'exist', 'skipOnError' => true, 'targetClass' => ActivityFiles::className(), 'targetAttribute' => ['activity_temp_files' => 'file_id']],
             [['budget_details_id'], 'exist', 'skipOnError' => true, 'targetClass' => BudgetDetails::className(), 'targetAttribute' => ['budget_details_id' => 'detail_id']],
             [['budget_type_id'], 'exist', 'skipOnError' => true, 'targetClass' => BudgetType::className(), 'targetAttribute' => ['budget_type_id' => 'budget_type_id']],
             [['element_element_id'], 'exist', 'skipOnError' => true, 'targetClass' => Element::className(), 'targetAttribute' => ['element_element_id' => 'element_id']],
@@ -159,15 +158,6 @@ class Activity extends \yii\db\ActiveRecord
             'paomai_quantity' => 'เชิงปริมาณ',
             'paomai_quality' => 'เชิงคุณภาพ',
         ];
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-
-    public function getActivityTempFiles()
-    {
-        return $this->hasOne(ActivityFiles::className(), ['file_id' => 'activity_temp_files']);
     }
 
     public function getBudgetDetails()
@@ -327,7 +317,15 @@ class Activity extends \yii\db\ActiveRecord
         return ArrayHelper::map($list,'responsible_id','responsible_by');
     }
 
-    public function listDownloadFiles($type,$project_name){
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getActivityFiles()
+    {
+        return $this->hasMany(ActivityFiles::className(), ['activity_id' => 'activity_id']);
+    }
+
+    public function listDownloadFiles($type){
         $docs_file = '';
             //$data = $type==='activity_temp_files'?$this->activity_temp_files:$this->activity_temp_files;
             $files = Json::decode($type);
@@ -338,7 +336,7 @@ class Activity extends \yii\db\ActiveRecord
                             'id'=>$this->activity_id,
                             'file'=>$key,
                             'file_name'=>$value,
-                            'project_name'=>$project_name,
+                            //'project_name'=>$project_name,
                         ]).'</li>';
                 }
                 $docs_file .='</ul>';

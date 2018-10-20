@@ -13,6 +13,7 @@ $this->params['breadcrumbs'][] = ['label' => $project_name, 'url' => ['/site/rou
 $this->params['breadcrumbs'][] = $this->title;
 
 ?>
+
 <?php $form = ActiveForm::begin(); ?>
 
 <div class="panel panel-default">
@@ -20,11 +21,11 @@ $this->params['breadcrumbs'][] = $this->title;
         <h3 class="panel-title"><?= $this->title; ?></h3>
     </div>
     <div class="panel-body">
-        <?= $form->field($model, 'file')->widget(MultipleInput::className(), [
+        <?= $form->field($model, 'aa')->widget(MultipleInput::className(), [
             'max' => 4,
             'columns' => [
                 [
-                    'name'  => 'plan_process',
+                    'name'  => 'mchoice',
                     'type'  => 'dropDownList',
                     'title' => 'ชนิดของไฟล์',
                     'defaultValue' => 1,
@@ -41,11 +42,11 @@ $this->params['breadcrumbs'][] = $this->title;
                     ]
                 ],
                 [
-                    'name' => 'file',
+                    'name' => 'mfile',
                     'type' => FileInput::className(),
                     'options' => [
                         'pluginOptions' => [
-                            'allowedFileExtensions' => ['pdf'],
+                            //'allowedFileExtensions' => ['pdf'],
                             'initialPreview'=>[
                                 //add url here from current attribute
                             ],

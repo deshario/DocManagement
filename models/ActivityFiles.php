@@ -2,30 +2,27 @@
 
 namespace app\models;
 
-use http\Exception;
 use Yii;
-use yii\helpers\ArrayHelper;
-use yii\helpers\BaseFileHelper;
 use yii\helpers\Html;
 use yii\helpers\Json;
 use yii\helpers\Url;
-use yii\web\UploadedFile;
 
 /**
  * This is the model class for table "activity_files".
  *
  * @property int $file_id
  * @property string $file_source ที่อยู่ไฟล์
+ * @property int $activity_id กิจกรรม
  *
- * @property Activity[] $activities
+ * @property Activity $activity
  */
 class ActivityFiles extends \yii\db\ActiveRecord
 {
+
     const UPLOAD_FOLDER = 'uploads';
+
+    public $temp_activity_name;
     public $temp_activity_id;
-    public $temp_project_id;
-    public $temp_project_name;
-    public $items;
 
     public static function tableName()
     {
@@ -38,8 +35,11 @@ class ActivityFiles extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['file_source'], 'string'],
-            [['temp_activity_id','temp_project_id','temp_project_name'], 'safe'],
+            [['file_source'], 'required'],
+            [['activity_id'], 'required'],
+            [['temp_activity_name','temp_activity_id'], 'safe'],
+            [['activity_id'], 'integer'],
+            [['activity_id'], 'exist', 'skipOnError' => true, 'targetClass' => Activity::className(), 'targetAttribute' => ['activity_id' => 'activity_id']],
         ];
     }
 
@@ -51,15 +51,17 @@ class ActivityFiles extends \yii\db\ActiveRecord
         return [
             'file_id' => 'File ID',
             'file_source' => 'ที่อยู่ไฟล์',
+            'activity_id' => 'กิจกรรม',
+            'temp_activity_name' => 'กิจกรรม',
         ];
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getActivities()
+    public function getActivity()
     {
-        return $this->hasMany(Activity::className(), ['activity_temp_files' => 'file_id']);
+        return $this->hasOne(Activity::className(), ['activity_id' => 'activity_id']);
     }
 
     public static function getUploadPath()
@@ -72,11 +74,4 @@ class ActivityFiles extends \yii\db\ActiveRecord
     {
         return Url::base(true) . '/' . self::UPLOAD_FOLDER . '/activity_files/';
     }
-
-    public function getActivityList()
-    {
-        $list = Activity::find()->orderBy('activity_id')->all();
-        return ArrayHelper::map($list, 'activity_id', 'activity_name');
-    }
-
 }

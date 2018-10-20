@@ -44,6 +44,8 @@ class ComposerStaticInit80e71f4d4d6aacd77fcfe86e66cc6b60
         'k' => 
         array (
             'kartik\\tabs\\' => 12,
+            'kartik\\sortinput\\' => 17,
+            'kartik\\sortable\\' => 16,
             'kartik\\plugins\\tabs\\' => 20,
             'kartik\\plugins\\fileinput\\' => 25,
             'kartik\\mpdf\\' => 12,
@@ -167,6 +169,14 @@ class ComposerStaticInit80e71f4d4d6aacd77fcfe86e66cc6b60
         'kartik\\tabs\\' => 
         array (
             0 => __DIR__ . '/..' . '/kartik-v/yii2-tabs-x/src',
+        ),
+        'kartik\\sortinput\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/kartik-v/yii2-sortable-input/src',
+        ),
+        'kartik\\sortable\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/kartik-v/yii2-sortable/src',
         ),
         'kartik\\plugins\\tabs\\' => 
         array (

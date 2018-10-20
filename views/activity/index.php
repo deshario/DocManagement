@@ -7,6 +7,7 @@ use yii\helpers\Url;
 
 $project_id = Yii::$app->request->get('project_id');
 $project_name = Yii::$app->request->get('project_name');
+$project_status = Yii::$app->request->get('project_status');
 
 $this->title = $project_name;
 $this->params['breadcrumbs'][] = ['label' => 'โครงการทั้งหมด', 'url' => ['/project/index']];
@@ -22,6 +23,7 @@ $this->params['breadcrumbs'][] = $this->title;
         $responsible = $model->responsibler->responsible_by;
         $project_money = $model->project_money;
         $budget_type = $model->budgetBudgetType->budget_type_name;
+        $project_year = $model->project_year;
     }
     $project = new \app\models\Project();
     ?>
@@ -78,9 +80,16 @@ $this->params['breadcrumbs'][] = $this->title;
             </div>
             
             <div class='form-group'>
-            <label class='col-sm-2 control-label'>แหล่งที่มาของงบประมาณ</label>
+            <label class='col-sm-2 control-label'>แหล่งที่มาของงบ</label>
             <div class='col-sm-10'>
                 <input type='text' class='form-control' value='$budget_type' readonly>
+            </div>
+            </div>
+            
+             <div class='form-group'>
+            <label class='col-sm-2 control-label'>ปีงบประมาณ</label>
+            <div class='col-sm-10'>
+                <input type='text' class='form-control' value='$project_year' readonly>
             </div>
             </div>
             
@@ -106,8 +115,8 @@ $this->params['breadcrumbs'][] = $this->title;
                 'label' => '<i class="fa fa-envelope-o"></i>&nbsp; กิจกรรมทั้งหมด',
                 'linkOptions' => ['data-url' => Url::to(['filtering?project_id='.$project_id])],
             ],
-            ['label' => '<i class="fa fa-file-text-o"></i>&nbsp; จัดการไฟล์', 'url' => Url::to(['/project/file_management', 'proj_id' => $project_id, 'proj_name' => $project_name])],
-            ['label' => '<i class="fa fa-plus"></i>&nbsp; เพิ่มกิจกรรม', 'url' => Url::to(['create', 'proj_id' => $project_id, 'proj_name' => $project_name])],
+            ['label' => '<i class="fa fa-file-text-o"></i>&nbsp; จัดการไฟล์', 'url' => Url::to(['/project-files/create', 'project_id' => $project_id, 'project_name' => $project_name,'project_status' => $project_status])],
+            ['label' => '<i class="fa fa-plus"></i>&nbsp; เพิ่มกิจกรรม', 'url' => Url::to(['create', 'proj_id' => $project_id, 'proj_name' => $project_name, 'project_status' => $project_status])],
         ];
 
         echo TabsX::widget([

@@ -29,8 +29,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             'file_id',
-            'file_source:ntext',
-            'activity_id',
+            'file_source',
         ],
     ]) ?>
 

@@ -5,17 +5,22 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\models\BudgetType */
 
-$this->title = 'Update Budget Type: ' . $model->budget_type_id;
-$this->params['breadcrumbs'][] = ['label' => 'Budget Types', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->budget_type_id, 'url' => ['view', 'id' => $model->budget_type_id]];
-$this->params['breadcrumbs'][] = 'Update';
+$this->title = 'แก้ไข';
+$this->params['breadcrumbs'][] = ['label' => 'แหล่งที่มาของงบประมาณ', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => $model->budget_type_name, 'url' => ['view', 'id' => $model->budget_type_id]];
+$this->params['breadcrumbs'][] = 'แก้ไข';
 ?>
 <div class="budget-type-update">
 
-    <h1><?= Html::encode($this->title) ?></h1>
-
-    <?= $this->render('_form', [
-        'model' => $model,
-    ]) ?>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title"><?= $this->title; ?></h3>
+        </div>
+        <div class="panel-body">
+            <?= $this->render('_form', [
+                'model' => $model,
+            ]) ?>
+        </div>
+    </div>
 
 </div>

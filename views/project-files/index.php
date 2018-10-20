@@ -4,19 +4,19 @@ use yii\helpers\Html;
 use yii\grid\GridView;
 
 /* @var $this yii\web\View */
-/* @var $searchModel app\models\ActivityFilesSearch */
+/* @var $searchModel app\models\ProjectFilesSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Activity Files';
+$this->title = 'Project Files';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="activity-files-index">
+<div class="project-files-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a('Create Activity Files', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Create Project Files', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?= GridView::widget([
@@ -27,7 +27,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
             'file_id',
             'file_source:ntext',
-            'activity_id',
+            'project_id',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

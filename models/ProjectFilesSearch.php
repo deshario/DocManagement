@@ -5,12 +5,12 @@ namespace app\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\ActivityFiles;
+use app\models\ProjectFiles;
 
 /**
- * ActivityFilesSearch represents the model behind the search form of `app\models\ActivityFiles`.
+ * ProjectFilesSearch represents the model behind the search form of `app\models\ProjectFiles`.
  */
-class ActivityFilesSearch extends ActivityFiles
+class ProjectFilesSearch extends ProjectFiles
 {
     /**
      * {@inheritdoc}
@@ -18,7 +18,7 @@ class ActivityFilesSearch extends ActivityFiles
     public function rules()
     {
         return [
-            [['file_id', 'activity_id'], 'integer'],
+            [['file_id', 'project_id'], 'integer'],
             [['file_source'], 'safe'],
         ];
     }
@@ -41,7 +41,7 @@ class ActivityFilesSearch extends ActivityFiles
      */
     public function search($params)
     {
-        $query = ActivityFiles::find();
+        $query = ProjectFiles::find();
 
         // add conditions that should always apply here
 
@@ -60,7 +60,7 @@ class ActivityFilesSearch extends ActivityFiles
         // grid filtering conditions
         $query->andFilterWhere([
             'file_id' => $this->file_id,
-            'activity_id' => $this->activity_id,
+            'project_id' => $this->project_id,
         ]);
 
         $query->andFilterWhere(['like', 'file_source', $this->file_source]);

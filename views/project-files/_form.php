@@ -6,7 +6,7 @@ use kartik\file\FileInput;
 
 ?>
 
-<div class="activity-files-form">
+<div class="project-files-form">
 
     <?php $form = ActiveForm::begin(); ?>
 
@@ -26,8 +26,8 @@ use kartik\file\FileInput;
         ]
     ]); ?>
 
-    <?= $form->field($model, 'temp_activity_name')->hiddenInput(['value'=> $activity_name])->label(false);?>
-    <?= $form->field($model, 'temp_activity_id')->hiddenInput(['value'=> $activity_id])->label(false);?>
+    <?= $form->field($model, 'temp_project_id')->hiddenInput(['value'=> $project_id])->label(false);?>
+    <?= $form->field($model, 'temp_project_name')->hiddenInput(['value'=> $project_name])->label(false);?>
 
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>

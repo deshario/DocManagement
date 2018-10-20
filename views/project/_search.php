@@ -65,6 +65,8 @@ use yii\widgets\ActiveForm;
 
     <?php // echo $form->field($model, 'budget_budget_type') ?>
 
+    <?php // echo $form->field($model, 'project_year') ?>
+
     <?php // echo $form->field($model, 'project_status') ?>
 
     <div class="form-group">

@@ -34,6 +34,8 @@ use yii\helpers\ArrayHelper;
  * @property int $project_money งบประมาณที่มี
  * @property int $budget_budget_type แหล่งที่มาของงบประมาณ
  * @property int $project_status สถานะโครงการ
+ * @property ProjectFiles[] $projectFiles
+ * * @property string $project_year ปีงบประมาณ
  *
  * @property Activity[] $activities
  * @property BudgetType $budgetBudgetType
@@ -92,7 +94,8 @@ class Project extends \yii\db\ActiveRecord
             [['project_money'], 'required'],
             [['organization_id', 'responsibler_id', 'project_kpi_id','project_plan_id','project_laksana_id', 'strategic_id', 'goal_id', 'strategy_id', 'indicator_id', 'element_id', 'product_id', 'projecti_paomai_id', 'created_by', 'budget_budget_type', 'project_status'], 'integer'],
             [['rationale', 'objective', 'lakshana_activity', 'project_evaluation'], 'string'],
-            [['project_duration'], 'safe'],
+            [['project_year'], 'safe'],
+            [['project_duration'], 'string', 'max' => 100],
             [['temp_project_kpi_id','temp_project_plan_id','file'], 'safe'],
             [['plan_process','plan_detail','plan_date','plan_place'], 'safe'],
             [['temp_type', 'temp_procced', 'kpi_name', 'kpi_goal','paomai_quantity','paomai_quality'], 'safe'],
@@ -158,6 +161,7 @@ class Project extends \yii\db\ActiveRecord
             'kpi_name' => 'ตัวชี้วัด (KPI)',
             'kpi_goal' => 'เปาหมาย',
             'paomai_quantity' => 'เชิงปริมาณ',
+            'project_year' => 'ปีงบประมาณ',
             'paomai_quality' => 'เชิงคุณภาพ',
         ];
     }
@@ -356,5 +360,10 @@ class Project extends \yii\db\ActiveRecord
             $lib->subject_name = $lib->subject_name.' | '.$lib->subject_teacher;
         }
         return ArrayHelper::map($list,'subject_id','subject_name');
+    }
+
+    public function getProjectFiles()
+    {
+        return $this->hasMany(ProjectFiles::className(), ['project_id' => 'project_id']);
     }
 }

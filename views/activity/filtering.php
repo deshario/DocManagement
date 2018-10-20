@@ -14,49 +14,49 @@ use yii\helpers\Url;
     'summary' => '',
     'columns' => [
         ['class' => 'kartik\grid\SerialColumn',
-            'headerOptions' => ['width' => '10px'],
+//            'headerOptions' => ['width' => '5px'],
             'header' => '',
             'contentOptions' => ['class' => 'text-center'],
-            ],
+
+        ],
         //'activity_id',
         ['attribute' => 'activity_name',
             'format' => 'html',
+            'headerOptions' => ['width' => '400px'],
             'label' => 'รายการ',
-            //'headerOptions' => ['width' => '75%'],
-            'contentOptions' => [ 'style' => 'width:75%' ],
-            'pageSummaryOptions'=>['class'=>'text-right'],
-            'pageSummary'=>'รวมจำนวนทั้งสิ้น',
-
-            //'mergeHeader'=>true,
-//            'contentOptions' => ['class' => 'text-center'],
-//            'vAlign' => GridView::ALIGN_MIDDLE,
-//            'headerOptions' => ['width' => '50px'],
-
-            'value'=>function ($data) {
-                return Html::a($data->activity_name,['view', 'id' => $data->activity_id,]);
+            'contentOptions' => ['style' => 'width:490px;  min-width:430px;'],
+            'value' => function ($data) {
+                return Html::a($data->activity_name, ['view', 'id' => $data->activity_id,]);
             },
 
-            ],
+        ],
+        //'responsible_by',
+        [
+            'attribute' => 'responsible_by',
+            'headerOptions' => ['class' => 'text-center'],
+            'contentOptions' => ['style' => 'width:60px;  min-width:50px;', 'class' => 'text-center'],
+            'value' => function ($data) {
+                return $data->responsibleBy->responsible_by;
+            },
+            'pageSummaryOptions' => ['class' => 'text-right'],
+            'pageSummary' => 'รวมจำนวนทั้งสิ้น',
+        ],
+
         ['attribute' => 'activity_money',
-            'format'=>'html',
-            'contentOptions' => [ 'style' => 'width:5%', 'class' => 'text-center'],
-            'format'=>['decimal', 0],
+            'format' => 'html',
+            'headerOptions' => ['class' => 'text-center'],
+            'format' => ['decimal', 0],
+            'contentOptions' => ['style' => 'width:40px;  min-width:30px;', 'class' => 'text-left'],
             'pageSummary' => true,
-            'pageSummaryOptions'=>['class'=>'text-center'],
+            'pageSummaryOptions' => ['class' => 'text-left'],
         ],
 
         ['class' => 'kartik\grid\ActionColumn',
             'header' => 'คำสั่ง',
-            'headerOptions' => ['class' => 'text-center', 'style' => 'cursor:default; color:#428bca;'],
-            'contentOptions' => ['class' => 'text-center'],
-            'template' => '{print}&nbsp{update}&nbsp{manage}',   //{view}&nbsp;
-//                'template' => '{details}&nbsp{manage}',   //{view}&nbsp;
+            'headerOptions' => ['class' => 'text-center'],
+            'contentOptions' => ['style' => 'width:100px;  min-width:80px;', 'class' => 'text-center'],
+            'template' => '{print}&nbsp{update}&nbsp{manage}',
             'buttons' => [
-                'view' => function ($url, $model) {
-                    return Html::a('<button class="btn btn-xs btn-primary primary-tooltip" data-toggle="tooltip"
-                                data-placement="top" title="ดูรายละเอียด"><i class="fa fa-search-plus"></i> </button>', $url
-                    );
-                },
                 'print' => function ($url, $model) {
                     return Html::a('<button class="btn btn-xs btn-primary primary-tooltip" data-toggle="tooltip"
                                 data-placement="top" title="พิมพ์กิจกรรม"><i class="fa fa-print"></i> </button>', $url
@@ -74,27 +74,24 @@ use yii\helpers\Url;
                 },
             ],
             'urlCreator' => function ($action, $model, $key, $index) {
-                if ($action == 'view') {
-                    $url = Url::toRoute(['view',
-                        'id' => $model->activity_id,
-                    ]);
-                    return $url;
-                }
                 if ($action == 'print') {
                     $url = Url::toRoute(['print_activity',
                         'id' => $model->activity_id,
+                        'activity_name' => $model->activity_name,
                     ]);
                     return $url;
                 }
                 if ($action == 'update') {
                     $url = Url::toRoute(['update',
                         'id' => $model->activity_id,
+                        'project_status' => $model->rootProject->project_status,
                     ]);
                     return $url;
                 }
                 if ($action == 'manage') {
                     $url = Url::toRoute(['activity-files/create',
                         'activity_id' => $model->activity_id,
+                        'activity_name' => $model->activity_name,
                         'project_id' => $model->rootProject->project_id,
                         'project_name' => $model->rootProject->project_name,
                         'project_status' => $model->rootProject->project_status,

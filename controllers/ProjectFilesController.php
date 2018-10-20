@@ -2,14 +2,12 @@
 
 namespace app\controllers;
 
-use app\models\Activity;
 use app\models\Project;
-use Codeception\Module\Yii2;
 use kartik\growl\Growl;
 use Mpdf\Mpdf;
 use Yii;
-use app\models\ActivityFiles;
-use app\models\ActivityFilesSearch;
+use app\models\ProjectFiles;
+use app\models\ProjectFilesSearch;
 use yii\base\Exception;
 use yii\helpers\BaseFileHelper;
 use yii\helpers\Json;
@@ -19,9 +17,9 @@ use yii\filters\VerbFilter;
 use yii\web\UploadedFile;
 
 /**
- * ActivityFilesController implements the CRUD actions for ActivityFiles model.
+ * ProjectFilesController implements the CRUD actions for ProjectFiles model.
  */
-class ActivityFilesController extends Controller
+class ProjectFilesController extends Controller
 {
     /**
      * {@inheritdoc}
@@ -39,12 +37,12 @@ class ActivityFilesController extends Controller
     }
 
     /**
-     * Lists all ActivityFiles models.
+     * Lists all ProjectFiles models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new ActivityFilesSearch();
+        $searchModel = new ProjectFilesSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -53,15 +51,18 @@ class ActivityFilesController extends Controller
         ]);
     }
 
-    public function Merge($activity_name, $files)
+    public function actionView($id)
+    {
+        return $this->render('view', [
+            'model' => $this->findModel($id),
+        ]);
+    }
+
+    public function Merge($project_name, $files)
     {
         $pdf = new mPDF();
         $pdf->enableImports = true;
-        //$path = Yii::getAlias('@webroot').'/files/merged/';
-        //$tempfile = Yii::getAlias('@webroot').'/files/cv.pdf';
-        //$tempfile2 = Yii::getAlias('@webroot').'/files/bloodbank.pdf';
-        //$files = array($tempfile,$tempfile2);
-        foreach ($files as $file) {
+        foreach ($files as $file){
             $pdf->SetImportUse();
             $pagecount = $pdf->SetSourceFile($file);
             for ($i = 1; $i <= ($pagecount); $i++) {
@@ -70,40 +71,32 @@ class ActivityFilesController extends Controller
                 $pdf->UseTemplate($import_page);
             }
         }
-        $pdf_name = date('Y-m-d_His') . '.pdf';
-        //$pdf_path = $path . $pdf_name;
-        //Make sure path exists
-        //if (!file_exists($path)) {
-        //    mkdir($path, 0777);
-        //}
-        //$pdf->Output($pdf_name, 'D');
-        $pdf->Output($activity_name . ' - ฉบับสมบูรณ์', 'D');
+        $pdf->Output($project_name . ' - ฉบับสมบูรณ์', 'D');
         unset($pdf);
-        //return $pdf_path;
     }
 
-    public function generateLastPage($activity_name){
+    public function generateLastPage($project_name){
         $mpdf = new Mpdf(['mode' => 's']);
         $content = $this->renderPartial('lastpage');
         $stylesheet = "body{font-family: Garuda}";
         $mpdf->WriteHTML($stylesheet,1);
         $mpdf->WriteHTML($content,2);
-        $dir = Yii::getAlias('@webroot') . '/uploads/activity_files/' . $activity_name . '/';
+        $dir = Yii::getAlias('@webroot') . '/uploads/project_files/' . $project_name . '/';
         $mpdf->Output($dir.'lastpage.pdf', 'F');
         return $dir.'lastpage.pdf';
     }
 
     public function actionCustom($id, $type = null)
     {
-        $model = new ActivityFiles();
-        $searchModel = new ActivityFilesSearch();
+        $model = new ProjectFiles();
+        $searchModel = new ProjectFilesSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-        $dataProvider->query->where('activity_id = ' . $id);
+        $dataProvider->query->where('project_id = ' . $id);
 
         if ($model->load(Yii::$app->request->post())) {
-            $activity_name = $model->temp_activity_name;
+            $project_name = $model->temp_project_name;
             $myArray = explode(',', $model->file_source);
-            $dir = Yii::getAlias('@webroot') . '/uploads/activity_files/' . $activity_name . '/';
+            $dir = Yii::getAlias('@webroot') . '/uploads/project_files/' . $project_name . '/';
 
             $small_files = array();
 
@@ -117,11 +110,11 @@ class ActivityFilesController extends Controller
                     array_push($small_files, $name);
                 }
             }
-            $lastPage = $this->generateLastPage($activity_name);
+            $lastPage = $this->generateLastPage($project_name);
             array_push($small_files, $lastPage);
-            $this->Merge($activity_name, $small_files);
+            $this->Merge($project_name, $small_files);
 
-            Yii::$app->getSession()->setFlash('merge_success', [
+            Yii::$app->getSession()->setFlash('merge_project_success', [
                 'type' => Growl::TYPE_SUCCESS,
                 'duration' => 3000,
                 'icon' => 'fa fa-check',
@@ -131,7 +124,6 @@ class ActivityFilesController extends Controller
                 'positonX' => 'right'
             ]);
             return $this->redirect(Yii::$app->request->referrer ?: Yii::$app->homeUrl);
-
         } else {
             if ($type == 1) { // TABS-X
                 $data = $this->renderAjax('custom', [
@@ -152,38 +144,26 @@ class ActivityFilesController extends Controller
 
     public function getFileSource($id)
     {
-        return ActivityFiles::find()->where('file_id = ' . $id)->one()->file_source;
+        return ProjectFiles::find()->where('file_id = ' . $id)->one()->file_source;
     }
 
-    public function actionView($id)
-    {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-        ]);
-    }
-
-    /**
-     * Creates a new ActivityFiles model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
-     * @return mixed
-     */
     public function actionCreate()
     {
-        $model = new ActivityFiles();
+        $model = new ProjectFiles();
 
         if ($model->load(Yii::$app->request->post())) {
             //Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-            $this->CreateDir($model->temp_activity_name);
+            $this->CreateDir($model->temp_project_name);
             $uploaded = $this->uploadSingleFile($model);
             if ($uploaded != '' || $uploaded != null) {
                 $model->file_source = $uploaded;
-                $model->activity_id = $model->temp_activity_id;
+                $model->project_id = $model->temp_project_id;
                 if ($model->validate() && $model->save()) {
-                    Yii::$app->getSession()->setFlash('activity_file_upload_ok', [
+                    Yii::$app->getSession()->setFlash('project_file_upload_ok', [
                         'type' => Growl::TYPE_SUCCESS,
                         'duration' => 3000,
                         'icon' => 'fa fa-check',
-                        'title' => $model->temp_activity_name,
+                        'title' => $model->temp_project_name,
                         'message' => 'ไฟล์บันทึกสำเร็จ',
                         'positonY' => 'bottom',
                         'positonX' => 'right'
@@ -192,7 +172,7 @@ class ActivityFilesController extends Controller
                     return $model->getErrors();
                 }
             } else {
-                Yii::$app->getSession()->setFlash('activity_file_upload_fail', [
+                Yii::$app->getSession()->setFlash('project_file_upload_fail', [
                     'type' => Growl::TYPE_DANGER,
                     'duration' => 3000,
                     'icon' => 'fa fa-close',
@@ -203,6 +183,7 @@ class ActivityFilesController extends Controller
                 ]);
             }
             return $this->redirect(Yii::$app->request->referrer ?: Yii::$app->homeUrl);
+
         } else {
             $status = Yii::$app->request->get('project_status');
             if ($status == Project::PROJECT_RUNNING) {
@@ -210,7 +191,7 @@ class ActivityFilesController extends Controller
                     'model' => $model,
                 ]);
             } else {
-                Yii::$app->getSession()->setFlash('project_permission_fail', [
+                Yii::$app->getSession()->setFlash('project_permission_fail_ii', [
                     'type' => Growl::TYPE_DANGER,
                     'duration' => 3000,
                     'icon' => 'fa fa-close',
@@ -224,13 +205,6 @@ class ActivityFilesController extends Controller
         }
     }
 
-    /**
-     * Updates an existing ActivityFiles model.
-     * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id
-     * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
-     */
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
@@ -244,13 +218,6 @@ class ActivityFilesController extends Controller
         ]);
     }
 
-    /**
-     * Deletes an existing ActivityFiles model.
-     * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param integer $id
-     * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
-     */
     public function actionDelete($id)
     {
         $this->findModel($id)->delete();
@@ -258,16 +225,9 @@ class ActivityFilesController extends Controller
         return $this->redirect(['index']);
     }
 
-    /**
-     * Finds the ActivityFiles model based on its primary key value.
-     * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param integer $id
-     * @return ActivityFiles the loaded model
-     * @throws NotFoundHttpException if the model cannot be found
-     */
     protected function findModel($id)
     {
-        if (($model = ActivityFiles::findOne($id)) !== null) {
+        if (($model = ProjectFiles::findOne($id)) !== null) {
             return $model;
         }
 
@@ -277,7 +237,7 @@ class ActivityFilesController extends Controller
     private function CreateDir($folderName)
     {
         if ($folderName != NULL) {
-            $basePath = ActivityFiles::getUploadPath();
+            $basePath = ProjectFiles::getUploadPath();
             try {
                 if (BaseFileHelper::createDirectory($basePath . $folderName, 0777)) {
                     $temp = 1;
@@ -297,11 +257,11 @@ class ActivityFilesController extends Controller
         try {
             $UploadedFile = UploadedFile::getInstance($model, 'file_source');
             if ($UploadedFile !== null) {
-                $uploadPath = ActivityFiles::getUploadPath();
+                $uploadPath = ProjectFiles::getUploadPath();
                 $oldFileName = $UploadedFile->basename . '.' . $UploadedFile->extension;
                 $newFileName = md5($UploadedFile->basename . time()) . '.' . $UploadedFile->extension;
                 $file[$newFileName] = $oldFileName;
-                if ($UploadedFile->saveAs($uploadPath . '/' . $model->temp_activity_name . '/' . $newFileName)) {
+                if ($UploadedFile->saveAs($uploadPath . '/' . $model->temp_project_name . '/' . $newFileName)) {
                     $json = Json::encode($file);
                 } else {
                     $json = $tempFile;
@@ -313,6 +273,6 @@ class ActivityFilesController extends Controller
             $json = $tempFile;
         }
         return $json;
-//        return $newFileName;
+        //return $newFileName;
     }
 }
