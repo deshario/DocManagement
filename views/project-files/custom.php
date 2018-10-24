@@ -33,7 +33,9 @@ $project_name = 0;
             'options' => ['class' => 'form-control', 'readonly' => true]
         ]);
         echo $form->field($model, 'temp_project_name')->hiddenInput(['value'=> $project_name])->label(false);
-        echo Html::submitButton('Merge', ['class' => 'btn btn-success']);
+        echo Html::submitButton('ผสานไฟล์', ['class' => 'btn btn-success']);
+        echo '&nbsp;&nbsp;&nbsp;';
+        echo Html::a('ลบไฟล์', ['format', 'project_id' => $key->project->project_id], ['class' => 'btn btn-danger']);
     }else{
         echo 'ไม่พบไฟล์ใดๆในระบบ';
     }

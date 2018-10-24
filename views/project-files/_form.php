@@ -30,7 +30,7 @@ use kartik\file\FileInput;
     <?= $form->field($model, 'temp_project_name')->hiddenInput(['value'=> $project_name])->label(false);?>
 
     <div class="form-group">
-        <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
+        <?= Html::submitButton('บันทึก', ['class' => 'btn btn-block btn-success']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

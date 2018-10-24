@@ -213,7 +213,11 @@ use kartik\money\MaskMoney;
                 </div>
             </div>
 
-            <?= $form->field($model, 'project_duration')->widget(\kartik\daterange\DateRangePicker::classname(), ['convertFormat' => true, 'pluginOptions' => ['format' => 'Y-m-d']]);?>
+            <?= $form->field($model, 'project_duration')->widget(\kartik\daterange\DateRangePicker::classname(),
+                ['convertFormat' => true,
+                    'pluginOptions' => ['format' => 'Y-m-d'],
+                ]
+            );?>
 
             <?= $form->field($model, 'project_location')->textInput(['maxlength' => true]) ?>
 

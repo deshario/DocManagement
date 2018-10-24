@@ -53,6 +53,14 @@ class ActivityFilesController extends Controller
         ]);
     }
 
+    public function actionFormat($activity_id){
+        $files = ActivityFiles::find()->where(['activity_id' => $activity_id])->all();
+        foreach($files as $delete){
+            $delete->delete();
+        }
+        return $this->redirect(Yii::$app->request->referrer ?: Yii::$app->homeUrl);
+    }
+
     public function Merge($activity_name, $files)
     {
         $pdf = new mPDF();

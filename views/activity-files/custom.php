@@ -34,6 +34,8 @@ $activity_name = 0;
         ]);
         echo $form->field($model, 'temp_activity_name')->hiddenInput(['value'=> $activity_name])->label(false);
         echo Html::submitButton('Merge', ['class' => 'btn btn-success']);
+        echo '&nbsp;&nbsp;&nbsp;';
+        echo Html::a('ลบไฟล์', ['format', 'activity_id' => $key->activity->activity_id], ['class' => 'btn btn-danger']);
     }else{
         echo 'ไม่พบไฟล์ใดๆในระบบ';
     }

@@ -36,10 +36,6 @@ class ProjectFilesController extends Controller
         ];
     }
 
-    /**
-     * Lists all ProjectFiles models.
-     * @return mixed
-     */
     public function actionIndex()
     {
         $searchModel = new ProjectFilesSearch();
@@ -56,6 +52,14 @@ class ProjectFilesController extends Controller
         return $this->render('view', [
             'model' => $this->findModel($id),
         ]);
+    }
+
+    public function actionFormat($project_id){
+        $files = ProjectFiles::find()->where(['project_id' => $project_id])->all();
+        foreach($files as $delete){
+            $delete->delete();
+        }
+        return $this->redirect(Yii::$app->request->referrer ?: Yii::$app->homeUrl);
     }
 
     public function generateTable($model) {
