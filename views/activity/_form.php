@@ -12,6 +12,7 @@ use kartik\money\MaskMoney;
 $project_id = Yii::$app->request->get('proj_id');
 $project_name = Yii::$app->request->get('proj_name');
 //$model->root_project_id = $project_id;
+$model->temp_max_amount = 5000;
 ?>
 
 <div class="activity-form">
@@ -22,27 +23,52 @@ $project_name = Yii::$app->request->get('proj_name');
 
             <?php $form = ActiveForm::begin(); ?>
 
-            <div class="col-md-3">
-                <?= $form->field($model, 'activity_name')->textInput(['maxlength' => true]) ?>
-            </div>
+            <?php if($model->isNewRecord){?>
+                <div class="col-md-3">
+                    <?= $form->field($model, 'activity_name')->textInput(['maxlength' => true]) ?>
+                </div>
 
-            <div class="col-md-3">
-                <?= $form->field($model, 'activity_money')->widget(MaskMoney::classname(), [
-                    'pluginOptions' => [
-                        'prefix' => '฿ ',
-                        'suffix' => '',
-                        'allowNegative' => false
-                    ]
-                ]); ?>
-            </div>
+                <div class="col-md-3">
+                    <?= $form->field($model, 'activity_money')->widget(MaskMoney::classname(), [
+                        'pluginOptions' => [
+                            'prefix' => '฿ ',
+                            'suffix' => '',
+                            'allowNegative' => false
+                        ]
+                    ]); ?>
+                </div>
 
-            <div class="col-md-3">
-                <?= $form->field($model, 'organization_organization_id')->dropDownList($model->getOrganizationList(), ['prompt' => 'กรุณาเลือกองค์กร']) ?>
-            </div>
+                <div class="col-md-3">
+                    <?= $form->field($model, 'organization_organization_id')->dropDownList($model->getOrganizationList(), ['prompt' => 'กรุณาเลือกองค์กร']) ?>
+                </div>
 
-            <div class="col-md-3">
-                <?= $form->field($model, 'responsible_by')->dropDownList($model->getResponsiblerList(), ['prompt' => 'กรุณาเลือกผู้รับผิดชอบ']) ?>
-            </div>
+                <div class="col-md-3">
+                    <?= $form->field($model, 'responsible_by')->dropDownList($model->getResponsiblerList(), ['prompt' => 'กรุณาเลือกผู้รับผิดชอบ']) ?>
+                </div>
+            <?php }else{?>
+                <div class="col-md-3">
+                    <?= $form->field($model, 'activity_name')->textInput(['maxlength' => true, 'readonly' => true]) ?>
+                </div>
+
+                <div class="col-md-3">
+                    <?= $form->field($model, 'activity_money')->widget(MaskMoney::classname(), [
+                        'pluginOptions' => [
+                            'prefix' => '฿ ',
+                            'suffix' => '',
+                            'allowNegative' => false
+                        ],'readonly' => true
+                    ]); ?>
+                </div>
+
+                <div class="col-md-3">
+                    <?= $form->field($model, 'organization_organization_id')->dropDownList($model->getOrganizationList(), ['prompt' => 'กรุณาเลือกองค์กร', 'readonly' => true]) ?>
+                </div>
+
+                <div class="col-md-3">
+                    <?= $form->field($model, 'responsible_by')->dropDownList($model->getResponsiblerList(), ['prompt' => 'กรุณาเลือกผู้รับผิดชอบ', 'readonly' => true]) ?>
+                </div>
+            <?php }?>
+
 
             <div class="clearfix"></div>
 
@@ -107,21 +133,15 @@ $project_name = Yii::$app->request->get('proj_name');
             </div>
 
             <div class="col-md-12">
-                <?= $form->field($model, 'activity_rationale')->textarea(['rows' => 3, 'placeholder' => '1. lorem ipsum 
-2. lorem ipsum 
-3. lorem ipsum ']) ?>
+                <?= $form->field($model, 'activity_rationale')->textarea(['rows' => 3, 'placeholder' => '']) ?>
             </div>
 
             <div class="col-md-12">
-                <?= $form->field($model, 'objective')->textarea(['rows' => 3, 'placeholder' => '1. lorem ipsum 
-2. lorem ipsum 
-3. lorem ipsum ']) ?>
+                <?= $form->field($model, 'objective')->textarea(['rows' => 3, 'placeholder' => '']) ?>
             </div>
 
             <div class="col-md-12">
-                <?= $form->field($model, 'activity_type')->textarea(['rows' => 3, 'placeholder' => '1. lorem ipsum 
-2. lorem ipsum 
-3. lorem ipsum ']) ?>
+                <?= $form->field($model, 'activity_type')->textarea(['rows' => 3, 'placeholder' => '']) ?>
             </div>
 
             <div class="clearfix"></div>
@@ -154,16 +174,16 @@ $project_name = Yii::$app->request->get('proj_name');
                     </div>
                 </div>
                 <div class="box-body">
-                    <?= $form->field($model, 'activity_plan')->widget(MultipleInput::className(), [
+                    <?= $form->field($model, 'budget_plan')->widget(MultipleInput::className(), [
                         'max' => 4,
                         'columns' => [
                             [
-                                'name' => 'plan_detail',
+                                'name' => 'detail_name',
                                 'title' => 'รายละเอียดงบประมาณ',
                                 'enableError' => true,
                             ],
                             [
-                                'name' => 'plan_amount',
+                                'name' => 'detail_price',
                                 'title' => 'งบประมาณ',
                                 'enableError' => true,
                                 'options' => [

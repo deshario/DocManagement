@@ -115,17 +115,17 @@ class ActivityController extends Controller
         if ($model->load(Yii::$app->request->post())) {
             $transaction = Yii::$app->db->beginTransaction();
             try {
+                $randomString = \app\models\Managers::getRandomKey(15);
                 $temp_project_plan_id = 0;
                 $temp_project_budget_details_id = 0;
                 $items = Yii::$app->request->post();
-                $user_id = Yii::$app->user->identity->id;
                 $model->root_project_id = Yii::$app->request->get('proj_id');
 
-                foreach ($items['Activity']['activity_plan'] as $key => $val) {
+                foreach ($items['Activity']['budget_plan'] as $key => $val) {
                     $budget_details = new BudgetDetails();
-                    $budget_details->detail_name = $val['plan_detail'];
-                    $budget_details->detail_price = $val['plan_amount'];
-                    $budget_details->activity_id = 1;
+                    $budget_details->detail_name = $val['detail_name'];
+                    $budget_details->detail_price = $val['detail_price'];
+                    $budget_details->activity_key = $randomString;
                     $budget_details->save();
                     $temp_project_budget_details_id = $budget_details->detail_id;
                 }
@@ -136,7 +136,7 @@ class ActivityController extends Controller
                     $project_plan->plan_detail = $val['plan_detail'];
                     $project_plan->plan_date = $val['plan_date'];
                     $project_plan->plan_place = $val['plan_place'];
-                    $project_plan->plan_owner = $user_id;
+                    $project_plan->plan_project_key = $randomString;
                     $project_plan->save();
                     $temp_project_plan_id = $project_plan->plan_id;
                 }
@@ -164,7 +164,18 @@ class ActivityController extends Controller
             $model->project_plan_id = $temp_project_plan_id;
             $model->activity_status = Project::PROJECT_RUNNING;
 
-            if ($model->validate() && $model->save()) {
+            if ($model->validate()){
+                $model->activity_key = $randomString;
+                $model->save();
+                Yii::$app->getSession()->setFlash('activity_create_done', [
+                    'type' => Growl::TYPE_SUCCESS,
+                    'duration' => 5000,
+                    'icon' => 'fa fa-check',
+                    'title' => $model->activity_name,
+                    'message' => 'กิจกกรมของคูณได้รับการบันทึกแล้ว',
+                    'positonY' => 'bottom',
+                    'positonX' => 'right'
+                ]);
                 return $this->redirect(['/activity/index',
                     'project_id' => $model->root_project_id,
                     'project_name' => $model->rootProject->project_name,
@@ -179,7 +190,7 @@ class ActivityController extends Controller
                     'model' => $model,
                 ]);
             } else {
-                Yii::$app->getSession()->setFlash('activity_create', [
+                Yii::$app->getSession()->setFlash('activity_create_fail', [
                     'type' => Growl::TYPE_DANGER,
                     'duration' => 5000,
                     'icon' => 'fa fa-close',
@@ -196,9 +207,91 @@ class ActivityController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $model->temp_type = $model->projectLaksana->projectType->type_id;
+        $model->temp_procced = $model->projectLaksana->procced->procced_id;
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->activity_id]);
+        $model->paomai_quantity = ProjectPaomai::find()->where(['paomai_id' => $model->project_paomai_id])->one()->project_quantity;
+        $model->paomai_quality = ProjectPaomai::find()->where(['paomai_id' => $model->project_paomai_id])->one()->project_quality;
+
+        $model->budget_plan = BudgetDetails::find()->where(['activity_key' => $model->activity_key])->all();
+        $model->temp_project_plan_id = ProjectPlan::find()->where(['plan_project_key' => $model->activity_key])->all();
+
+        if ($model->load(Yii::$app->request->post())) {
+            $budgets = BudgetDetails::find()->where(['activity_key' => $model->activity_key])->all();
+            $plans = ProjectPlan::find()->where(['plan_project_key' => $model->activity_key])->all();
+            $transaction = Yii::$app->db->beginTransaction();
+            try {
+                $temp_project_plan_id = 0;
+                $temp_project_budget_details_id = 0;
+                $items = Yii::$app->request->post();
+
+                foreach($budgets as $delete){
+                    $delete->delete();
+                }
+                foreach($plans as $delete2){
+                    $delete2->delete();
+                }
+
+                foreach ($items['Activity']['budget_plan'] as $key => $val) {
+                    $budget_details = new BudgetDetails();
+                    $budget_details->detail_name = $val['detail_name'];
+                    $budget_details->detail_price = $val['detail_price'];
+                    $budget_details->activity_key = $model->activity_key;
+                    $budget_details->save();
+                    $temp_project_budget_details_id = $budget_details->detail_id;
+                }
+
+                foreach ($items['Activity']['temp_project_plan_id'] as $key => $val) {
+                    $project_plan = new ProjectPlan();
+                    $project_plan->plan_process = $val['plan_process'];
+                    $project_plan->plan_detail = $val['plan_detail'];
+                    $project_plan->plan_date = $val['plan_date'];
+                    $project_plan->plan_place = $val['plan_place'];
+                    $project_plan->plan_project_key = $model->activity_key;
+                    $project_plan->save();
+                    $temp_project_plan_id = $project_plan->plan_id;
+                }
+
+                $transaction->commit();
+
+            } catch (Exception $e) {
+                $transaction->rollBack();
+                Yii::$app->session->setFlash('error', 'มีข้อผิดพลาดในการบันทึก');
+                return $this->redirect(['index']);
+            }
+            $project_paomai = new ProjectPaomai();
+            $project_paomai->project_quantity = $model->paomai_quantity;
+            $project_paomai->project_quality = $model->paomai_quality;
+            $project_paomai->save();
+
+            $project_laksana = new ProjectLaksana();
+            $project_laksana->project_type_id = $model->temp_type;
+            $project_laksana->procced_id = $model->temp_procced;
+            $project_laksana->save();
+
+            $model->project_laksana_id = $project_laksana->laksana_id;
+            $model->project_paomai_id = $project_paomai->paomai_id;
+            $model->budget_details_id = $temp_project_budget_details_id;
+            $model->project_plan_id = $temp_project_plan_id;
+            $model->activity_status = Project::PROJECT_RUNNING;
+
+            if ($model->validate()){
+                $model->save();
+                Yii::$app->getSession()->setFlash('activity_update_ok', [
+                    'type' => Growl::TYPE_SUCCESS,
+                    'duration' => 5000,
+                    'icon' => 'fa fa-check',
+                    'title' => $model->activity_name,
+                    'message' => 'กิจกกรมของคูณปรับปรุงเรียบร้อบแล้ว',
+                    'positonY' => 'bottom',
+                    'positonX' => 'right'
+                ]);
+                return $this->redirect(['/activity/index',
+                    'project_id' => $model->root_project_id,
+                    'project_name' => $model->rootProject->project_name,
+                    'project_status' => $model->rootProject->project_status,
+                ]);
+            }
         }else{
             $status = Yii::$app->request->get('project_status');
             if ($status == Project::PROJECT_RUNNING) {
@@ -245,30 +338,43 @@ class ActivityController extends Controller
         ]);
     }
 
-    public function actionPrint_activity($id, $activity_name)
-    {
-        // get your HTML raw content without any layouts or scripts
-        $content = $this->renderPartial('view', [
-            'model' => $this->findModel($id),
+    public function actionPreview($activity_id, $activity_name) {
+        $mpdf = new Mpdf(['mode' => 's']);
+        $model = $this->findModel($activity_id);
+        $content  = $this->renderPartial('activity_print', [
+            'model' => $model,
         ]);
 
+        //return $content;
 
-        $mpdf = new Mpdf(['mode' => 's']);
+        $stylesheet = "
+        body{font-family: Garuda}
+         .table {
+            width: 100%;
+            border-top:1px solid red;
+            border-right:1px solid red;
+            border-collapse:collapse;
+            }
+        .table td {
+            padding: 7px;
+            text-align:center;
+        }
 
-        $stylesheet = "body{font-family: Garuda}";
+        ";
 
-        $mpdf->SetHeader('Document Title|Center Text|{PAGENO}');
-        $mpdf->SetFooter('|ถูกออกแบบโดย Deshario|');
-        //$mpdf->SetWatermarkText('Deshario');
-        //$mpdf->showWatermarkText = true;
+        //$mpdf->SetHeader('|'.$activity_name.'|{PAGENO}');
+        //$mpdf->SetFooter('|'.'ผู้รับผิดชอบ : '.$model->responsibleBy->responsible_by.'|');
+        $mpdf->SetWatermarkText('Deshario');
+        $mpdf->showWatermarkText = true;
         //$mpdf->margin_bottom_collapse = 5;
-        //$mpdf->AddPageByArray([
-            //'resetpagenum' => '43'
-        //]);
+
+        $mpdf->AddPageByArray([
+            'resetpagenum' => '1'
+        ]);
 
         $mpdf->WriteHTML($stylesheet,1);
         $mpdf->WriteHTML($content,2);
-        $mpdf->Output($activity_name, 'D');
+        $mpdf->Output($activity_name . ' - ฉบับสมบูรณ์', 'D');
 
     }
 }

@@ -8,7 +8,8 @@ use yii\widgets\DetailView;
 
 $this->title = $model->activity_name;
 //$this->params['breadcrumbs'][] = ['label' => 'โครงการ', 'url' => ['index', 'project_id' => $model->rootProject->project_id, 'project_name' => $model->rootProject->project_name]];
-$this->params['breadcrumbs'][] = ['label' => 'โครงการ', 'url' => '#'];
+$this->params['breadcrumbs'][] = ['label' => 'โครงการทั้งหมด', 'url' => ['/project/index']];
+$this->params['breadcrumbs'][] = ['label' => $model->rootProject->project_name];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="activity-view">

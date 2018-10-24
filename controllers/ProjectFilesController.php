@@ -58,6 +58,67 @@ class ProjectFilesController extends Controller
         ]);
     }
 
+    public function generateTable($model) {
+
+        $mpdf = new Mpdf(['mode' => 's']);
+        $content = $this->renderPartial('project_table_pdf', [
+            'model' => $model,
+        ]);
+        $tableCss = Yii::getAlias('@webroot').'/css/table.css';
+        $stylesheet = file_get_contents($tableCss);
+        $mpdf->SetWatermarkText('Deshario');
+        $mpdf->showWatermarkText = true;
+
+        $mpdf->WriteHTML($stylesheet,1);
+        $mpdf->WriteHTML($content,2);
+        $mpdf->Output('table', 'D');
+
+    }
+
+    public function actionTable($type = null)
+    {
+        $model = new ProjectFiles();
+
+        if ($model->load(Yii::$app->request->post())) {
+            $items = Yii::$app->request->post();
+            $data = array();
+            $i = 0;
+            foreach ($items['ProjectFiles']['table'] as $key => $val) {
+                $data[$i]["title"]= $val['title'];
+                $data [$i]["page"]= $val['page'];
+                $i++;
+            }
+
+            $mpdf = new Mpdf(['mode' => 's']);
+            $content = $this->renderPartial('project_table_pdf', [
+                'model' => $data,
+            ]);
+            $tableCss = Yii::getAlias('@webroot').'/css/table.css';
+            $stylesheet = file_get_contents($tableCss);
+            $mpdf->SetWatermarkText('Deshario');
+            $mpdf->showWatermarkText = true;
+
+            $mpdf->WriteHTML($stylesheet,1);
+            $mpdf->WriteHTML($content,2);
+            $mpdf->Output('สารบัญ', 'D');
+            unset($mpdf);
+
+            return $this->redirect(Yii::$app->request->referrer ?: Yii::$app->homeUrl);
+
+        } else {
+            if ($type == 1) { // TABS-X
+                $data = $this->renderAjax('table', [
+                    'model' => $model,
+                ]);
+                return Json::encode($data);
+            } else { // For Testing Via URL
+                return $this->render('table', [
+                    'model' => $model,
+                ]);
+            }
+        }
+    }
+
     public function Merge($project_name, $files)
     {
         $pdf = new mPDF();
@@ -67,6 +128,7 @@ class ProjectFilesController extends Controller
             $pagecount = $pdf->SetSourceFile($file);
             for ($i = 1; $i <= ($pagecount); $i++) {
                 $pdf->AddPage();
+                $pdf->setFooter('{PAGENO}') ;
                 $import_page = $pdf->ImportPage($i);
                 $pdf->UseTemplate($import_page);
             }

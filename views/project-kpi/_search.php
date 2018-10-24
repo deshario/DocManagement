@@ -21,7 +21,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'kpi_goal') ?>
 
-    <?= $form->field($model, 'kpi_owner') ?>
+    <?= $form->field($model, 'kpi_project_key') ?>
 
     <div class="form-group">
         <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>

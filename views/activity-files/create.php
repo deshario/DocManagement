@@ -23,6 +23,9 @@ $this->params['breadcrumbs'][] = $this->title;
         'activity_id' => $activity_id,
     ]) ?>
 
+    <?php $tab = $this->render('table', [
+        'model' => $model,
+    ]) ?>
 
     <div class="panel panel-default">
         <div class="panel-heading">
@@ -39,6 +42,10 @@ $this->params['breadcrumbs'][] = $this->title;
                     'label' => '<i class="fa fa-upload"></i>&nbsp; อัพโหลดไฟล์',
                     'content' => $content,
                     'active' => true,
+                ],
+                [
+                    'label' => '<i class="fa fa-cog"></i>&nbsp; สร้างสารบัญ',
+                    'linkOptions' => ['data-url' => Url::to(['/project-files/table?type=1'])],
                 ],
             ];
 

@@ -10,7 +10,7 @@ use Yii;
  * @property int $kpi_id
  * @property string $kpi_name ตัวชี้วัด
  * @property string $kpi_goal เป้าหมาย
- * @property int $kpi_owner เจ้าของ kpi
+ * @property string $kpi_project_key อ้างอิง Project
  *
  * @property Project[] $projects
  */
@@ -30,9 +30,8 @@ class ProjectKpi extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['kpi_name', 'kpi_goal', 'kpi_owner'], 'required'],
-            [['kpi_owner'], 'integer'],
-            [['kpi_name'], 'string', 'max' => 255],
+            [['kpi_name', 'kpi_goal', 'kpi_project_key'], 'required'],
+            [['kpi_name', 'kpi_project_key'], 'string', 'max' => 255],
             [['kpi_goal'], 'string', 'max' => 100],
         ];
     }
@@ -46,7 +45,7 @@ class ProjectKpi extends \yii\db\ActiveRecord
             'kpi_id' => 'Kpi ID',
             'kpi_name' => 'ตัวชี้วัด',
             'kpi_goal' => 'เป้าหมาย',
-            'kpi_owner' => 'เจ้าของ kpi',
+            'kpi_project_key' => 'อ้างอิง Project',
         ];
     }
 

@@ -31,7 +31,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'kpi_id',
             'kpi_name',
             'kpi_goal',
-            'kpi_owner',
+            'kpi_project_key',
         ],
     ]) ?>
 

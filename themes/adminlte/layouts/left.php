@@ -43,17 +43,17 @@ use yii\bootstrap\Modal;
                     ['label' => '', 'options' => ['class' => 'header']],
                     [
                         'label' => 'โครงการทั้งหมด',
-                        'icon' => 'key',
+                        'icon' => 'book',
                         'active' => true,
                         'url' => '#',
                         'items' => [
-                            ['label' => 'โครงการทั้งหมด', 'icon' => 'arrow-right', 'url' => ['project/index'],],
-                            ['label' => 'สร้างโครงการ', 'icon' => 'arrow-right', 'url' => ['project/create'],],
+                            ['label' => 'โครงการทั้งหมด', 'icon' => 'book', 'url' => ['project/index'],],
+                            ['label' => 'สร้างโครงการ', 'icon' => 'plus', 'url' => ['project/create'],],
                         ],
                     ],
                     [
                         'label' => 'จัดการข้อมูลเบืองต้น',
-                        'icon' => 'key',
+                        'icon' => 'cog',
                         'active' => true,
                         'url' => '#',
                         'items' => [
@@ -73,7 +73,7 @@ use yii\bootstrap\Modal;
             }else{
                 $menuItems = [
                     ['label' => '', 'options' => ['class' => 'header']],
-                    ['label' => 'โครงการของฉัน', 'icon' => 'users', 'url' => ['project/mine'],],
+                    ['label' => 'โครงการของฉัน', 'icon' => 'book', 'url' => ['project/mine'],],
                     ['label' => 'ออกจากระบบ', 'url' => ['site/logout'], 'template' => '<a href="{url}" data-method="post"><i class="fa fa-sign-out"></i>{label}</a>'],
                 ];
             }

@@ -31,7 +31,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'detail_id',
             'detail_name',
             'detail_price',
-            'activity_id',
+            'activity_key',
         ],
     ]) ?>
 

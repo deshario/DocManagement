@@ -10,7 +10,7 @@ use Yii;
  * @property int $detail_id
  * @property string $detail_name รายละเอียดของงบประมาณ
  * @property int $detail_price งบประมาณ
- * @property int $activity_id กิจกรรมที่อ้างอิง
+ * @property string $activity_key กิจกรรมที่อ้างอิง
  *
  * @property Activity[] $activities
  */
@@ -30,9 +30,9 @@ class BudgetDetails extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['detail_name', 'detail_price', 'activity_id'], 'required'],
-            [['detail_price', 'activity_id'], 'integer'],
-            [['detail_name'], 'string', 'max' => 255],
+            [['detail_name', 'detail_price', 'activity_key'], 'required'],
+            [['detail_price'], 'integer'],
+            [['detail_name', 'activity_key'], 'string', 'max' => 255],
         ];
     }
 
@@ -45,7 +45,7 @@ class BudgetDetails extends \yii\db\ActiveRecord
             'detail_id' => 'Detail ID',
             'detail_name' => 'รายละเอียดของงบประมาณ',
             'detail_price' => 'งบประมาณ',
-            'activity_id' => 'กิจกรรมที่อ้างอิง',
+            'activity_key' => 'กิจกรรมที่อ้างอิง',
         ];
     }
 

@@ -19,7 +19,7 @@ class ActivitySearch extends Activity
     {
         return [
             [['activity_id', 'root_project_id', 'organization_organization_id', 'strategic_strategic_id', 'goal_goal_id', 'responsible_by', 'strategy_strategy_id', 'indicator_indicator_id', 'realted_subject_id', 'element_element_id', 'product_product_id', 'project_laksana_id', 'project_paomai_id', 'project_plan_id', 'budget_type_id', 'activity_money', 'budget_details_id', 'activity_status'], 'integer'],
-            [['activity_name', 'activity_rationale', 'activity_type', 'objective', 'evaluation', 'benefit'], 'safe'],
+            [['activity_name', 'activity_rationale', 'activity_type', 'objective', 'evaluation', 'benefit','activity_key'], 'safe'],
         ];
     }
 
@@ -84,7 +84,8 @@ class ActivitySearch extends Activity
             ->andFilterWhere(['like', 'activity_type', $this->activity_type])
             ->andFilterWhere(['like', 'objective', $this->objective])
             ->andFilterWhere(['like', 'evaluation', $this->evaluation])
-            ->andFilterWhere(['like', 'benefit', $this->benefit]);
+            ->andFilterWhere(['like', 'benefit', $this->benefit])
+            ->andFilterWhere(['like', 'activity_key', $this->activity_key]);
 
         return $dataProvider;
     }

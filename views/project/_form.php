@@ -1,6 +1,7 @@
 <?php
 
 use kartik\daterange\DateRangePicker;
+use yii\base\Security;
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 use unclead\multipleinput\MultipleInput;
@@ -221,7 +222,7 @@ use kartik\money\MaskMoney;
             <?= $form->field($model, 'project_benefit')->textarea(['rows' => 6]) ?>
 
             <div class="form-group">
-                <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
+                <?= Html::submitButton('บันทึก', ['class' => 'btn btn-success']) ?>
             </div>
         </div>
     </div>

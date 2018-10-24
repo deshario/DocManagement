@@ -16,7 +16,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'detail_price')->textInput() ?>
 
-    <?= $form->field($model, 'activity_id')->textInput() ?>
+    <?= $form->field($model, 'activity_key')->textInput(['maxlength' => true]) ?>
 
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>

@@ -75,8 +75,8 @@ use yii\helpers\Url;
             ],
             'urlCreator' => function ($action, $model, $key, $index) {
                 if ($action == 'print') {
-                    $url = Url::toRoute(['print_activity',
-                        'id' => $model->activity_id,
+                    $url = Url::toRoute(['preview',
+                        'activity_id' => $model->activity_id,
                         'activity_name' => $model->activity_name,
                     ]);
                     return $url;

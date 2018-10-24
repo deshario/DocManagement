@@ -14,6 +14,7 @@ use app\models\ProjectPlan;
 use app\models\ProjectType;
 use http\Exception;
 use kartik\growl\Growl;
+use Mpdf\Mpdf;
 use Yii;
 use app\models\Project;
 use app\models\ProjectSearch;
@@ -101,6 +102,7 @@ class ProjectController extends Controller
             $user_id = Yii::$app->user->identity->id;
             $transaction = Yii::$app->db->beginTransaction();
             try {
+                $randomString = \app\models\Managers::getRandomKey(15);
                 $items = Yii::$app->request->post();
                 $temp_project_kpi_id = 0;
                 $temp_project_plan_id = 0;
@@ -112,7 +114,7 @@ class ProjectController extends Controller
                     $project_kpi = new ProjectKpi();
                     $project_kpi->kpi_name = $val['kpi_name'];
                     $project_kpi->kpi_goal = $val['kpi_goal'];
-                    $project_kpi->kpi_owner = $user_id;
+                    $project_kpi->kpi_project_key = $randomString;
                     $project_kpi->save();
                     $temp_project_kpi_id = $project_kpi->kpi_id;
                 }
@@ -123,7 +125,7 @@ class ProjectController extends Controller
                     $project_plan->plan_detail = $val['plan_detail'];
                     $project_plan->plan_date = $val['plan_date'];
                     $project_plan->plan_place = $val['plan_place'];
-                    $project_plan->plan_owner = $user_id;
+                    $project_plan->plan_project_key = $randomString;
                     $project_plan->save();
                     $temp_project_plan_id = $project_plan->plan_id;
                 }
@@ -155,12 +157,18 @@ class ProjectController extends Controller
             $model->temp_project_kpi_id = \yii\helpers\Json::encode($model->temp_project_kpi_id);
             $model->temp_project_plan_id = \yii\helpers\Json::encode($model->temp_project_plan_id);
 
-            if ($model->validate() && $model->save()) {
-//                $activity = new Activity();
-//                $activity->root_project_id = $model->project_id;
-//                $activity->activity_name = 'กิจกรรมเริมต้น';
-//                $activity->save();
-                //return $this->redirect(['view', 'id' => $model->project_id]);
+            if ($model->validate()){
+                $model->project_key = $randomString;
+                $model->save();
+                Yii::$app->getSession()->setFlash('project_create_new', [
+                    'type' =>  Growl::TYPE_SUCCESS,
+                    'duration' => 3000,
+                    'icon' => 'fa fa-check',
+                    'title' => $model->project_name,
+                    'message' => 'โครงการของคุณได้รับการบันทึกแล้ว',
+                    'positonY' => 'bottom',
+                    'positonX' => 'right'
+                ]);
                 return $this->redirect(['/site/routing']);
             } else {
                 //return $model->getErrors();
@@ -173,51 +181,97 @@ class ProjectController extends Controller
         ]);
     }
 
-    public function actionFile_management()
+    public function actionUpdate($id)
     {
+        $model = $this->findModel($id);
+        $model->temp_type = $model->projectLaksana->projectType->type_id;
+        $model->temp_procced = $model->projectLaksana->procced->procced_id;
 
-        $model = new Project();
-        $transaction = Yii::$app->db->beginTransaction();
+        $model->temp_project_kpi_id = ProjectKpi::find()->where(['kpi_project_key' => $model->project_key])->all();
+        $model->temp_project_plan_id = ProjectPlan::find()->where(['plan_project_key' => $model->project_key])->all();
+
+        $model->paomai_quantity = ProjectPaomai::find()->where(['paomai_id' => $model->projecti_paomai_id])->one()->project_quantity;
+        $model->paomai_quality = ProjectPaomai::find()->where(['paomai_id' => $model->projecti_paomai_id])->one()->project_quality;
+
         if ($model->load(Yii::$app->request->post())) {
-//            Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+            $project_kpi = ProjectKpi::find()->where(['kpi_project_key' => $model->project_key])->all();
+            $project_plan = ProjectPlan::find()->where(['plan_project_key' => $model->project_key])->all();
+            $transaction = Yii::$app->db->beginTransaction();
             try {
-                $data  = Yii::$app->request->post();
+                $items = Yii::$app->request->post();
+                $temp_project_kpi_id = 0;
+                $temp_project_plan_id = 0;
 
-                //var_dump($data['Project']['aa']);
-
-                foreach ($data['Project']['aa'] as $key => $val) {
-                    $choice = $val['mchoice'];
-                    $file = $val['mfile'];
-                    $UploadedFile = UploadedFile::getInstance($model,$file);
-                    //var_dump($UploadedFile);
+                foreach($project_kpi as $delete){
+                    $delete->delete();
+                }
+                foreach($project_plan as $delete2){
+                    $delete2->delete();
                 }
 
-//                foreach ($data as $index => $item) {
-//                    $object = new Project();
-//                    $object->load($item);
-//                    $file = UploadedFile::getInstance($object, "[$index]mfile");
-//                    var_dump($file);
-//                }
+                foreach ($items['Project']['temp_project_kpi_id'] as $key => $val) {
+                    $project_kpi = new ProjectKpi();
+                    $project_kpi->kpi_name = $val['kpi_name'];
+                    $project_kpi->kpi_goal = $val['kpi_goal'];
+                    $project_kpi->kpi_project_key = $model->project_key;
+                    $project_kpi->save();
+                    $temp_project_kpi_id = $project_kpi->kpi_id;
+                }
 
+                foreach ($items['Project']['temp_project_plan_id'] as $key => $val) {
+                    $project_plan = new ProjectPlan();
+                    $project_plan->plan_process = $val['plan_process'];
+                    $project_plan->plan_detail = $val['plan_detail'];
+                    $project_plan->plan_date = $val['plan_date'];
+                    $project_plan->plan_place = $val['plan_place'];
+                    $project_plan->plan_project_key = $model->project_key;
+                    $project_plan->save();
+                    $temp_project_plan_id = $project_plan->plan_id;
+                }
+                $transaction->commit();
 
             } catch (Exception $e) {
                 $transaction->rollBack();
                 Yii::$app->session->setFlash('error', 'มีข้อผิดพลาดในการบันทึก');
                 return $this->redirect(['index']);
             }
-//
-        }
-        return $this->render('file_management', [
-            'model' => $model,
-        ]);
-    }
 
-    public function actionUpdate($id)
-    {
-        $model = $this->findModel($id);
+            $project_paomai = new ProjectPaomai();
+            $project_paomai->project_quantity = $model->paomai_quantity;
+            $project_paomai->project_quality = $model->paomai_quality;
+            $project_paomai->save();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->project_id]);
+            $project_laksana = new ProjectLaksana();
+            $project_laksana->project_type_id = $model->temp_type;
+            $project_laksana->procced_id = $model->temp_procced;
+            $project_laksana->save();
+
+            $model->projecti_paomai_id = $project_paomai->paomai_id;
+            $model->created_by = Yii::$app->user->identity->id;
+            $model->project_status = Project::PROJECT_RUNNING;
+            $model->project_laksana_id = $project_laksana->laksana_id;
+            $model->project_kpi_id = $temp_project_kpi_id;
+            $model->project_plan_id = $temp_project_plan_id;
+
+            $model->temp_project_kpi_id = \yii\helpers\Json::encode($model->temp_project_kpi_id);
+            $model->temp_project_plan_id = \yii\helpers\Json::encode($model->temp_project_plan_id);
+
+            if ($model->validate()){
+                $model->save();
+                Yii::$app->getSession()->setFlash('project_update_ok', [
+                    'type' =>  Growl::TYPE_SUCCESS,
+                    'duration' => 3000,
+                    'icon' => 'fa fa-check',
+                    'title' => $model->project_name,
+                    'message' => 'โครงการของคุณได้รับการปรับปรุงแล้ว',
+                    'positonY' => 'bottom',
+                    'positonX' => 'right'
+                ]);
+                return $this->redirect(['index']);
+            } else {
+                //return $model->getErrors();
+                return $this->redirect(['/site/routing']);
+            }
         }
 
         return $this->render('update', [
@@ -326,5 +380,45 @@ class ProjectController extends Controller
         }
 //        return $json ;
         return $newFileName ;
+    }
+
+    public function actionPreview($project_id, $project_name) {
+        $mpdf = new Mpdf(['mode' => 's']);
+        $model = $this->findModel($project_id);
+         $content  = $this->renderPartial('project_print', [
+            'model' => $model,
+        ]);
+
+        //return $content;
+
+        $stylesheet = "
+        body{font-family: Garuda}
+         .table {
+            width: 100%;
+            border-top:1px solid red;
+            border-right:1px solid red;
+            border-collapse:collapse;
+            }
+        .table td {
+            padding: 7px;
+            text-align:center;
+        }
+
+        ";
+
+        //$mpdf->SetHeader('||{PAGENO}');
+        //$mpdf->SetFooter('|'.'ผู้รับผิดชอบ : '.$model->responsibler->responsible_by.'|');
+        $mpdf->SetWatermarkText('Deshario');
+        $mpdf->showWatermarkText = true;
+        //$mpdf->margin_bottom_collapse = 5;
+
+        $mpdf->AddPageByArray([
+            'resetpagenum' => '1'
+        ]);
+
+        $mpdf->WriteHTML($stylesheet,1);
+        $mpdf->WriteHTML($content,2);
+        $mpdf->Output($project_name . ' - ฉบับสมบูรณ์', 'D');
+
     }
 }

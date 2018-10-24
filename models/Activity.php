@@ -35,6 +35,7 @@ use yii\helpers\Json;
  * @property int $budget_details_id รายละเอียดของงบประมาณ
  * @property int $activity_status สถานะ
  * @property int $activity_temp_files ไฟล์ประกอบ
+ * @property string $activity_key Activity Key
  *
  * @property BudgetDetails $budgetDetails
  * @property BudgetType $budgetType
@@ -66,11 +67,15 @@ class Activity extends \yii\db\ActiveRecord
 
     public $temp_type;
     public $temp_procced;
+    public $temp_project_plan_id;
+    public $budget_plan;
 
     public $paomai_quantity; // เป้าหมายเชิงปริมาณ
     public $paomai_quality; // เป้าหมายเชิงคุณภาพ
 
     public $status1;
+
+    public $temp_max_amount;
 
     public static function tableName()
     {
@@ -84,12 +89,20 @@ class Activity extends \yii\db\ActiveRecord
     {
         return [
             //[['root_project_id', 'product_product_id'], 'required'],
-            [['activity_money'], 'required'],
-            [['root_project_id', 'organization_organization_id', 'strategic_strategic_id', 'goal_goal_id', 'activity_temp_files', 'strategy_strategy_id', 'indicator_indicator_id', 'element_element_id', 'product_product_id','responsible_by'], 'integer'],
-            [['activity_rationale', 'objective', 'evaluation', 'benefit'], 'string'],
+            [['activity_name','activity_money','organization_organization_id','responsible_by'], 'required'],
+            [['activity_type','activity_rationale','benefit','objective','realted_subject_id'], 'required'],
+            [['project_laksana_id','budget_type_id','temp_type', 'temp_procced'], 'required'],
+            [['strategic_strategic_id','indicator_indicator_id','goal_goal_id','strategy_strategy_id'], 'required'],
+            [['activity_temp_files','temp_project_plan_id','activity_plan'], 'safe'],
+            [['temp_max_amount','budget_plan'], 'safe'],
+            [['root_project_id', 'organization_organization_id', 'strategic_strategic_id', 'goal_goal_id', 'strategy_strategy_id', 'indicator_indicator_id', 'element_element_id', 'product_product_id','responsible_by'], 'integer'],
+            [['activity_rationale', 'objective', 'activity_type', 'evaluation', 'benefit'], 'string'],
             [['activity_name'], 'string', 'max' => 45],
-            [['activity_type'], 'string', 'max' => 255],
-            [['temp_type', 'temp_procced', 'paomai_quantity','paomai_quality' ,'activity_plan'], 'safe'],
+            //[['activity_type'], 'string', 'max' => 255],
+            [['activity_key'], 'string', 'max' => 255],
+            [['temp_type', 'temp_procced', 'paomai_quantity','paomai_quality'], 'safe'],
+
+            //['activity_money', 'number', 'max' => 'temp_max_amount'],
 
           //  [['temp_project_name','temp_organization','temp_strategic','temp_goal','temp_strategy','temp_indicator','temp_element','temp_product'], 'required'],
             [['budget_details_id'], 'exist', 'skipOnError' => true, 'targetClass' => BudgetDetails::className(), 'targetAttribute' => ['budget_details_id' => 'detail_id']],
@@ -134,6 +147,7 @@ class Activity extends \yii\db\ActiveRecord
             'element_element_id' => 'องค์ประกอบ',
             'product_product_id' => 'ผลผลิต',
             'activity_temp_files' => 'ไฟล์ประกอบ',
+            'activity_key' => 'Activity Key',
 
             'temp_project_name' => 'ชื่อโครงการ',
             'temp_organization' => 'ชื่อหน่วยงาน',

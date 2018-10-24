@@ -52,6 +52,7 @@ use yii\helpers\ArrayHelper;
  * @property Responsibler $responsibler
  * @property Strategic $strategic
  * @property Strategy $strategy
+ * @property string $project_key Project Key
  */
 class Project extends \yii\db\ActiveRecord
 {
@@ -91,16 +92,22 @@ class Project extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['project_money'], 'required'],
+            [['project_money','project_name','responsibler_id','project_year','budget_budget_type','organization_id'], 'required'],
             [['organization_id', 'responsibler_id', 'project_kpi_id','project_plan_id','project_laksana_id', 'strategic_id', 'goal_id', 'strategy_id', 'indicator_id', 'element_id', 'product_id', 'projecti_paomai_id', 'created_by', 'budget_budget_type', 'project_status'], 'integer'],
             [['rationale', 'objective', 'lakshana_activity', 'project_evaluation'], 'string'],
             [['project_year'], 'safe'],
+
+            [['project_duration','rationale','objective','lakshana_activity'], 'required'],
+            [['strategic_id','goal_id','strategy_id','indicator_id','realted_subject_id'], 'required'],
+            [['project_benefit','project_evaluation','project_location'], 'required'],
+            [['temp_type','temp_procced'], 'required'],
+
             [['project_duration'], 'string', 'max' => 100],
             [['temp_project_kpi_id','temp_project_plan_id','file'], 'safe'],
             [['plan_process','plan_detail','plan_date','plan_place'], 'safe'],
             [['temp_type', 'temp_procced', 'kpi_name', 'kpi_goal','paomai_quantity','paomai_quality'], 'safe'],
-            [['project_name', 'project_location'], 'string', 'max' => 255],
-            [['project_benefit'], 'string', 'max' => 45],
+            [['project_name', 'project_location', 'project_key'], 'string', 'max' => 255],
+            [['project_benefit'], 'string'],
 
             [['budget_budget_type'], 'exist', 'skipOnError' => true, 'targetClass' => BudgetType::className(), 'targetAttribute' => ['budget_budget_type' => 'budget_type_id']],
             [['element_id'], 'exist', 'skipOnError' => true, 'targetClass' => Element::className(), 'targetAttribute' => ['element_id' => 'element_id']],
@@ -155,6 +162,7 @@ class Project extends \yii\db\ActiveRecord
             'project_duration' => 'ระยะเวลาดำเนินการ',
             'budget_budget_type' => 'แหล่งที่มาของงบประมาณ',
             'file' => 'ไฟล์',
+            'project_key' => 'Project Key',
 
             'temp_type' => 'ประเภท',
             'temp_procced' => 'วิธีดำเนินงาน',
@@ -230,17 +238,6 @@ class Project extends \yii\db\ActiveRecord
         return $this->hasOne(RealtedSubject::className(), ['subject_id' => 'realted_subject_id']);
     }
 
-    /**
-//     * @return \yii\db\ActiveQuery
-//     */
-//    public function getProjectBudget()
-//    {
-//        return $this->hasOne(ProjectBudget::className(), ['budget_id' => 'project_budget_id']);
-//    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
     public function getProjectKpi()
     {
         return $this->hasOne(ProjectKpi::className(), ['kpi_id' => 'project_kpi_id']);

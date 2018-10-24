@@ -93,6 +93,12 @@ $this->params['breadcrumbs'][] = $this->title;
             </div>
             </div>
             
+            <div class='form-group'>
+            <label class='col-sm-2 control-label'></label>
+            <div class='col-sm-10'>".Html::a('แก้ไขโครงการ', ['/project/update', 'id' => $project_id], ['class' => 'btn btn-primary'])."
+            </div>
+            </div>
+            
     </form>
     ";
     ?>
@@ -113,9 +119,9 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             [
                 'label' => '<i class="fa fa-envelope-o"></i>&nbsp; กิจกรรมทั้งหมด',
-                'linkOptions' => ['data-url' => Url::to(['filtering?project_id='.$project_id])],
+                'linkOptions' => ['data-url' => Url::to(['filtering?project_id=' . $project_id])],
             ],
-            ['label' => '<i class="fa fa-file-text-o"></i>&nbsp; จัดการไฟล์', 'url' => Url::to(['/project-files/create', 'project_id' => $project_id, 'project_name' => $project_name,'project_status' => $project_status])],
+            ['label' => '<i class="fa fa-file-text-o"></i>&nbsp; จัดการไฟล์', 'url' => Url::to(['/project-files/create', 'project_id' => $project_id, 'project_name' => $project_name, 'project_status' => $project_status])],
             ['label' => '<i class="fa fa-plus"></i>&nbsp; เพิ่มกิจกรรม', 'url' => Url::to(['create', 'proj_id' => $project_id, 'proj_name' => $project_name, 'project_status' => $project_status])],
         ];
 

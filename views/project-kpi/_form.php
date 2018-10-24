@@ -16,7 +16,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'kpi_goal')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'kpi_owner')->textInput() ?>
+    <?= $form->field($model, 'kpi_project_key')->textInput(['maxlength' => true]) ?>
 
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>

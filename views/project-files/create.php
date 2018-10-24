@@ -3,11 +3,13 @@
 use kartik\tabs\TabsX;
 use yii\helpers\Html;
 use yii\helpers\Url;
+use yii\widgets\ActiveForm;
+use unclead\multipleinput\MultipleInput;
 
 $project_name = Yii::$app->request->get('project_name');
 $project_id = Yii::$app->request->get('project_id');
 
-$this->title = 'เพิ่มไฟล์';
+$this->title = 'จัดการไฟล์';
 $this->params['breadcrumbs'][] = ['label' => 'โครงการทั้งหมด', 'url' => ['/project/index']];
 $this->params['breadcrumbs'][] = ['label' => $project_name, 'url' => '#'];
 $this->params['breadcrumbs'][] = $this->title;
@@ -20,6 +22,9 @@ $this->params['breadcrumbs'][] = $this->title;
         'project_name' => $project_name,
     ]) ?>
 
+    <?php $tab = $this->render('table', [
+        'model' => $model,
+    ]) ?>
 
     <div class="panel panel-default">
         <div class="panel-heading">
@@ -30,12 +35,16 @@ $this->params['breadcrumbs'][] = $this->title;
             $items = [
                 [
                     'label' => '<i class="fa fa-cog"></i>&nbsp; ผสานไฟล์',
-                    'linkOptions' => ['data-url' => Url::to(['/project-files/custom?id='.$project_id.'&type=1'])],
+                    'linkOptions' => ['data-url' => Url::to(['/project-files/custom?id=' . $project_id . '&type=1'])],
                 ],
                 [
                     'label' => '<i class="fa fa-upload"></i>&nbsp; อัพโหลดไฟล์',
                     'content' => $content,
                     'active' => true,
+                ],
+                [
+                    'label' => '<i class="fa fa-cog"></i>&nbsp; สร้างสารบัญ',
+                    'linkOptions' => ['data-url' => Url::to(['/project-files/table?type=1'])],
                 ],
             ];
 

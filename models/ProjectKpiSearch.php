@@ -18,8 +18,8 @@ class ProjectKpiSearch extends ProjectKpi
     public function rules()
     {
         return [
-            [['kpi_id', 'kpi_owner'], 'integer'],
-            [['kpi_name', 'kpi_goal'], 'safe'],
+            [['kpi_id'], 'integer'],
+            [['kpi_name', 'kpi_goal', 'kpi_project_key'], 'safe'],
         ];
     }
 
@@ -60,11 +60,11 @@ class ProjectKpiSearch extends ProjectKpi
         // grid filtering conditions
         $query->andFilterWhere([
             'kpi_id' => $this->kpi_id,
-            'kpi_owner' => $this->kpi_owner,
         ]);
 
         $query->andFilterWhere(['like', 'kpi_name', $this->kpi_name])
-            ->andFilterWhere(['like', 'kpi_goal', $this->kpi_goal]);
+            ->andFilterWhere(['like', 'kpi_goal', $this->kpi_goal])
+            ->andFilterWhere(['like', 'kpi_project_key', $this->kpi_project_key]);
 
         return $dataProvider;
     }

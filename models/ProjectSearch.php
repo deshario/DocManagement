@@ -19,7 +19,7 @@ class ProjectSearch extends Project
     {
         return [
             [['project_id', 'organization_id', 'responsibler_id', 'project_laksana_id', 'strategic_id', 'goal_id', 'realted_subject_id', 'strategy_id', 'indicator_id', 'element_id', 'product_id', 'project_kpi_id', 'projecti_paomai_id', 'project_plan_id', 'created_by', 'project_money', 'budget_budget_type', 'project_status'], 'integer'],
-            [['project_name', 'rationale', 'objective', 'lakshana_activity', 'project_duration', 'project_location', 'project_evaluation', 'project_benefit', 'project_year'], 'safe'],
+            [['project_name', 'rationale', 'objective', 'lakshana_activity', 'project_duration', 'project_location', 'project_evaluation', 'project_benefit', 'project_year', 'project_key'], 'safe'],
         ];
     }
 
@@ -87,7 +87,8 @@ class ProjectSearch extends Project
             ->andFilterWhere(['like', 'project_duration', $this->project_duration])
             ->andFilterWhere(['like', 'project_location', $this->project_location])
             ->andFilterWhere(['like', 'project_evaluation', $this->project_evaluation])
-            ->andFilterWhere(['like', 'project_benefit', $this->project_benefit]);
+            ->andFilterWhere(['like', 'project_benefit', $this->project_benefit])
+            ->andFilterWhere(['like', 'project_key', $this->project_key]);
 
         return $dataProvider;
     }

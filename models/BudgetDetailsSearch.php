@@ -18,8 +18,8 @@ class BudgetDetailsSearch extends BudgetDetails
     public function rules()
     {
         return [
-            [['detail_id', 'detail_price', 'activity_id'], 'integer'],
-            [['detail_name'], 'safe'],
+            [['detail_id', 'detail_price'], 'integer'],
+            [['detail_name', 'activity_key'], 'safe'],
         ];
     }
 
@@ -61,10 +61,10 @@ class BudgetDetailsSearch extends BudgetDetails
         $query->andFilterWhere([
             'detail_id' => $this->detail_id,
             'detail_price' => $this->detail_price,
-            'activity_id' => $this->activity_id,
         ]);
 
-        $query->andFilterWhere(['like', 'detail_name', $this->detail_name]);
+        $query->andFilterWhere(['like', 'detail_name', $this->detail_name])
+            ->andFilterWhere(['like', 'activity_key', $this->activity_key]);
 
         return $dataProvider;
     }

@@ -12,7 +12,7 @@ use Yii;
  * @property string $plan_detail รายละเอียดการดำเนินงาน
  * @property string $plan_date วันเดือนปี
  * @property string $plan_place สถานที่ดำเนินงาน
- * @property int $plan_owner เจ้าของ plan
+ * @property string $plan_project_key อ้างอิง project
  *
  * @property Activity[] $activities
  * @property Project[] $projects
@@ -33,11 +33,11 @@ class ProjectPlan extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['plan_process', 'plan_detail', 'plan_date', 'plan_place', 'plan_owner'], 'required'],
-            [['plan_process', 'plan_owner'], 'integer'],
+            [['plan_process', 'plan_detail', 'plan_date', 'plan_place', 'plan_project_key'], 'required'],
+            [['plan_process'], 'integer'],
             [['plan_detail'], 'string'],
             [['plan_date'], 'safe'],
-            [['plan_place'], 'string', 'max' => 100],
+            [['plan_project_key'], 'string', 'max' => 255],
         ];
     }
 
@@ -52,7 +52,7 @@ class ProjectPlan extends \yii\db\ActiveRecord
             'plan_detail' => 'รายละเอียดการดำเนินงาน',
             'plan_date' => 'วันเดือนปี',
             'plan_place' => 'สถานที่ดำเนินงาน',
-            'plan_owner' => 'เจ้าของ plan',
+            'plan_project_key' => 'อ้างอิง project',
         ];
     }
 

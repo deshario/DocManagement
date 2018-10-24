@@ -18,8 +18,8 @@ class ProjectPlanSearch extends ProjectPlan
     public function rules()
     {
         return [
-            [['plan_id', 'plan_process', 'plan_owner'], 'integer'],
-            [['plan_detail', 'plan_date', 'plan_place'], 'safe'],
+            [['plan_id', 'plan_process'], 'integer'],
+            [['plan_detail', 'plan_date', 'plan_place', 'plan_project_key'], 'safe'],
         ];
     }
 
@@ -62,11 +62,11 @@ class ProjectPlanSearch extends ProjectPlan
             'plan_id' => $this->plan_id,
             'plan_process' => $this->plan_process,
             'plan_date' => $this->plan_date,
-            'plan_owner' => $this->plan_owner,
         ]);
 
         $query->andFilterWhere(['like', 'plan_detail', $this->plan_detail])
-            ->andFilterWhere(['like', 'plan_place', $this->plan_place]);
+            ->andFilterWhere(['like', 'plan_place', $this->plan_place])
+            ->andFilterWhere(['like', 'plan_project_key', $this->plan_project_key]);
 
         return $dataProvider;
     }
