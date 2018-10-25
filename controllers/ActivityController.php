@@ -362,7 +362,7 @@ class ActivityController extends Controller
 
         ";
 
-        //$mpdf->SetHeader('|'.$activity_name.'|{PAGENO}');
+        $mpdf->SetHeader('||{PAGENO}');
         //$mpdf->SetFooter('|'.'ผู้รับผิดชอบ : '.$model->responsibleBy->responsible_by.'|');
         //$mpdf->SetWatermarkText('Deshario');
         //$mpdf->showWatermarkText = true;

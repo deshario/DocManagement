@@ -5,14 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a8b58588-c06b-459c-aba1-2943e9f72337" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/controllers/ActivityController.php" beforeDir="false" afterPath="$PROJECT_DIR$/controllers/ActivityController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controllers/ManagersController.php" beforeDir="false" afterPath="$PROJECT_DIR$/controllers/ManagersController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/controllers/ProjectController.php" beforeDir="false" afterPath="$PROJECT_DIR$/controllers/ProjectController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/Managers.php" beforeDir="false" afterPath="$PROJECT_DIR$/models/Managers.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/themes/adminlte/layouts/left.php" beforeDir="false" afterPath="$PROJECT_DIR$/themes/adminlte/layouts/left.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/themes/adminlte/site/theme_login.php" beforeDir="false" afterPath="$PROJECT_DIR$/themes/adminlte/site/theme_login.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/managers/_form.php" beforeDir="false" afterPath="$PROJECT_DIR$/views/managers/_form.php" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -61,11 +55,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="ProjectController.php" pinned="false" current-in-tab="true">
+      <file leaf-file-name="ProjectController.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/controllers/ProjectController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="691">
-              <caret line="411" column="10" selection-start-line="411" selection-start-column="10" selection-end-line="411" selection-end-column="10" />
+            <state relative-caret-position="419">
+              <caret line="413" selection-start-line="413" selection-end-line="413" />
               <folding>
                 <element signature="e#2787#6643#0#PHP" />
                 <element signature="e#6649#11285#0#PHP" />
@@ -75,6 +69,15 @@
                 <element signature="e#12995#14338#0#PHP" />
                 <element signature="e#14344#15397#0#PHP" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ActivityController.php" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/controllers/ActivityController.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="529">
+              <caret line="364" column="27" selection-start-line="364" selection-start-column="27" selection-end-line="364" selection-end-column="27" />
             </state>
           </provider>
         </entry>
@@ -290,7 +293,7 @@
       <path value="$PROJECT_DIR$/vendor/kartik-v/yii2-sortable" />
     </include_path>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
+  <component name="ProjectFrameBounds" extendedState="7">
     <option name="x" value="130" />
     <option name="y" value="200" />
     <option name="width" value="1750" />
@@ -412,12 +415,12 @@
       <workItem from="1540370859383" duration="27633000" />
       <workItem from="1540400937311" duration="9041000" />
       <workItem from="1540453213868" duration="1178000" />
-      <workItem from="1540455267455" duration="30000" />
+      <workItem from="1540455267455" duration="656000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="180190000" />
+    <option name="totallyTimeSpent" value="180816000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
@@ -750,13 +753,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/controllers/ActivityController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="304">
-          <caret line="367" column="10" selection-start-line="367" selection-start-column="10" selection-end-line="367" selection-end-column="10" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/controllers/ActivityFilesController.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="209">
@@ -766,8 +762,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/controllers/ProjectController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="691">
-          <caret line="411" column="10" selection-start-line="411" selection-start-column="10" selection-end-line="411" selection-end-column="10" />
+        <state relative-caret-position="419">
+          <caret line="413" selection-start-line="413" selection-end-line="413" />
           <folding>
             <element signature="e#2787#6643#0#PHP" />
             <element signature="e#6649#11285#0#PHP" />
@@ -777,6 +773,13 @@
             <element signature="e#12995#14338#0#PHP" />
             <element signature="e#14344#15397#0#PHP" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/controllers/ActivityController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="529">
+          <caret line="364" column="27" selection-start-line="364" selection-start-column="27" selection-end-line="364" selection-end-column="27" />
         </state>
       </provider>
     </entry>
