@@ -19,10 +19,16 @@ use app\models\Managers;
 
     <?= $form->field($model, 'password')->passwordInput() ?>
 
+    <?= $form->field($model, 'status')->dropDownList([
+        Managers::STATUS_WAITING => $model->getStatus(Managers::STATUS_WAITING),
+        Managers::STATUS_ACTIVE => $model->getStatus(Managers::STATUS_ACTIVE),
+        Managers::STATUS_DELETED => $model->getStatus(Managers::STATUS_DELETED),
+    ],['prompt' => 'กรุณาเลือกสถานะ']) ?>
+
     <?= $form->field($model, 'roles')->dropDownList([
         Managers::ROLE_USER => $model->getRoles(Managers::ROLE_USER),
         Managers::ROLE_ADMIN => $model->getRoles(Managers::ROLE_ADMIN),
-    ]) ?>
+    ],['prompt' => 'กรุณาเลือกบทบาทการใช้งาน']) ?>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

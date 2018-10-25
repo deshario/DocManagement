@@ -61,10 +61,6 @@ $fieldOptions2 = [
             <?= Html::submitButton('Sign in', ['class' => 'btn btn-default btn-block', 'name' => 'login-button']) ?>
 
         </div>
-        <div class="panel-footer clearfix">
-            <?= Html::a('<i class="fa fa-key"></i> Forgot Password', ['forgot'], ['class' => 'pull-left']);?>
-            <?= Html::a('<i class="fa fa-user-plus"></i> Create an account', ['signup'], ['class' => 'pull-right']);?>
-        </div>
         <?php ActiveForm::end(); ?>
     </div>
 

@@ -408,8 +408,8 @@ class ProjectController extends Controller
 
         //$mpdf->SetHeader('||{PAGENO}');
         //$mpdf->SetFooter('|'.'ผู้รับผิดชอบ : '.$model->responsibler->responsible_by.'|');
-        $mpdf->SetWatermarkText('Deshario');
-        $mpdf->showWatermarkText = true;
+       // $mpdf->SetWatermarkText('Deshario');
+        //$mpdf->showWatermarkText = true;
         //$mpdf->margin_bottom_collapse = 5;
 
         $mpdf->AddPageByArray([

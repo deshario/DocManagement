@@ -66,6 +66,16 @@ class ManagersController extends Controller
         }
     }
 
+    public function randomString($length = 8) {
+        $str = "";
+        $characters = array_merge(range('A','Z'),range('0','9'));
+        $max = count($characters) - 1;
+        for ($i = 0; $i < $length; $i++) {
+            $rand = mt_rand(0, $max);
+            $str .= $characters[$rand];
+        }
+        return $str;
+    }
 
     public function actionCreate()
     {
@@ -76,13 +86,54 @@ class ManagersController extends Controller
             $model->created_at = time();
             $model->updated_at = time();
             if($model->save()){
-                return $this->redirect(['index']);
+                return $this->redirect(['manage']);
             }
         } else {
+            $model->username = $this->randomString(8);
+            $model->email = strtolower($model->username).'@virtual.com';
             return $this->render('create', [
                 'model' => $model,
             ]);
         }
+    }
+
+    public function actionChange_roles($id,$newRole)
+    {
+        $customText = '';
+        $model = $this->findModel($id);
+        $model->password = "deshario";
+        if($newRole == Managers::ROLE_ADMIN){
+            $model->roles = Managers::ROLE_ADMIN;
+            $customText = 'ผู้ดูแลระบบ';
+        }else{
+            $model->roles = Managers::ROLE_USER;
+            $customText = 'ผู้ใช้งานปกติ';
+        }
+        if($model->save()){
+            Yii::$app->getSession()->setFlash('chane_role', [
+                'type' =>  Growl::TYPE_SUCCESS,
+                'duration' => 5000,
+                'icon' => 'fa fa-key',
+                'title' => 'เปลียนแปลงสิทธิ',
+                'message' => $model->username." ได้รับสืทธิในการเข้าถึงเป็น".$customText,
+                'positonY' => 'bottom',
+                'positonX' => 'right'
+            ]);
+        }
+        return $this->redirect(['manage']);
+    }
+
+    public function actionManage()
+    {
+        $searchModel = new ManagersSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        //$dataProvider->query->where('roles = '.User::ROLE_USER);
+        $dataProvider->query->where('id <> '.Yii::$app->user->identity->id);
+
+        return $this->render('manage', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
     }
 
     /**
@@ -153,5 +204,43 @@ class ManagersController extends Controller
             return $model;
         };
         throw new NotFoundHttpException('The requested page does not exist.');
+    }
+
+    public function actionDeactivate($id)
+    {
+        $model = $this->findModel($id);
+        $model->status = Managers::STATUS_DELETED;
+        $model->password = "deshario"; // Only For Validation
+        if($model->save()){
+            Yii::$app->getSession()->setFlash('login_success', [
+                'type' =>  Growl::TYPE_DANGER,
+                'duration' => 5000,
+                'icon' => 'fa fa-lock fa-lg',
+                'title' => $model->username.'ถูกปิดการใช้งาน',
+                'message' => $model->username." จะไม่สามารถเข้าถึงระบบได้อีกต่อไป",
+                'positonY' => 'bottom',
+                'positonX' => 'right'
+            ]);
+        }
+        return $this->redirect(['manage']);
+    }
+
+    public function actionActivate($id)
+    {
+        $model = $this->findModel($id);
+        $model->status = Managers::STATUS_ACTIVE;
+        $model->password = "deshario"; // Only For Validation
+        if($model->save()){
+            Yii::$app->getSession()->setFlash('login_success', [
+                'type' =>  Growl::TYPE_SUCCESS,
+                'duration' => 5000,
+                'icon' => 'fa fa-unlock fa-lg',
+                'title' => $model->username.' ถูกเปิดการใช้งาน',
+                'message' => $model->username." ได้รับสืทธิในการเข้าถึงระบบเรียบร้อย",
+                'positonY' => 'bottom',
+                'positonX' => 'right'
+            ]);
+        }
+        return $this->redirect(['manage']);
     }
 }

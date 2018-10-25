@@ -44,9 +44,9 @@ class Managers extends \yii\db\ActiveRecord implements \yii\web\IdentityInterfac
     }
 
     public $strStatus = [
-        self::STATUS_DELETED => 'Deactivated',
-        self::STATUS_ACTIVE => 'Activated',
-        self::STATUS_WAITING => 'UnConfirmed'
+        self::STATUS_DELETED => 'ปิดการใช้งาน',
+        self::STATUS_ACTIVE => 'เปิดการใช้งาน',
+        self::STATUS_WAITING => 'ไม่มีการยืนยัน'
     ];
 
     public function getStatus($status = null){
@@ -57,8 +57,8 @@ class Managers extends \yii\db\ActiveRecord implements \yii\web\IdentityInterfac
     }
 
     public $strRoles = [
-        self::ROLE_USER => 'User',
-        self::ROLE_ADMIN => 'Administrator'
+        self::ROLE_USER => 'ผู้ใช้งาน',
+        self::ROLE_ADMIN => 'ผู้ดูแลระบบ'
     ];
 
     public function getRoles($roles = null){
@@ -98,15 +98,16 @@ class Managers extends \yii\db\ActiveRecord implements \yii\web\IdentityInterfac
     {
         return [
             'id' => 'ID',
-            'username' => 'Username',
+            'username' => 'ชื่อผู้ใช้',
             'auth_key' => 'Auth Key',
             'password_hash' => 'Password Hash',
             'password_reset_token' => 'Password Reset Token',
-            'email' => 'Email',
-            'status' => 'Status',
-            'roles' => 'Roles',
+            'email' => 'อีเมล์',
+            'status' => 'สถานะ',
+            'roles' => 'บทบาท',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
+            'password' => 'รหัสผ่าน',
         ];
     }
 

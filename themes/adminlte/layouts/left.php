@@ -68,6 +68,17 @@ use yii\bootstrap\Modal;
                             ['label' => 'ผู้รับผิดชอบโครงการ', 'icon' => 'arrow-right', 'url' => ['responsibler/index'],],
                         ],
                     ],
+
+                    [
+                        'label' => 'ผู้ใช้งาน',
+                        'icon' => 'users',
+                        'url' => '#',
+                        'active' => true,
+                        'items' => [
+                            ['label' => 'สร้างผู้ใช้งาน', 'icon' => 'plus', 'url' => ['managers/create'],],
+                            ['label' => 'จัดการผู้ใช้งาน', 'icon' => 'edit', 'url' => ['managers/manage'] ],
+                        ],
+                    ],
                     ['label' => 'ออกจากระบบ', 'url' => ['site/logout'], 'template' => '<a href="{url}" data-method="post"><i class="fa fa-sign-out"></i>{label}</a>'],
                 ];
             }else{
