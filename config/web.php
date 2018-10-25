@@ -19,13 +19,13 @@ $config = [
         ],
     ],
     'components' => [
-        'view' => [
-            'theme' => [
-                'pathMap' => [
-                    '@app/views' => '@app/themes/adminlte'
-                ],
-            ],
-        ],
+//        'view' => [
+//            'theme' => [
+//                'pathMap' => [
+//                    '@app/views' => '@app/themes/adminlte'
+//                ],
+//            ],
+//        ],
         'urlManager' => [
             'class' => 'yii\web\UrlManager',
             // Disable index.php
