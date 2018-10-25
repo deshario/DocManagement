@@ -58,7 +58,7 @@
         <entry file="file://$PROJECT_DIR$/config/web.php">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="357">
-              <caret line="21" column="7" lean-forward="true" selection-start-line="21" selection-start-column="7" selection-end-line="27" selection-end-column="12" />
+              <caret line="21" column="5" lean-forward="true" selection-start-line="21" selection-start-column="5" selection-end-line="27" selection-end-column="10" />
             </state>
           </provider>
         </entry>
@@ -274,7 +274,7 @@
       <path value="$PROJECT_DIR$/vendor/kartik-v/yii2-sortable" />
     </include_path>
   </component>
-  <component name="ProjectFrameBounds" extendedState="7">
+  <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="130" />
     <option name="y" value="200" />
     <option name="width" value="1750" />
@@ -396,12 +396,12 @@
       <workItem from="1540370859383" duration="27633000" />
       <workItem from="1540400937311" duration="9041000" />
       <workItem from="1540453213868" duration="1178000" />
-      <workItem from="1540455267455" duration="1341000" />
+      <workItem from="1540455267455" duration="1458000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="181501000" />
+    <option name="totallyTimeSpent" value="181618000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
@@ -760,7 +760,7 @@
     <entry file="file://$PROJECT_DIR$/config/web.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="357">
-          <caret line="21" column="7" lean-forward="true" selection-start-line="21" selection-start-column="7" selection-end-line="27" selection-end-column="12" />
+          <caret line="21" column="5" lean-forward="true" selection-start-line="21" selection-start-column="5" selection-end-line="27" selection-end-column="10" />
         </state>
       </provider>
     </entry>
