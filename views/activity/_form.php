@@ -255,11 +255,48 @@ $model->temp_max_amount = 5000;
 
 
             <div class="col-md-12">
-                <?= $form->field($model, 'benefit')->textarea(['rows' => 3, 'placeholder' => '1. lorem ipsum 
-2. lorem ipsum 
-3. lorem ipsum ']) ?>
+                <?= $form->field($model, 'benefit')->textarea(['rows' => 3, 'placeholder' => '']) ?>
             </div>
 
+            <div class="clearfix"></div>
+
+            <div class="box box-solid box-default">
+                <div class="box-header with-border">
+                    <h3 class="box-title">หน้าสุดท้าย</h3>
+                    <div class="box-tools pull-right">
+                        <button class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"
+                                title="Collapse"><i class="fa fa-minus"></i></button>
+                    </div>
+                </div>
+                <div class="box-body">
+                    <?= $form->field($model, 'lastpage_main')->widget(MultipleInput::className(), [
+                        'max' => 6,
+                        'columns' => [
+                            [
+                                'name'  => 'last_role',
+                                'type'  => 'dropDownList',
+                                'title' => 'ชนิดของผู้ใช้งาน',
+                                'defaultValue' => 1,
+                                'items' => [
+                                    1 => 'ผู้เสนอโครงการ/กิจกรรม',
+                                    2 => 'ผู้เห็นชอบโครงการ/กิจกรรม',
+                                    3 => 'ผู้อนุมัติโครงการ/กิจกรรม',
+                                ]
+                            ],
+                            [
+                                'name' => 'last_user',
+                                'title' => 'ชื่อผู้ใช้งาน',
+                                'enableError' => true,
+                            ],
+                            [
+                                'name' => 'last_position',
+                                'title' => 'ตำแหน่งผู้ใช้งาน',
+                                'enableError' => true,
+                            ],
+                        ]
+                    ])->label(false); ?>
+                </div>
+            </div>
 
             <div class="col-md-12">
                 <div class="form-group">

@@ -95,14 +95,20 @@ $this->params['breadcrumbs'][] = $this->title;
             
             <div class='form-group'>
             <label class='col-sm-2 control-label'></label>
-            <div class='col-sm-10'>".Html::a('แก้ไขโครงการ', ['/project/update', 'id' => $project_id], ['class' => 'btn btn-primary'])."
+            <div class='col-sm-10'>".Html::a('แก้ไขโครงการ', ['/project/update', 'id' => $project_id], ['class' => 'btn btn-primary'])
+            ."&nbsp;&nbsp;&nbsp;".Html::a('ลบโครงการ', ['/project/delete', 'id' => $project_id], [
+        'class' => 'btn btn-danger',
+        'data' => [
+            'confirm' => 'Are you sure you want to delete this item?',
+            'method' => 'post',
+        ],
+    ])."
             </div>
             </div>
             
     </form>
     ";
     ?>
-
 </div>
 
 

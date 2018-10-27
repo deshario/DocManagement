@@ -212,4 +212,13 @@ return array (
       '@kartik/sortinput' => $vendorDir . '/kartik-v/yii2-sortable-input/src',
     ),
   ),
+  'karatae99/yii2-date-picker-thai-widget' => 
+  array (
+    'name' => 'karatae99/yii2-date-picker-thai-widget',
+    'version' => '1.0.1.0',
+    'alias' => 
+    array (
+      '@karatae99/datepicker' => $vendorDir . '/karatae99/yii2-date-picker-thai-widget/src',
+    ),
+  ),
 );

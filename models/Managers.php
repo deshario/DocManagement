@@ -32,7 +32,6 @@ class Managers extends \yii\db\ActiveRecord implements \yii\web\IdentityInterfac
      */
 
     const STATUS_DELETED = 0;
-    const STATUS_WAITING = 5;
     const STATUS_ACTIVE = 10;
 
     const ROLE_USER = 10;
@@ -45,8 +44,7 @@ class Managers extends \yii\db\ActiveRecord implements \yii\web\IdentityInterfac
 
     public $strStatus = [
         self::STATUS_DELETED => 'ปิดการใช้งาน',
-        self::STATUS_ACTIVE => 'เปิดการใช้งาน',
-        self::STATUS_WAITING => 'ไม่มีการยืนยัน'
+        self::STATUS_ACTIVE => 'เปิดการใช้งาน'
     ];
 
     public function getStatus($status = null){
@@ -75,7 +73,7 @@ class Managers extends \yii\db\ActiveRecord implements \yii\web\IdentityInterfac
         return [
 
             ['status', 'default', 'value' => self::STATUS_ACTIVE],
-            ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_WAITING, self::STATUS_DELETED]],
+            ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_DELETED]],
 
             ['roles', 'default', 'value' => self::ROLE_USER],
             ['roles', 'in', 'range' => [self::ROLE_USER, self::ROLE_ADMIN]],
@@ -83,7 +81,7 @@ class Managers extends \yii\db\ActiveRecord implements \yii\web\IdentityInterfac
             [['username', 'email',], 'required'],
             [['status', 'roles', 'created_at', 'updated_at'], 'integer'],
             [['auth_key'], 'string', 'max' => 32],
-            [['username'], 'string', 'max' => 8],
+            [['username'], 'string', 'max' => 50],
             [['username'], 'unique'],
             [['email'], 'unique'],
             [['password_reset_token'], 'unique'],
@@ -112,9 +110,7 @@ class Managers extends \yii\db\ActiveRecord implements \yii\web\IdentityInterfac
     }
 
     public function getLabeledStatus($status){
-        if($status == Managers::STATUS_WAITING){
-            return "<h4><span class='label label-warning'><i class='fa fa-refresh fa-spin'></i> Waiting</span></h4>";
-        }elseif ($status == Managers::STATUS_ACTIVE){
+        if ($status == Managers::STATUS_ACTIVE){
             return "<h4><span class='label label-success'><i class='fa fa-check'></i> Activated</span></h4>";
         }else{ // DELETED
             return "<h4><span class='label label-danger'><i class='fa fa-close'></i> Deactivated</span></h4>";
@@ -151,7 +147,7 @@ class Managers extends \yii\db\ActiveRecord implements \yii\web\IdentityInterfac
 
     public static function findByUsername($username)
     {
-        return static::findOne(['username' => $username, 'status' => [self::STATUS_ACTIVE,self::STATUS_WAITING,self::STATUS_DELETED]]);
+        return static::findOne(['username' => $username, 'status' => [self::STATUS_ACTIVE,self::STATUS_DELETED]]);
         //return static::findOne(['username' => $username, 'status' => self::STATUS_WAITING]);
     }
 

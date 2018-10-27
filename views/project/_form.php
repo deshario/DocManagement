@@ -1,11 +1,13 @@
 <?php
 
-use kartik\daterange\DateRangePicker;
 use yii\base\Security;
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 use unclead\multipleinput\MultipleInput;
 use kartik\money\MaskMoney;
+use karatae99\datepicker\DatePicker;
+use karatae99\datepicker\DateRangePicker;
+
 ?>
 
 <div class="project-form">
@@ -13,7 +15,6 @@ use kartik\money\MaskMoney;
     <?php $form = ActiveForm::begin(); ?>
 
     <div class="row">
-
         <div class="col-md-12">
 
             <div class="col-md-6">
@@ -184,22 +185,17 @@ use kartik\money\MaskMoney;
                                 'title' => 'รายละเอียดการดำเนินงาน',
                                 'enableError' => true,
                             ],
+
                             [
                                 'name'  => 'plan_date',
-                                'type'  => \kartik\date\DatePicker::className(),
+                                'type'  => DatePicker::className(),
                                 'title' => 'วันเดือนปี',
-//                                'value' => function($data) {
-//                                   // return $data['day'];
-//                                    return 11;
-//                                },
-//                                'items' => [
-//                                    '0' => 'Saturday',
-//                                    '1' => 'Monday'
-//                                ],
                                 'options' => [
-                                    'pluginOptions' => [
-                                        'format' => 'yyyy-mm-dd',
-                                        'todayHighlight' => true
+
+                                    'language' => 'th', // Thai B.E.
+                                    'clientOptions' => [
+                                        'autoclose' => true,
+                                        'format' => 'yyyy-mm-dd'
                                     ]
                                 ]
                             ],
@@ -213,17 +209,78 @@ use kartik\money\MaskMoney;
                 </div>
             </div>
 
-            <?= $form->field($model, 'project_duration')->widget(\kartik\daterange\DateRangePicker::classname(),
-                ['convertFormat' => true,
-                    'pluginOptions' => ['format' => 'Y-m-d'],
-                ]
-            );?>
+           <div class="row">
+               <div class="col-md-4">
+                   <?= $form->field($model, 'project_start')->widget(
+                       DatePicker::className(), [
+                       'language' => 'th', // Thai B.E.
+                       'clientOptions' => [
+                           'autoclose' => true,
+                           'format' => 'yyyy-mm-dd'
+                       ]
+                   ]);?>
+               </div>
 
-            <?= $form->field($model, 'project_location')->textInput(['maxlength' => true]) ?>
+               <div class="col-md-4">
+                   <?= $form->field($model, 'project_end')->widget(
+                       DatePicker::className(), [
+                       'language' => 'th', // Thai B.E.
+                       'clientOptions' => [
+                           'autoclose' => true,
+                           'format' => 'yyyy-mm-dd'
+                       ]
+                   ]);?>
+               </div>
+
+            <div class="col-md-4">
+                <?= $form->field($model, 'project_location')->textInput(['maxlength' => true]) ?>
+            </div>
+
+           </div>
+
+            <div class="clearfix"></div>
 
             <?= $form->field($model, 'project_evaluation')->textarea(['rows' => 6]) ?>
 
             <?= $form->field($model, 'project_benefit')->textarea(['rows' => 6]) ?>
+
+            <div class="box box-solid box-default">
+                <div class="box-header with-border">
+                    <h3 class="box-title">หน้าสุดท้าย</h3>
+                    <div class="box-tools pull-right">
+                        <button class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"
+                                title="Collapse"><i class="fa fa-minus"></i></button>
+                    </div>
+                </div>
+                <div class="box-body">
+                    <?= $form->field($model, 'lastpage_main')->widget(MultipleInput::className(), [
+                        'max' => 6,
+                        'columns' => [
+                            [
+                                'name'  => 'last_role',
+                                'type'  => 'dropDownList',
+                                'title' => 'ชนิดของผู้ใช้งาน',
+                                'defaultValue' => 1,
+                                'items' => [
+                                    1 => 'ผู้เสนอโครงการ/กิจกรรม',
+                                    2 => 'ผู้เห็นชอบโครงการ/กิจกรรม',
+                                    3 => 'ผู้อนุมัติโครงการ/กิจกรรม',
+                                ]
+                            ],
+                            [
+                                'name' => 'last_user',
+                                'title' => 'ชื่อผู้ใช้งาน',
+                                'enableError' => true,
+                            ],
+                            [
+                                'name' => 'last_position',
+                                'title' => 'ตำแหน่งผู้ใช้งาน',
+                                'enableError' => true,
+                            ],
+                        ]
+                    ])->label(false); ?>
+                </div>
+            </div>
 
             <div class="form-group">
                 <?= Html::submitButton('บันทึก', ['class' => 'btn btn-success']) ?>

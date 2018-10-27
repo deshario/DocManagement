@@ -5,6 +5,7 @@ namespace app\controllers;
 use app\components\AccessRule;
 use app\models\Activity;
 use app\models\ActivityFiles;
+use app\models\LastPage;
 use app\models\Managers;
 use app\models\Procced;
 use app\models\ProjectKpi;
@@ -31,6 +32,9 @@ use yii\web\UploadedFile;
  */
 class ProjectController extends Controller
 {
+
+    public $enableCsrfValidation = false; // HTTP REQUEST METHOD SECURITY
+
     public function behaviors()
     {
         return [
@@ -106,6 +110,7 @@ class ProjectController extends Controller
                 $items = Yii::$app->request->post();
                 $temp_project_kpi_id = 0;
                 $temp_project_plan_id = 0;
+                $temp_lastpage_id = 0;
 
                 //var_dump($items['Project']['temp_project_kpi_id']);
                 //var_dump($items['Project']['temp_project_plan_id']);
@@ -129,6 +134,17 @@ class ProjectController extends Controller
                     $project_plan->save();
                     $temp_project_plan_id = $project_plan->plan_id;
                 }
+
+                foreach ($items['Project']['lastpage_main'] as $key => $val) {
+                    $lastpage = new LastPage();
+                    $lastpage->last_role = $val['last_role'];
+                    $lastpage->last_user = $val['last_user'];
+                    $lastpage->last_position = $val['last_position'];
+                    $lastpage->project_act_key = $randomString;
+                    $lastpage->save();
+                    $temp_lastpage_id = $lastpage->last_id;
+                }
+
                 $transaction->commit();
 
             } catch (Exception $e) {
@@ -153,9 +169,11 @@ class ProjectController extends Controller
             $model->project_laksana_id = $project_laksana->laksana_id;
             $model->project_kpi_id = $temp_project_kpi_id;
             $model->project_plan_id = $temp_project_plan_id;
+            $model->lastpage_id = $temp_lastpage_id;
 
             $model->temp_project_kpi_id = \yii\helpers\Json::encode($model->temp_project_kpi_id);
             $model->temp_project_plan_id = \yii\helpers\Json::encode($model->temp_project_plan_id);
+            $model->lastpage_main = \yii\helpers\Json::encode($model->lastpage_main);
 
             if ($model->validate()){
                 $model->project_key = $randomString;
@@ -189,6 +207,7 @@ class ProjectController extends Controller
 
         $model->temp_project_kpi_id = ProjectKpi::find()->where(['kpi_project_key' => $model->project_key])->all();
         $model->temp_project_plan_id = ProjectPlan::find()->where(['plan_project_key' => $model->project_key])->all();
+        $model->lastpage_main = LastPage::find()->where(['project_act_key' => $model->project_key])->all();
 
         $model->paomai_quantity = ProjectPaomai::find()->where(['paomai_id' => $model->projecti_paomai_id])->one()->project_quantity;
         $model->paomai_quality = ProjectPaomai::find()->where(['paomai_id' => $model->projecti_paomai_id])->one()->project_quality;
@@ -196,17 +215,22 @@ class ProjectController extends Controller
         if ($model->load(Yii::$app->request->post())) {
             $project_kpi = ProjectKpi::find()->where(['kpi_project_key' => $model->project_key])->all();
             $project_plan = ProjectPlan::find()->where(['plan_project_key' => $model->project_key])->all();
+            $lastpages = LastPage::find()->where(['project_act_key' => $model->project_key])->all();
             $transaction = Yii::$app->db->beginTransaction();
             try {
                 $items = Yii::$app->request->post();
                 $temp_project_kpi_id = 0;
                 $temp_project_plan_id = 0;
+                $temp_lastpage_id = 0;
 
                 foreach($project_kpi as $delete){
                     $delete->delete();
                 }
                 foreach($project_plan as $delete2){
                     $delete2->delete();
+                }
+                foreach($lastpages as $delete3){
+                    $delete3->delete();
                 }
 
                 foreach ($items['Project']['temp_project_kpi_id'] as $key => $val) {
@@ -228,6 +252,17 @@ class ProjectController extends Controller
                     $project_plan->save();
                     $temp_project_plan_id = $project_plan->plan_id;
                 }
+
+                foreach ($items['Project']['lastpage_main'] as $key => $val) {
+                    $lastpage = new LastPage();
+                    $lastpage->last_role = $val['last_role'];
+                    $lastpage->last_user = $val['last_user'];
+                    $lastpage->last_position = $val['last_position'];
+                    $lastpage->project_act_key = $model->project_key;
+                    $lastpage->save();
+                    $temp_lastpage_id = $lastpage->last_id;
+                }
+
                 $transaction->commit();
 
             } catch (Exception $e) {
@@ -252,9 +287,11 @@ class ProjectController extends Controller
             $model->project_laksana_id = $project_laksana->laksana_id;
             $model->project_kpi_id = $temp_project_kpi_id;
             $model->project_plan_id = $temp_project_plan_id;
+            $model->lastpage_id = $temp_lastpage_id;
 
             $model->temp_project_kpi_id = \yii\helpers\Json::encode($model->temp_project_kpi_id);
             $model->temp_project_plan_id = \yii\helpers\Json::encode($model->temp_project_plan_id);
+            $model->lastpage_main = \yii\helpers\Json::encode($model->lastpage_main);
 
             if ($model->validate()){
                 $model->save();

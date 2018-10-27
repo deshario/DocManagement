@@ -59,6 +59,7 @@ class ComposerStaticInit80e71f4d4d6aacd77fcfe86e66cc6b60
             'kartik\\daterange\\' => 17,
             'kartik\\date\\' => 12,
             'kartik\\base\\' => 12,
+            'karatae99\\datepicker\\' => 21,
         ),
         'd' => 
         array (
@@ -229,6 +230,10 @@ class ComposerStaticInit80e71f4d4d6aacd77fcfe86e66cc6b60
         'kartik\\base\\' => 
         array (
             0 => __DIR__ . '/..' . '/kartik-v/yii2-krajee-base/src',
+        ),
+        'karatae99\\datepicker\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/karatae99/yii2-date-picker-thai-widget/src',
         ),
         'dmstr\\' => 
         array (

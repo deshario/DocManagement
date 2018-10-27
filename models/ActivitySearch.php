@@ -18,7 +18,7 @@ class ActivitySearch extends Activity
     public function rules()
     {
         return [
-            [['activity_id', 'root_project_id', 'organization_organization_id', 'strategic_strategic_id', 'goal_goal_id', 'responsible_by', 'strategy_strategy_id', 'indicator_indicator_id', 'realted_subject_id', 'element_element_id', 'product_product_id', 'project_laksana_id', 'project_paomai_id', 'project_plan_id', 'budget_type_id', 'activity_money', 'budget_details_id', 'activity_status'], 'integer'],
+            [['activity_id', 'root_project_id', 'organization_organization_id', 'strategic_strategic_id', 'goal_goal_id', 'responsible_by', 'strategy_strategy_id', 'indicator_indicator_id', 'realted_subject_id', 'element_element_id', 'product_product_id', 'project_laksana_id', 'project_paomai_id', 'project_plan_id', 'budget_type_id', 'activity_money', 'budget_details_id', 'activity_status', 'lastpage_id'], 'integer'],
             [['activity_name', 'activity_rationale', 'activity_type', 'objective', 'evaluation', 'benefit','activity_key'], 'safe'],
         ];
     }
@@ -77,6 +77,7 @@ class ActivitySearch extends Activity
             'activity_money' => $this->activity_money,
             'budget_details_id' => $this->budget_details_id,
             'activity_status' => $this->activity_status,
+            'lastpage_id' => $this->lastpage_id,
         ]);
 
         $query->andFilterWhere(['like', 'activity_name', $this->activity_name])

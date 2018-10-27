@@ -18,7 +18,7 @@ class ProjectSearch extends Project
     public function rules()
     {
         return [
-            [['project_id', 'organization_id', 'responsibler_id', 'project_laksana_id', 'strategic_id', 'goal_id', 'realted_subject_id', 'strategy_id', 'indicator_id', 'element_id', 'product_id', 'project_kpi_id', 'projecti_paomai_id', 'project_plan_id', 'created_by', 'project_money', 'budget_budget_type', 'project_status'], 'integer'],
+            [['project_id', 'organization_id', 'responsibler_id', 'project_laksana_id', 'strategic_id', 'goal_id', 'realted_subject_id', 'strategy_id', 'indicator_id', 'element_id', 'product_id', 'project_kpi_id', 'projecti_paomai_id', 'project_plan_id', 'created_by', 'project_money', 'budget_budget_type', 'project_status', 'lastpage_id'], 'integer'],
             [['project_name', 'rationale', 'objective', 'lakshana_activity', 'project_duration', 'project_location', 'project_evaluation', 'project_benefit', 'project_year', 'project_key'], 'safe'],
         ];
     }
@@ -78,13 +78,15 @@ class ProjectSearch extends Project
             'budget_budget_type' => $this->budget_budget_type,
             'project_year' => $this->project_year,
             'project_status' => $this->project_status,
+            'lastpage_id' => $this->lastpage_id,
         ]);
 
         $query->andFilterWhere(['like', 'project_name', $this->project_name])
             ->andFilterWhere(['like', 'rationale', $this->rationale])
             ->andFilterWhere(['like', 'objective', $this->objective])
             ->andFilterWhere(['like', 'lakshana_activity', $this->lakshana_activity])
-            ->andFilterWhere(['like', 'project_duration', $this->project_duration])
+            ->andFilterWhere(['like', 'project_start', $this->project_start])
+            ->andFilterWhere(['like', 'project_end', $this->project_end])
             ->andFilterWhere(['like', 'project_location', $this->project_location])
             ->andFilterWhere(['like', 'project_evaluation', $this->project_evaluation])
             ->andFilterWhere(['like', 'project_benefit', $this->project_benefit])

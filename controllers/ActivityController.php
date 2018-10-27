@@ -6,6 +6,7 @@ use app\models\BudgetDetails;
 use app\models\Element;
 use app\models\Goal;
 use app\models\Indicator;
+use app\models\LastPage;
 use app\models\Organization;
 use app\models\Project;
 use app\models\ProjectLaksana;
@@ -118,6 +119,7 @@ class ActivityController extends Controller
                 $randomString = \app\models\Managers::getRandomKey(15);
                 $temp_project_plan_id = 0;
                 $temp_project_budget_details_id = 0;
+                $temp_lastpage_id = 0;
                 $items = Yii::$app->request->post();
                 $model->root_project_id = Yii::$app->request->get('proj_id');
 
@@ -139,6 +141,16 @@ class ActivityController extends Controller
                     $project_plan->plan_project_key = $randomString;
                     $project_plan->save();
                     $temp_project_plan_id = $project_plan->plan_id;
+                }
+
+                foreach ($items['Activity']['lastpage_main'] as $key => $val) {
+                    $lastpage = new LastPage();
+                    $lastpage->last_role = $val['last_role'];
+                    $lastpage->last_user = $val['last_user'];
+                    $lastpage->last_position = $val['last_position'];
+                    $lastpage->project_act_key = $randomString;
+                    $lastpage->save();
+                    $temp_lastpage_id = $lastpage->last_id;
                 }
 
                 $transaction->commit();
@@ -163,6 +175,7 @@ class ActivityController extends Controller
             $model->budget_details_id = $temp_project_budget_details_id;
             $model->project_plan_id = $temp_project_plan_id;
             $model->activity_status = Project::PROJECT_RUNNING;
+            $model->lastpage_id = $temp_lastpage_id;
 
             if ($model->validate()){
                 $model->activity_key = $randomString;
@@ -215,14 +228,17 @@ class ActivityController extends Controller
 
         $model->budget_plan = BudgetDetails::find()->where(['activity_key' => $model->activity_key])->all();
         $model->temp_project_plan_id = ProjectPlan::find()->where(['plan_project_key' => $model->activity_key])->all();
+        $model->lastpage_main = LastPage::find()->where(['project_act_key' => $model->activity_key])->all();
 
         if ($model->load(Yii::$app->request->post())) {
             $budgets = BudgetDetails::find()->where(['activity_key' => $model->activity_key])->all();
             $plans = ProjectPlan::find()->where(['plan_project_key' => $model->activity_key])->all();
+            $lastpages = LastPage::find()->where(['project_act_key' => $model->activity_key])->all();
             $transaction = Yii::$app->db->beginTransaction();
             try {
                 $temp_project_plan_id = 0;
                 $temp_project_budget_details_id = 0;
+                $temp_lastpage_id = 0;
                 $items = Yii::$app->request->post();
 
                 foreach($budgets as $delete){
@@ -230,6 +246,9 @@ class ActivityController extends Controller
                 }
                 foreach($plans as $delete2){
                     $delete2->delete();
+                }
+                foreach($lastpages as $delete3){
+                    $delete3->delete();
                 }
 
                 foreach ($items['Activity']['budget_plan'] as $key => $val) {
@@ -250,6 +269,16 @@ class ActivityController extends Controller
                     $project_plan->plan_project_key = $model->activity_key;
                     $project_plan->save();
                     $temp_project_plan_id = $project_plan->plan_id;
+                }
+
+                foreach ($items['Activity']['lastpage_main'] as $key => $val) {
+                    $lastpage = new LastPage();
+                    $lastpage->last_role = $val['last_role'];
+                    $lastpage->last_user = $val['last_user'];
+                    $lastpage->last_position = $val['last_position'];
+                    $lastpage->project_act_key = $model->activity_key;
+                    $lastpage->save();
+                    $temp_lastpage_id = $lastpage->last_id;
                 }
 
                 $transaction->commit();
@@ -274,6 +303,7 @@ class ActivityController extends Controller
             $model->budget_details_id = $temp_project_budget_details_id;
             $model->project_plan_id = $temp_project_plan_id;
             $model->activity_status = Project::PROJECT_RUNNING;
+            $model->lastpage_id = $temp_lastpage_id;
 
             if ($model->validate()){
                 $model->save();

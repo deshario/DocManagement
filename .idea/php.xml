@@ -91,6 +91,8 @@
       <path value="$PROJECT_DIR$/vendor/kartik-v/yii2-widget-activeform" />
       <path value="$PROJECT_DIR$/vendor/kartik-v/yii2-sortable-input" />
       <path value="$PROJECT_DIR$/vendor/kartik-v/yii2-sortable" />
+      <path value="$PROJECT_DIR$/vendor/karatae99/yii2-date-picker-thai-widget" />
+      <path value="$PROJECT_DIR$/vendor/bower-asset/bootstrap-datepicker" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="5.4.0" />

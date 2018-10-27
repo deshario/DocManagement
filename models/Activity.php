@@ -34,14 +34,15 @@ use yii\helpers\Json;
  * @property int $activity_money งบประมาณ
  * @property int $budget_details_id รายละเอียดของงบประมาณ
  * @property int $activity_status สถานะ
- * @property int $activity_temp_files ไฟล์ประกอบ
  * @property string $activity_key Activity Key
+ * @property int $lastpage_id หน้าสุดท้าย
  *
  * @property BudgetDetails $budgetDetails
  * @property BudgetType $budgetType
  * @property Element $elementElement
  * @property Goal $goalGoal
  * @property Indicator $indicatorIndicator
+ * @property Lastpage $lastpage
  * @property Organization $organizationOrganization
  * @property Product $productProduct
  * @property Project $rootProject
@@ -49,8 +50,10 @@ use yii\helpers\Json;
  * @property ProjectPaomai $projectPaomai
  * @property ProjectPlan $projectPlan
  * @property Responsibler $responsibleBy
+ * @property RealtedSubject $realtedSubject
  * @property Strategic $strategicStrategic
  * @property Strategy $strategyStrategy
+ * @property ActivityFiles[] $activityFiles
  */
 class Activity extends \yii\db\ActiveRecord
 {
@@ -77,6 +80,11 @@ class Activity extends \yii\db\ActiveRecord
 
     public $temp_max_amount;
 
+    public $lastpage_main;
+    public $lastpage_role;
+    public $lastpage_name;
+    public $lastpage_position;
+
     public static function tableName()
     {
         return 'activity';
@@ -95,12 +103,14 @@ class Activity extends \yii\db\ActiveRecord
             [['strategic_strategic_id','indicator_indicator_id','goal_goal_id','strategy_strategy_id'], 'required'],
             [['activity_temp_files','temp_project_plan_id','activity_plan'], 'safe'],
             [['temp_max_amount','budget_plan'], 'safe'],
-            [['root_project_id', 'organization_organization_id', 'strategic_strategic_id', 'goal_goal_id', 'strategy_strategy_id', 'indicator_indicator_id', 'element_element_id', 'product_product_id','responsible_by'], 'integer'],
+            [['root_project_id', 'organization_organization_id', 'strategic_strategic_id', 'goal_goal_id', 'strategy_strategy_id', 'indicator_indicator_id', 'element_element_id', 'product_product_id','responsible_by', 'lastpage_id'], 'integer'],
             [['activity_rationale', 'objective', 'activity_type', 'evaluation', 'benefit'], 'string'],
             [['activity_name'], 'string', 'max' => 45],
             //[['activity_type'], 'string', 'max' => 255],
             [['activity_key'], 'string', 'max' => 255],
             [['temp_type', 'temp_procced', 'paomai_quantity','paomai_quality'], 'safe'],
+
+            [['lastpage_main','lastpage_role','lastpage_name','lastpage_position'], 'safe'],
 
             //['activity_money', 'number', 'max' => 'temp_max_amount'],
 
@@ -120,6 +130,7 @@ class Activity extends \yii\db\ActiveRecord
             [['responsible_by'], 'exist', 'skipOnError' => true, 'targetClass' => Responsibler::className(), 'targetAttribute' => ['responsible_by' => 'responsible_id']],
             [['strategic_strategic_id'], 'exist', 'skipOnError' => true, 'targetClass' => Strategic::className(), 'targetAttribute' => ['strategic_strategic_id' => 'strategic_id']],
             [['strategy_strategy_id'], 'exist', 'skipOnError' => true, 'targetClass' => Strategy::className(), 'targetAttribute' => ['strategy_strategy_id' => 'strategy_id']],
+            [['lastpage_id'], 'exist', 'skipOnError' => true, 'targetClass' => Lastpage::className(), 'targetAttribute' => ['lastpage_id' => 'last_id']],
         ];
     }
 

@@ -15,8 +15,8 @@ use yii\helpers\ArrayHelper;
  * @property int $project_laksana_id ลักษณะโครงการ
  * @property int $strategic_id ยุทธศาสตร์
  * @property int $goal_id เป้าประสงค์
- * @property int $strategy_id กลยุทธ์
  * @property int $realted_subject_id รายวิชาที่สอดคล่อง
+ * @property int $strategy_id กลยุทธ์
  * @property int $indicator_id ตัวชีวัด
  * @property int $element_id องค์ประกอบ
  * @property int $product_id ผลผลิต
@@ -26,16 +26,17 @@ use yii\helpers\ArrayHelper;
  * @property int $projecti_paomai_id เป้าหมาย
  * @property string $lakshana_activity ลักษณะกิจกรรม
  * @property int $project_plan_id แผนปฏิบัติการกิจกรรม
- * @property string $project_duration ระยะเวลาดำเนิการ
+ * @property string $project_start วันที่เริ่มโครงการ
+ * @property string $project_end วันที่สินสุดโครงการ
  * @property string $project_location สถานที่ดำเนินการ
  * @property string $project_evaluation การประเมินผล
  * @property string $project_benefit ประโยชน์ที่คาดว่าจะได้รับ
  * @property int $created_by สร้างโดย
  * @property int $project_money งบประมาณที่มี
  * @property int $budget_budget_type แหล่งที่มาของงบประมาณ
+ * @property string $project_year ปีงบประมาณ
  * @property int $project_status สถานะโครงการ
- * @property ProjectFiles[] $projectFiles
- * * @property string $project_year ปีงบประมาณ
+ * @property string $project_key Project Key
  *
  * @property Activity[] $activities
  * @property BudgetType $budgetBudgetType
@@ -49,10 +50,12 @@ use yii\helpers\ArrayHelper;
  * @property ProjectLaksana $projectLaksana
  * @property ProjectPaomai $projectiPaomai
  * @property ProjectPlan $projectPlan
+ * @property RealtedSubject $realtedSubject
  * @property Responsibler $responsibler
  * @property Strategic $strategic
  * @property Strategy $strategy
- * @property string $project_key Project Key
+ * @property ProjectFiles[] $projectFiles
+ * @property int $lastpage_id หน้าสุดท้าย
  */
 class Project extends \yii\db\ActiveRecord
 {
@@ -84,6 +87,11 @@ class Project extends \yii\db\ActiveRecord
 
     public $file;
 
+    public $lastpage_main;
+    public $lastpage_role;
+    public $lastpage_name;
+    public $lastpage_position;
+
     public static function tableName()
     {
         return 'project';
@@ -93,16 +101,19 @@ class Project extends \yii\db\ActiveRecord
     {
         return [
             [['project_money','project_name','responsibler_id','project_year','budget_budget_type','organization_id'], 'required'],
-            [['organization_id', 'responsibler_id', 'project_kpi_id','project_plan_id','project_laksana_id', 'strategic_id', 'goal_id', 'strategy_id', 'indicator_id', 'element_id', 'product_id', 'projecti_paomai_id', 'created_by', 'budget_budget_type', 'project_status'], 'integer'],
+            [['organization_id', 'responsibler_id', 'project_kpi_id','project_plan_id','project_laksana_id', 'strategic_id', 'goal_id', 'strategy_id', 'indicator_id', 'element_id', 'product_id', 'projecti_paomai_id', 'created_by', 'budget_budget_type', 'project_status' ,'lastpage_id'], 'integer'],
             [['rationale', 'objective', 'lakshana_activity', 'project_evaluation'], 'string'],
             [['project_year'], 'safe'],
 
-            [['project_duration','rationale','objective','lakshana_activity'], 'required'],
+            [['project_start', 'project_end', 'rationale','objective','lakshana_activity'], 'required'],
             [['strategic_id','goal_id','strategy_id','indicator_id','realted_subject_id'], 'required'],
             [['project_benefit','project_evaluation','project_location'], 'required'],
             [['temp_type','temp_procced'], 'required'],
 
-            [['project_duration'], 'string', 'max' => 100],
+            [['project_start', 'project_end'], 'string', 'max' => 50],
+
+            [['lastpage_main','lastpage_role','lastpage_name','lastpage_position'], 'safe'],
+
             [['temp_project_kpi_id','temp_project_plan_id','file'], 'safe'],
             [['plan_process','plan_detail','plan_date','plan_place'], 'safe'],
             [['temp_type', 'temp_procced', 'kpi_name', 'kpi_goal','paomai_quantity','paomai_quality'], 'safe'],
@@ -125,6 +136,7 @@ class Project extends \yii\db\ActiveRecord
             [['responsibler_id'], 'exist', 'skipOnError' => true, 'targetClass' => Responsibler::className(), 'targetAttribute' => ['responsibler_id' => 'responsible_id']],
             [['strategic_id'], 'exist', 'skipOnError' => true, 'targetClass' => Strategic::className(), 'targetAttribute' => ['strategic_id' => 'strategic_id']],
             [['strategy_id'], 'exist', 'skipOnError' => true, 'targetClass' => Strategy::className(), 'targetAttribute' => ['strategy_id' => 'strategy_id']],
+            [['lastpage_id'], 'exist', 'skipOnError' => true, 'targetClass' => Lastpage::className(), 'targetAttribute' => ['lastpage_id' => 'last_id']],
         ];
     }
 
@@ -159,7 +171,8 @@ class Project extends \yii\db\ActiveRecord
             'created_by' => 'สร้างโดย',
             'project_money' => 'งบประมาณที่มี',
             'project_status' => 'สถานะโครงการ',
-            'project_duration' => 'ระยะเวลาดำเนินการ',
+            'project_start' => 'วันที่เริ่มโครงการ',
+            'project_end' => 'วันที่สินสุดโครงการ',
             'budget_budget_type' => 'แหล่งที่มาของงบประมาณ',
             'file' => 'ไฟล์',
             'project_key' => 'Project Key',
@@ -171,6 +184,7 @@ class Project extends \yii\db\ActiveRecord
             'paomai_quantity' => 'เชิงปริมาณ',
             'project_year' => 'ปีงบประมาณ',
             'paomai_quality' => 'เชิงคุณภาพ',
+            'lastpage_id' => 'หน้าสุดท้าย',
         ];
     }
 
@@ -283,9 +297,11 @@ class Project extends \yii\db\ActiveRecord
         return $this->hasOne(Strategic::className(), ['strategic_id' => 'strategic_id']);
     }
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
+    public function getLastpage()
+    {
+        return $this->hasOne(Lastpage::className(), ['last_id' => 'lastpage_id']);
+    }
+
     public function getStrategy()
     {
         return $this->hasOne(Strategy::className(), ['strategy_id' => 'strategy_id']);
