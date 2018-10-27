@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 24, 2018 at 09:41 PM
+-- Generation Time: Oct 27, 2018 at 02:37 PM
 -- Server version: 10.1.36-MariaDB
 -- PHP Version: 7.2.10
 
@@ -30,7 +30,7 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `activity` (
   `activity_id` int(11) NOT NULL,
-  `root_project_id` int(11) NOT NULL COMMENT 'โครงการ',
+  `root_project_id` int(11) DEFAULT NULL COMMENT 'โครงการ',
   `activity_name` varchar(45) DEFAULT NULL COMMENT 'ชือกิจกรรม',
   `activity_rationale` text COMMENT 'หลักการและเหตุผล',
   `activity_type` text COMMENT 'ลักษณะกิจกรรม',
@@ -53,17 +53,9 @@ CREATE TABLE `activity` (
   `activity_money` int(11) DEFAULT NULL COMMENT 'งบประมาณ',
   `budget_details_id` int(11) DEFAULT NULL COMMENT 'รายละเอียดของงบประมาณ',
   `activity_status` int(11) DEFAULT NULL COMMENT 'สถานะ',
-  `activity_key` varchar(255) DEFAULT NULL COMMENT 'Activity Key'
+  `activity_key` varchar(255) DEFAULT NULL COMMENT 'Activity Key',
+  `lastpage_id` int(11) DEFAULT NULL COMMENT 'หน้าสุดท้าย'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `activity`
---
-
-INSERT INTO `activity` (`activity_id`, `root_project_id`, `activity_name`, `activity_rationale`, `activity_type`, `objective`, `evaluation`, `benefit`, `organization_organization_id`, `strategic_strategic_id`, `goal_goal_id`, `responsible_by`, `strategy_strategy_id`, `indicator_indicator_id`, `realted_subject_id`, `element_element_id`, `product_product_id`, `project_laksana_id`, `project_paomai_id`, `project_plan_id`, `budget_type_id`, `activity_money`, `budget_details_id`, `activity_status`, `activity_key`) VALUES
-(2, 1, 'กิจกรรม 2', ' แนวคิดด้านการเรียนการสอนแบบก้าวหน้า หรืออีกนัยหนึ่งคือ การเรียนรู้สู่อนาคตนั้น มิได้ให้ความสำคัญกับการท่องจำ หรือการเรียนจากตำราเพียงอย่างเดียว แต่มุ่งให้ความสำคัญกับการเรียนรู้จากหลายแหล่ง มีทางเลือกที่หลากหลาย เน้นผู้เรียนเป็นศูนย์กลาง โดยผู้สอนเปลี่ยนบทบาทจากผู้ให้ เป็นผู้ส่งเสริมกระบวนการในการเรียนรู้ของผู้เรียน เพื่อกระตุ้นให้ผู้เรียนสามารถพัฒนากระบวนการคิดอย่างเป็นระบบ ส่งเสริมการเรียนรู้ด้วยตนเอง ตลอดจนการช่วยเหลือให้ผู้เรียนสามารถเข้าถึง และเลือกรับข้อมูลได้อย่างเหมาะสม เพื่อให้การพัฒนาการเรียนการสอนแบบก้าวหน้ามีประสิทธิภาพและประสิทธิผล ผู้สอนจึงต้องมีการทำวิจัยเกี่ยวกับการเรียนการสอนควบคู่กันไปด้วย เพื่อนำเอาองค์ความรู้ที่ได้ มาปรับปรุงรูปแบบการเรียนการสอนอย่างเหมาะสมกับลักษณะของผู้เรียน จากความสำคัญดังกล่าว มหาวิทยาลัยธุรกิจบัณฑิตย์ โดยศูนย์บริการวิจัย ศูนย์นวัตกรรมการเรียนการสอน ร่วมกับเครือข่ายวิจัยประชาชื่น จึงได้จัดประชุมวิชาการระดับชาติ ครั้งที่ 2 เรื่อง “การเรียนรู้สู่อนาคต : ทางเลือกที่หลากหลาย” เพื่อให้คณาจารย์ได้มีโอกาสเผยแพร่ผลการวิจัยในด้านการเรียนการสอน และเป็นเวทีแห่งการเรียนรู้และแลกเปลี่ยนความคิดเห็น ซึ่งจะเป็นประโยชน์ต่อการจัดการเรียนการสอนแบบก้าวหน้าของคณาจารย์ และนำไปสู่การเรียนรู้ในอนาคตของผู้เรียนในระดับอุดมศึกษาต่อไป', 'กิจกรรมวันสงกรานต์ปีใหม่เมือง', 'ในปัจจุบันจำนวนของผู้ป่วยที่มีความจำเป็นต้องใช้เลือดในการรักษาพยาบาล เช่น ผู้ที่ได้รับบาดเจ็บจากอุบัติเหตุ ผู้ป่วยที่ต้องเข้ารับการผ่าตัด และผู้ป่วยโรคเลือดเป็นต้น ซึ่งมีแนวโน้มเพิ่มขึ้นอย่างเห็นได้ชัด ทำให้เลือดที่มีอยู่ในคลังไม่เพียงพอต่อความต้องการ ทำให้บางครั้งมีผู้เสียชีวิตจากการขาดแคลนเลือดในการรักษาพยาบาล\r\nสาเหตุที่โลหิตขาดแคลน ที่ผ่านมามีการขาดแคลนโลหิตอย่างหนักในช่วงเดือนกุมภาพันธ์ 2558 ที่ผ่านมา แต่ทางสภากาชาดไทยได้มีการประกาศผ่านออกไปทางสื่อต่าง ๆ จนมีประชาชนให้ความสนใจเข้ามาร่วมบริจาคเป็นจำนวนมาก แต่หลังจากเดือนเมษายน 2560 ประชาชนให้ความสนใจน้อยลง ซึ่งจะส่งผลให้ปัญหาการขาดแคลนโลหิต อย่างไรก็ตามสาเหตุที่แท้จริงของการขาดแคลนเลือดในปัจจุบัน เนื่องจากการแพทย์ไทยเจริญมากขึ้น มีการใช้โลหิตมาก แต่มีประชาชนมาบริจาคน้อย จึงไม่สมดุลกันอย่างไรก็ตาม ในขณะนี้ โลหิตที่สภากาชาดได้รับจากการบริจาคในแต่ละวันว่า มีประชาชนมาบริจาคโลหิตทุกวัน วันละประมาณ  คน แต่ยังไม่เพียงพอ ซึ่งตามหลักแล้วใน 1 วันต้องการได้รับเลือดประมาณ 1,800  คน และอยากให้ประชาชนเข้ามาบริจาคโลหิต 3,000 คนต่อวัน หากประชาชนมาเพียงแค่ 1,500 คน ก็จะมีคนไข้อีกเป็นร้อยคนที่ต้องรอคิวที่ผ่านมาโรงพยาบาลแต่ละแห่งขอมา แต่สภากาชาดมีเลือดให้ไม่พอตามจำนวนที่ขอ ก็ต้องไกล่เกลี่ยกันไปให้ได้ทั่วถึง พอโรงพยาบาลกลับไป เขาก็ต้องมาดูว่าคนไข้คนไหนเจ็บหนัก คนไหนต้องผ่าตัดด่วน คนไข้เหล่านั้นต้องได้เลือดก่อน ส่วนคนที่เหลือก็ต้องรอคิว\r\n', NULL, 'sdf', 1, 2, 1, 1, 2, 1, 1, 2, 1, 77, 28, 75, 1, 500, 9, 10, 'jJBP1EMjBHvBaE9'),
-(3, 1, 'กิจกกรม 3', ' แนวคิดด้านการเรียนการสอนแบบก้าวหน้า หรืออีกนัยหนึ่งคือ การเรียนรู้สู่อนาคตนั้น มิได้ให้ความสำคัญกับการท่องจำ หรือการเรียนจากตำราเพียงอย่างเดียว แต่มุ่งให้ความสำคัญกับการเรียนรู้จากหลายแหล่ง มีทางเลือกที่หลากหลาย เน้นผู้เรียนเป็นศูนย์กลาง โดยผู้สอนเปลี่ยนบทบาทจากผู้ให้ เป็นผู้ส่งเสริมกระบวนการในการเรียนรู้ของผู้เรียน เพื่อกระตุ้นให้ผู้เรียนสามารถพัฒนากระบวนการคิดอย่างเป็นระบบ ส่งเสริมการเรียนรู้ด้วยตนเอง ตลอดจนการช่วยเหลือให้ผู้เรียนสามารถเข้าถึง และเลือกรับข้อมูลได้อย่างเหมาะสม เพื่อให้การพัฒนาการเรียนการสอนแบบก้าวหน้ามีประสิทธิภาพและประสิทธิผล ผู้สอนจึงต้องมีการทำวิจัยเกี่ยวกับการเรียนการสอนควบคู่กันไปด้วย เพื่อนำเอาองค์ความรู้ที่ได้ มาปรับปรุงรูปแบบการเรียนการสอนอย่างเหมาะสมกับลักษณะของผู้เรียน จากความสำคัญดังกล่าว มหาวิทยาลัยธุรกิจบัณฑิตย์ โดยศูนย์บริการวิจัย ศูนย์นวัตกรรมการเรียนการสอน ร่วมกับเครือข่ายวิจัยประชาชื่น จึงได้จัดประชุมวิชาการระดับชาติ ครั้งที่ 2 เรื่อง “การเรียนรู้สู่อนาคต : ทางเลือกที่หลากหลาย” เพื่อให้คณาจารย์ได้มีโอกาสเผยแพร่ผลการวิจัยในด้านการเรียนการสอน และเป็นเวทีแห่งการเรียนรู้และแลกเปลี่ยนความคิดเห็น ซึ่งจะเป็นประโยชน์ต่อการจัดการเรียนการสอนแบบก้าวหน้าของคณาจารย์ และนำไปสู่การเรียนรู้ในอนาคตของผู้เรียนในระดับอุดมศึกษาต่อไป', 'กิจกรรมวันสงกรานต์ปีใหม่เมือง', 'ในปัจจุบันจำนวนของผู้ป่วยที่มีความจำเป็นต้องใช้เลือดในการรักษาพยาบาล เช่น ผู้ที่ได้รับบาดเจ็บจากอุบัติเหตุ ผู้ป่วยที่ต้องเข้ารับการผ่าตัด และผู้ป่วยโรคเลือดเป็นต้น ซึ่งมีแนวโน้มเพิ่มขึ้นอย่างเห็นได้ชัด ทำให้เลือดที่มีอยู่ในคลังไม่เพียงพอต่อความต้องการ ทำให้บางครั้งมีผู้เสียชีวิตจากการขาดแคลนเลือดในการรักษาพยาบาล\r\nสาเหตุที่โลหิตขาดแคลน ที่ผ่านมามีการขาดแคลนโลหิตอย่างหนักในช่วงเดือนกุมภาพันธ์ 2558 ที่ผ่านมา แต่ทางสภากาชาดไทยได้มีการประกาศผ่านออกไปทางสื่อต่าง ๆ จนมีประชาชนให้ความสนใจเข้ามาร่วมบริจาคเป็นจำนวนมาก แต่หลังจากเดือนเมษายน 2560 ประชาชนให้ความสนใจน้อยลง ซึ่งจะส่งผลให้ปัญหาการขาดแคลนโลหิต อย่างไรก็ตามสาเหตุที่แท้จริงของการขาดแคลนเลือดในปัจจุบัน เนื่องจากการแพทย์ไทยเจริญมากขึ้น มีการใช้โลหิตมาก แต่มีประชาชนมาบริจาคน้อย จึงไม่สมดุลกันอย่างไรก็ตาม ในขณะนี้ โลหิตที่สภากาชาดได้รับจากการบริจาคในแต่ละวันว่า มีประชาชนมาบริจาคโลหิตทุกวัน วันละประมาณ  คน แต่ยังไม่เพียงพอ ซึ่งตามหลักแล้วใน 1 วันต้องการได้รับเลือดประมาณ 1,800  คน และอยากให้ประชาชนเข้ามาบริจาคโลหิต 3,000 คนต่อวัน หากประชาชนมาเพียงแค่ 1,500 คน ก็จะมีคนไข้อีกเป็นร้อยคนที่ต้องรอคิวที่ผ่านมาโรงพยาบาลแต่ละแห่งขอมา แต่สภากาชาดมีเลือดให้ไม่พอตามจำนวนที่ขอ ก็ต้องไกล่เกลี่ยกันไปให้ได้ทั่วถึง พอโรงพยาบาลกลับไป เขาก็ต้องมาดูว่าคนไข้คนไหนเจ็บหนัก คนไหนต้องผ่าตัดด่วน คนไข้เหล่านั้นต้องได้เลือดก่อน ส่วนคนที่เหลือก็ต้องรอคิว\r\n', NULL, 'fdgdf', 1, 2, 1, 2, 2, 1, 1, 2, 2, 71, 22, 62, 1, 500, 6, 10, 'Q5BTI8Vq8n78IAn'),
-(4, 1, 'กิจกรรมวันสงกรานต์ปีใหม่เมือง', 'สาเหตุที่โลหิตขาดแคลน ที่ผ่านมามีการขาดแคลนโลหิตอย่างหนักในช่วงเดือนกุมภาพันธ์ 2558 ที่ผ่านมา แต่ทางสภากาชาดไทยได้มีการประกาศผ่านออกไปทางสื่อต่าง ๆ จนมีประชาชนให้ความสนใจเข้ามาร่วมบริจาคเป็นจำนวนมาก แต่หลังจากเดือนเมษายน 2560 ประชาชนให้ความสนใจน้อยลง ซึ่งจะส่งผลให้ปัญหาการขาดแคลนโลหิต อย่างไรก็ตามสาเหตุที่แท้จริงของการขาดแคลนเลือดในปัจจุบัน เนื่องจากการแพทย์ไทยเจริญมากขึ้น มีการใช้โลหิตมาก แต่มีประชาชนมาบริจาคน้อย จึงไม่สมดุลกันอย่างไรก็ตาม ในขณะนี้ โลหิตที่สภากาชาดได้รับจากการบริจาคในแต่ละวันว่า มีประชาชนมาบริจาคโลหิตทุกวัน วันละประมาณ  คน แต่ยังไม่เพียงพอ ซึ่งตามหลักแล้วใน 1 วันต้องการได้รับเลือดประมาณ 1,800  คน และอยากให้ประชาชนเข้ามาบริจาคโลหิต 3,000 คนต่อวัน หากประชาชนมาเพียงแค่ 1,500 คน ก็จะมีคนไข้อีกเป็นร้อยคนที่ต้องรอคิวที่ผ่านมาโรงพยาบาลแต่ละแห่งขอมา แต่สภากาชาดมีเลือดให้ไม่พอตามจำนวนที่ขอ ก็ต้องไกล่เกลี่ยกันไปให้ได้ทั่วถึง พอโรงพยาบาลกลับไป เขาก็ต้องมาดูว่าคนไข้คนไหนเจ็บหนัก คนไหนต้องผ่าตัดด่วน คนไข้เหล่านั้นต้องได้เลือดก่อน ส่วนคนที่เหลือก็ต้องรอคิว', 'ในปัจจุบันจำนวนของผู้ป่วยที่มีความจำเป็นต้องใช้เลือดในการรักษาพยาบาล เช่น ผู้ที่ได้รับบาดเจ็บจากอุบัติเหตุ ผู้ป่วยที่ต้องเข้ารับการผ่าตัด และผู้ป่วยโรคเลือดเป็นต้น ซึ่งมีแนวโน้มเพิ่มขึ้นอย่างเห็นได้ชัด ทำให้เลือดที่มีอยู่ในคลังไม่เพียงพอต่อความต้องการ ทำให้บางครั้งมีผู้เสียชีวิตจากการขาดแคลนเลือดในการรักษาพยาบาล\r\nสาเหตุที่โลหิตขาดแคลน ที่ผ่านมามีการขาดแคลนโลหิตอย่างหนักในช่วงเดือนกุมภาพันธ์ 2558 ที่ผ่านมา แต่ทางสภากาชาดไทยได้มีการประกาศผ่านออกไปทางสื่อต่าง ๆ จนมีประชาชนให้ความสนใจเข้ามาร่วมบริจาคเป็นจำนวนมาก แต่หลังจากเดือนเมษายน 2560 ประชาชนให้ความสนใจน้อยลง ซึ่งจะส่งผลให้ปัญหาการขาดแคลนโลหิต อย่างไรก็ตามสาเหตุที่แท้จริงของการขาดแคลนเลือดในปัจจุบัน เนื่องจากการแพทย์ไทยเจริญมากขึ้น มีการใช้โลหิตมาก แต่มีประชาชนมาบริจาคน้อย จึงไม่สมดุลกันอย่างไรก็ตาม ในขณะนี้ โลหิตที่สภากาชาดได้รับจากการบริจาคในแต่ละวันว่า มีประชาชนมาบริจาคโลหิตทุกวัน วันละประมาณ  คน แต่ยังไม่เพียงพอ ซึ่งตามหลักแล้วใน 1 วันต้องการได้รับเลือดประมาณ 1,800  คน และอยากให้ประชาชนเข้ามาบริจาคโลหิต 3,000 คนต่อวัน หากประชาชนมาเพียงแค่ 1,500 คน ก็จะมีคนไข้อีกเป็นร้อยคนที่ต้องรอคิวที่ผ่านมาโรงพยาบาลแต่ละแห่งขอมา แต่สภากาชาดมีเลือดให้ไม่พอตามจำนวนที่ขอ ก็ต้องไกล่เกลี่ยกันไปให้ได้ทั่วถึง พอโรงพยาบาลกลับไป เขาก็ต้องมาดูว่าคนไข้คนไหนเจ็บหนัก คนไหนต้องผ่าตัดด่วน คนไข้เหล่านั้นต้องได้เลือดก่อน ส่วนคนที่เหลือก็ต้องรอคิว\r\n', 'ในปัจจุบันจำนวนของผู้ป่วยที่มีความจำเป็นต้องใช้เลือดในการรักษาพยาบาล เช่น ผู้ที่ได้รับบาดเจ็บจากอุบัติเหตุ ผู้ป่วยที่ต้องเข้ารับการผ่าตัด และผู้ป่วยโรคเลือดเป็นต้น ซึ่งมีแนวโน้มเพิ่มขึ้นอย่างเห็นได้ชัด ทำให้เลือดที่มีอยู่ในคลังไม่เพียงพอต่อความต้องการ ทำให้บางครั้งมีผู้เสียชีวิตจากการขาดแคลนเลือดในการรักษาพยาบาล\r\nสาเหตุที่โลหิตขาดแคลน ที่ผ่านมามีการขาดแคลนโลหิตอย่างหนักในช่วงเดือนกุมภาพันธ์ 2558 ที่ผ่านมา แต่ทางสภากาชาดไทยได้มีการประกาศผ่านออกไปทางสื่อต่าง ๆ จนมีประชาชนให้ความสนใจเข้ามาร่วมบริจาคเป็นจำนวนมาก แต่หลังจากเดือนเมษายน 2560 ประชาชนให้ความสนใจน้อยลง ซึ่งจะส่งผลให้ปัญหาการขาดแคลนโลหิต อย่างไรก็ตามสาเหตุที่แท้จริงของการขาดแคลนเลือดในปัจจุบัน เนื่องจากการแพทย์ไทยเจริญมากขึ้น มีการใช้โลหิตมาก แต่มีประชาชนมาบริจาคน้อย จึงไม่สมดุลกันอย่างไรก็ตาม ในขณะนี้ โลหิตที่สภากาชาดได้รับจากการบริจาคในแต่ละวันว่า มีประชาชนมาบริจาคโลหิตทุกวัน วันละประมาณ  คน แต่ยังไม่เพียงพอ ซึ่งตามหลักแล้วใน 1 วันต้องการได้รับเลือดประมาณ 1,800  คน และอยากให้ประชาชนเข้ามาบริจาคโลหิต 3,000 คนต่อวัน หากประชาชนมาเพียงแค่ 1,500 คน ก็จะมีคนไข้อีกเป็นร้อยคนที่ต้องรอคิวที่ผ่านมาโรงพยาบาลแต่ละแห่งขอมา แต่สภากาชาดมีเลือดให้ไม่พอตามจำนวนที่ขอ ก็ต้องไกล่เกลี่ยกันไปให้ได้ทั่วถึง พอโรงพยาบาลกลับไป เขาก็ต้องมาดูว่าคนไข้คนไหนเจ็บหนัก คนไหนต้องผ่าตัดด่วน คนไข้เหล่านั้นต้องได้เลือดก่อน ส่วนคนที่เหลือก็ต้องรอคิว\r\n', NULL, 'ประโยชน์ที่คาดว่าจะได้รับประโยชน์ที่คาดว่าจะได้รับประโยชน์ที่คาดว่าจะได้รับประโยชน์ที่คาดว่าจะได้รับ', 1, 3, 1, 1, 3, 1, 1, 1, 1, 82, 33, 84, 1, 50000, 11, 10, 'A3csxykH1uxBPlS');
 
 -- --------------------------------------------------------
 
@@ -97,12 +89,16 @@ CREATE TABLE `budget_details` (
 INSERT INTO `budget_details` (`detail_id`, `detail_name`, `detail_price`, `activity_key`) VALUES
 (1, 'ค่าขนม', 500, 'Hd6R66xlNTlFVeq'),
 (2, 'ค่านิด', 699, 'Hd6R66xlNTlFVeq'),
-(5, 'sad', 444, 'Q5BTI8Vq8n78IAn'),
-(6, '454', 55, 'Q5BTI8Vq8n78IAn'),
 (8, '99', 77, 'jJBP1EMjBHvBaE9'),
 (9, 'rr', 55, 'jJBP1EMjBHvBaE9'),
 (10, 'ค่าจ้างเหมาจัดทำป้าย', 1000, 'A3csxykH1uxBPlS'),
-(11, 'ค่าจ้างเหมาอาหารมื้อเที่ยง', 6998, 'A3csxykH1uxBPlS');
+(11, 'ค่าจ้างเหมาอาหารมื้อเที่ยง', 6998, 'A3csxykH1uxBPlS'),
+(16, 'sad', 444, 'Q5BTI8Vq8n78IAn'),
+(17, '454', 55, 'Q5BTI8Vq8n78IAn'),
+(18, 'Leo Porter', 588, 'UIK_Sd0EZ8UtUy3'),
+(20, 'Hyacinth Brennan', 827, '6lWnte3QAZF4auA'),
+(21, 'Micah Gilmore', 112, 'tBPoHuS5WHLK5Au'),
+(23, 'Colt Cantrell', 982, 'Y4krjsBiZMNLkCI');
 
 -- --------------------------------------------------------
 
@@ -182,6 +178,39 @@ INSERT INTO `indicator` (`indicator_id`, `indicator_name`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `lastpage`
+--
+
+CREATE TABLE `lastpage` (
+  `last_id` int(11) NOT NULL,
+  `last_role` int(11) NOT NULL COMMENT 'ชนิดของผู้ใช้งาน',
+  `last_user` varchar(100) NOT NULL COMMENT 'ชื่อผู้ใช้งาน',
+  `last_position` varchar(100) NOT NULL COMMENT 'ตำแหน่งผู้ใช้งาน',
+  `project_act_key` varchar(255) NOT NULL COMMENT 'อ้างอิง project'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `lastpage`
+--
+
+INSERT INTO `lastpage` (`last_id`, `last_role`, `last_user`, `last_position`, `project_act_key`) VALUES
+(32, 1, 'พระมหาอนันต์ องคุสิริ', 'อาจารย์ประจำหลักสูตร', 'MaxtpGf6_OYu_ix'),
+(33, 2, 'พระปลัดนฤดล ', 'ผูอำนวยการสำนักงานวิทยาลัย', 'MaxtpGf6_OYu_ix'),
+(35, 1, 'aa', 'aa', 'Q5BTI8Vq8n78IAn'),
+(36, 2, 'bb', 'cc', 'Q5BTI8Vq8n78IAn'),
+(37, 1, 'aa', 'aa', 'tcBVbs1Id_TC0Z2'),
+(38, 1, 'ss', 'ss', 'tcBVbs1Id_TC0Z2'),
+(42, 1, 'qqq', 'wwwww', '6lWnte3QAZF4auA'),
+(43, 2, 'ewrwe', 'rwerwerwer', '6lWnte3QAZF4auA'),
+(44, 2, 'ttt', 'ttttttt', '6lWnte3QAZF4auA'),
+(45, 1, 'sad', 'asd', 'gyQZoIVe-ZhDJE2'),
+(46, 3, 'sad', 'dsfdsfsdf', 'tBPoHuS5WHLK5Au'),
+(47, 3, 'Explicabo Rerum cupidatat non ut ex exercitationem quam veniam', 'Ipsam nisi esse incidunt sit qui dicta enim ad ab', 'Yjfe1aRgoi0bv0-'),
+(48, 1, 'rtyrt', 'y', 'Y4krjsBiZMNLkCI');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `managers`
 --
 
@@ -204,7 +233,7 @@ CREATE TABLE `managers` (
 
 INSERT INTO `managers` (`id`, `username`, `auth_key`, `password_hash`, `password_reset_token`, `email`, `created_at`, `updated_at`, `roles`, `status`) VALUES
 (1, 'amit', 'ZIJ-hJxg9mFNIbLR0xv7XCjtVEfU_P6N', '$2y$13$fMAwC9LVwGFW0VROj375derZg6LdYKA4.HxKyHPaegQeJ2TCsNoEa', NULL, 'amit@gmail.com', 1538491076, 1538491076, 20, 10),
-(2, 'demo', 'N-39hgHZtPUhHH8bwIdRg0Sw-qZUhqS4', '$2y$13$JIdis6qyNfHY8FbnztUvre9Zb5WdyUw0c80g5YImxNoppePWOK4Pm', NULL, 'demo@gmail.com', 1538567377, 1538567377, 10, 10);
+(2, 'สมชาย', 'N-39hgHZtPUhHH8bwIdRg0Sw-qZUhqS4', '$2y$13$TZBiL5OcGr3ud/fuAhnwceJpe1c8Sigk3YIHJPIl9yhcO182xFfae', NULL, 'demo@gmail.com', 1538567377, 1538567377, 10, 10);
 
 -- --------------------------------------------------------
 
@@ -289,7 +318,8 @@ CREATE TABLE `project` (
   `projecti_paomai_id` int(11) DEFAULT NULL COMMENT 'เป้าหมาย',
   `lakshana_activity` text COMMENT 'ลักษณะกิจกรรม',
   `project_plan_id` int(11) DEFAULT NULL COMMENT 'แผนปฏิบัติการกิจกรรม',
-  `project_duration` varchar(100) DEFAULT NULL COMMENT 'ระยะเวลาดำเนิการ',
+  `project_start` varchar(50) DEFAULT NULL COMMENT 'วันที่เริ่มโครงการ',
+  `project_end` varchar(50) DEFAULT NULL COMMENT 'วันที่สินสุดโครงการ',
   `project_location` varchar(255) DEFAULT NULL COMMENT 'สถานที่ดำเนินการ',
   `project_evaluation` text COMMENT 'การประเมินผล',
   `project_benefit` text COMMENT 'ประโยชน์ที่คาดว่าจะได้รับ',
@@ -298,16 +328,9 @@ CREATE TABLE `project` (
   `budget_budget_type` int(11) DEFAULT NULL COMMENT 'แหล่งที่มาของงบประมาณ',
   `project_year` varchar(4) DEFAULT NULL COMMENT 'ปีงบประมาณ',
   `project_status` int(11) DEFAULT '10' COMMENT 'สถานะโครงการ',
-  `project_key` varchar(255) DEFAULT NULL COMMENT 'Project Key'
+  `project_key` varchar(255) DEFAULT NULL COMMENT 'Project Key',
+  `lastpage_id` int(11) DEFAULT NULL COMMENT 'หน้าสุดท้าย'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `project`
---
-
-INSERT INTO `project` (`project_id`, `project_name`, `organization_id`, `responsibler_id`, `project_laksana_id`, `strategic_id`, `goal_id`, `realted_subject_id`, `strategy_id`, `indicator_id`, `element_id`, `product_id`, `rationale`, `objective`, `project_kpi_id`, `projecti_paomai_id`, `lakshana_activity`, `project_plan_id`, `project_duration`, `project_location`, `project_evaluation`, `project_benefit`, `created_by`, `project_money`, `budget_budget_type`, `project_year`, `project_status`, `project_key`) VALUES
-(1, 'โครงการ 1', 1, 1, 81, 2, 2, 1, 3, 2, 1, 1, ' แนวคิดด้านการเรียนการสอนแบบก้าวหน้า หรืออีกนัยหนึ่งคือ การเรียนรู้สู่อนาคตนั้น มิได้ให้ความสำคัญกับการท่องจำ หรือการเรียนจากตำราเพียงอย่างเดียว แต่มุ่งให้ความสำคัญกับการเรียนรู้จากหลายแหล่ง ', '  ตลาดการเงินมีหน้าที่สำคัญในการเป็นตัวกลางที่อำนวยความสะดวกให้ผู้ที่ต้องการเงิน (ผู้กู้/ผู้ระดมทุน) ได้พบกับผู้มีเงินเหลือ (ผู้ออม/นักลงทุน) เพื่อทำธุรกรรมกู้ยืมหรือซื้อขายแลกเปลี่ยนตราสารทางการเงินระหว่างกัน ซึ่งการระดมทุนและการลงทุนดังกล่าวเป็นกลไกสำคัญที่จะช่วยสนับสนุนการดำเนินกิจกรรมทางเศรษฐกิจและนำไปสู่การขยายตัวทางเศรษฐกิจในที่สุด​\r\n\r\n      ตลาดการเงิ​นที่มีประสิทธิภาพจะช่วยส่งเสริมภาครัฐและภาคเอกชนในการบริหารสภาพคล่อง ลดความเสี่ยงจาก maturity mismatch เพิ่มทางเลือกในการระดมทุนและการลงทุน ลดการพึ่งพาแหล่งเงินทุนภายนอกประเทศ ลดความเสี่ยงจากความผันผวนของเงินทุนเคลื่อนย้าย ซึ่งนำไปสู่เสถียรภาพของระบบการเงินด้วย​', 28, 32, 'ลักษณะกิจกรรม ลักษณะกิจกรรม ลักษณะกิจกรรม', 83, '2018-10-19 - 2018-11-13', 'nan', 'การประเมินผล การประเมินผล การประเมินผล การประเมินผล ', 'ประโยชน์ที่คาดว่าจะได้รับ ประโยชน์ที่คาดว่าจะได้รับ ประโยชน์ที่คาดว่าจะได้รับ ', 1, 20055, 1, '2563', 10, 'zGnwiFwRBpfvkAo'),
-(3, 'โครงการ 2', 1, 1, 49, 2, 2, 1, 3, 2, 1, 1, ' แนวคิดด้านการเรียนการสอนแบบก้าวหน้า หรืออีกนัยหนึ่งคือ การเรียนรู้สู่อนาคตนั้น มิได้ให้ความสำคัญกับการท่องจำ หรือการเรียนจากตำราเพียงอย่างเดียว แต่มุ่งให้ความสำคัญกับการเรียนรู้จากหลายแหล่ง มีทางเลือกที่หลากหลาย เน้นผู้เรียนเป็นศูนย์กลาง โดยผู้สอนเปลี่ยนบทบาทจากผู้ให้ เป็นผู้ส่งเสริมกระบวนการในการเรียนรู้ของผู้เรียน เพื่อกระตุ้นให้ผู้เรียนสามารถพัฒนากระบวนการคิดอย่างเป็นระบบ ส่งเสริมการเรียนรู้ด้วยตนเอง ตลอดจนการช่วยเหลือให้ผู้เรียนสามารถเข้าถึง และเลือกรับข้อมูลได้อย่างเหมาะสม เพื่อให้การพัฒนาการเรียนการสอนแบบก้าวหน้ามีประสิทธิภาพและประสิทธิผล ผู้สอนจึงต้องมีการทำวิจัยเกี่ยวกับการเรียนการสอนควบคู่กันไปด้วย เพื่อนำเอาองค์ความรู้ที่ได้ มาปรับปรุงรูปแบบการเรียนการสอนอย่างเหมาะสมกับลักษณะของผู้เรียน จากความสำคัญดังกล่าว มหาวิทยาลัยธุรกิจบัณฑิตย์ โดยศูนย์บริการวิจัย ศูนย์นวัตกรรมการเรียนการสอน ร่วมกับเครือข่ายวิจัยประชาชื่น จึงได้จัดประชุมวิชาการระดับชาติ ครั้งที่ 2 เรื่อง “การเรียนรู้สู่อนาคต : ทางเลือกที่หลากหลาย” เพื่อให้คณาจารย์ได้มีโอกาสเผยแพร่ผลการวิจัยในด้านการเรียนการสอน และเป็นเวทีแห่งการเรียนรู้และแลกเปลี่ยนความคิดเห็น ซึ่งจะเป็นประโยชน์ต่อการจัดการเรียนการสอนแบบก้าวหน้าของคณาจารย์ และนำไปสู่การเรียนรู้ในอนาคตของผู้เรียนในระดับอุดมศึกษาต่อไป', '  ตลาดการเงินมีหน้าที่สำคัญในการเป็นตัวกลางที่อำนวยความสะดวกให้ผู้ที่ต้องการเงิน (ผู้กู้/ผู้ระดมทุน) ได้พบกับผู้มีเงินเหลือ (ผู้ออม/นักลงทุน) เพื่อทำธุรกรรมกู้ยืมหรือซื้อขายแลกเปลี่ยนตราสารทางการเงินระหว่างกัน ซึ่งการระดมทุนและการลงทุนดังกล่าวเป็นกลไกสำคัญที่จะช่วยสนับสนุนการดำเนินกิจกรรมทางเศรษฐกิจและนำไปสู่การขยายตัวทางเศรษฐกิจในที่สุด​\r\n\r\n      ตลาดการเงิ​นที่มีประสิทธิภาพจะช่วยส่งเสริมภาครัฐและภาคเอกชนในการบริหารสภาพคล่อง ลดความเสี่ยงจาก maturity mismatch เพิ่มทางเลือกในการระดมทุนและการลงทุน ลดการพึ่งพาแหล่งเงินทุนภายนอกประเทศ ลดความเสี่ยงจากความผันผวนของเงินทุนเคลื่อนย้าย ซึ่งนำไปสู่เสถียรภาพของระบบการเงินด้วย​', NULL, 1, 'ลักษณะกิจกรรม ลักษณะกิจกรรม ลักษณะกิจกรรม', NULL, '2018-10-19 - 2018-11-13', 'nan', 'การประเมินผล การประเมินผล การประเมินผล การประเมินผล ', 'ประโยชน์ที่คาดว่าจะได้รับ ประโยชน์ที่คาดว่าจะได้รับ ประโยชน์ที่คาดว่าจะได้รับ ', 1, 20055, 1, '2563', 10, 'zGnwiFwRBpfvkAo');
 
 -- --------------------------------------------------------
 
@@ -342,7 +365,12 @@ INSERT INTO `project_kpi` (`kpi_id`, `kpi_name`, `kpi_goal`, `kpi_project_key`) 
 (19, 't', 'tt', 'Z76hItJGk-Tbxii'),
 (20, 'ii', 'ii', 'Z76hItJGk-Tbxii'),
 (27, '333', '222', 'zGnwiFwRBpfvkAo'),
-(28, 'ttt', '55', 'zGnwiFwRBpfvkAo');
+(28, 'ttt', '55', 'zGnwiFwRBpfvkAo'),
+(29, 'ww', '11', 'VKdm6ovf3isfknf'),
+(30, 'asad', 'asd', 'CmNhnpfyZbm3S_N'),
+(38, 'asad', 'asd', 'MaxtpGf6_OYu_ix'),
+(39, 'asd', 'asd', 'gyQZoIVe-ZhDJE2'),
+(40, 'Paul Dale', 'Magni ipsam vel ipsum et eu in tempore', 'r_WLs3wFNx5UPzM');
 
 -- --------------------------------------------------------
 
@@ -438,7 +466,32 @@ INSERT INTO `project_laksana` (`laksana_id`, `project_type_id`, `procced_id`) VA
 (79, 3, 1),
 (80, 3, 1),
 (81, 3, 1),
-(82, 3, 1);
+(82, 3, 1),
+(83, 1, 1),
+(84, 1, 1),
+(85, 1, 1),
+(86, 3, 1),
+(87, 3, 1),
+(88, 3, 1),
+(89, 3, 1),
+(90, 3, 1),
+(91, 3, 1),
+(92, 3, 1),
+(93, 3, 1),
+(94, 3, 1),
+(95, 3, 2),
+(96, 3, 2),
+(97, 3, 1),
+(98, 3, 1),
+(99, 1, 1),
+(100, 1, 2),
+(101, 1, 2),
+(102, 3, 1),
+(103, 1, 2),
+(104, 3, 2),
+(105, 3, 2),
+(106, 1, 1),
+(107, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -489,7 +542,32 @@ INSERT INTO `project_paomai` (`paomai_id`, `project_quantity`, `project_quality`
 (30, '111', '222'),
 (31, '111', '222'),
 (32, '111', '222'),
-(33, 'เชิงปริมาณเชิงปริมาณเชิงปริมาณเชิงปริมาณเชิงปริมาณเชิงปริมาณเชิงปริมาณ', 'เชิงคุณภาพเชิงคุณภาพเชิงคุณภาพเชิงคุณภาพเชิงคุณภาพเชิงคุณภาพเชิงคุณภาพเชิงคุณภาพเชิงคุณภาพ');
+(33, 'เชิงปริมาณเชิงปริมาณเชิงปริมาณเชิงปริมาณเชิงปริมาณเชิงปริมาณเชิงปริมาณ', 'เชิงคุณภาพเชิงคุณภาพเชิงคุณภาพเชิงคุณภาพเชิงคุณภาพเชิงคุณภาพเชิงคุณภาพเชิงคุณภาพเชิงคุณภาพ'),
+(34, 'Recusandae Aute qui incididunt perferendis recusandae', 'Soluta ipsam ipsum est aperiam laboriosam aut magni lorem vitae aliquam animi pariatur Qui nostrud dolor voluptatem nemo expedita'),
+(35, 'Recusandae Aute qui incididunt perferendis recusandae', 'Soluta ipsam ipsum est aperiam laboriosam aut magni lorem vitae aliquam animi pariatur Qui nostrud dolor voluptatem nemo expedita'),
+(36, 'Recusandae Aute qui incididunt perferendis recusandae', 'Soluta ipsam ipsum est aperiam laboriosam aut magni lorem vitae aliquam animi pariatur Qui nostrud dolor voluptatem nemo expedita'),
+(37, 'asd', 'sad'),
+(38, 'asd', 'sad'),
+(39, 'asd', 'sad'),
+(40, 'asd', 'sad'),
+(41, 'asd', 'sad'),
+(42, 'asd', 'sad'),
+(43, 'asd', 'sad'),
+(44, 'asd', 'sad'),
+(45, 'asd', 'sad'),
+(46, 'asdsa', 'dsad'),
+(47, 'asdsa', 'dsad'),
+(48, 'dfg', 'dfg'),
+(49, 'dfg', 'dfg'),
+(50, 'Nisi recusandae Dignissimos nulla et qui veniam quia quaerat dolorem pariatur Numquam', 'Error do culpa aut iure eligendi autem numquam Nam omnis molestias'),
+(51, 'Eveniet distinctio Ut labore sunt fugiat expedita sed necessitatibus nulla sed', 'Quas neque dolor delectus dolore'),
+(52, 'Eveniet distinctio Ut labore sunt fugiat expedita sed necessitatibus nulla sed', 'Quas neque dolor delectus dolore'),
+(53, 'asd', 'sad'),
+(54, 'Provident tempore illum eos amet nesciunt', 'Porro nisi est veritatis quam'),
+(55, 'Quam quidem voluptatem sit doloremque sint enim beatae blanditiis cupidatat dolore libero accusantium aut ea laborum rerum ea magnam aliquip', 'Eum optio suscipit quasi veniam voluptatem sit id assumenda voluptatem neque dolor dolores consequat Eos'),
+(56, 'Lorem amet et autem explicabo Ea nulla aut ullam aperiam tenetur voluptas quia quia qui placeat', 'Culpa nihil voluptate architecto sit autem natus libero quasi accusamus'),
+(57, 'Molestiae maiores aut accusamus commodi qui quas ut sint culpa reprehenderit nostrum sint consequatur illum', 'Qui error proident ut impedit ullamco eius'),
+(58, 'Molestiae maiores aut accusamus commodi qui quas ut sint culpa reprehenderit nostrum sint consequatur illum', 'Qui error proident ut impedit ullamco eius');
 
 -- --------------------------------------------------------
 
@@ -522,16 +600,28 @@ INSERT INTO `project_plan` (`plan_id`, `plan_process`, `plan_detail`, `plan_date
 (44, 2, 'Voluptatibus modi id quas qui aliquid voluptas sint corporis et ut nostrud consequuntur omnis dolore ut ea excepturi maxime placeat', '0000-00-00', 'Accusamus nulla quaerat consectetur exercitation dicta lorem autem saepe quibusdam unde sint', 'DNx4uYBeEBKA8nY'),
 (45, 2, 'dsad', '2018-10-12', 'Maiores eo', 'ng5YGaP0PWhLsvu'),
 (46, 2, 'กหฟก', '2018-10-25', 'กหฟก', 'Hd6R66xlNTlFVeq'),
-(60, 1, '55', '2018-10-27', '55', 'Q5BTI8Vq8n78IAn'),
-(61, 2, '6', '2018-10-19', '66', 'Q5BTI8Vq8n78IAn'),
-(62, 1, '77', '2018-10-20', '77', 'Q5BTI8Vq8n78IAn'),
 (73, 1, '33', '2018-10-24', '66', 'jJBP1EMjBHvBaE9'),
 (74, 1, 'rr', '2018-10-26', 'rr', 'jJBP1EMjBHvBaE9'),
 (75, 1, 'bb', '2018-10-19', 'rr', 'jJBP1EMjBHvBaE9'),
 (82, 1, 'ข้ออนุมัติโครงการ', '2018-10-25', 'nan', 'zGnwiFwRBpfvkAo'),
 (83, 2, '546', '2018-10-27', '465', 'zGnwiFwRBpfvkAo'),
 (84, 1, 'qqqqqqqqq', '2018-10-18', 'nan', 'A3csxykH1uxBPlS'),
-(85, 1, 'แต่งตั้งคณะกรรมการดำเนินงาน', '2018-10-25', 'ห้องสังคมศาสตร์', 'zGnwiFwRBpfvkAo');
+(85, 1, 'แต่งตั้งคณะกรรมการดำเนินงาน', '2018-10-25', 'ห้องสังคมศาสตร์', 'zGnwiFwRBpfvkAo'),
+(88, 2, 'Irure quos impedit nisi modi veritatis odio accusamus eos culpa minus nemo cupiditate', '2563-06-24', 'Quis numquam perspiciatis quis ut id hic eaque ratione in quasi rerum similique autem id eos necessi', 'VKdm6ovf3isfknf'),
+(89, 2, 'dfg', '2561-10-18', 'dfg', 'CmNhnpfyZbm3S_N'),
+(101, 2, 'dfg', '2561-10-18', 'dfg', 'MaxtpGf6_OYu_ix'),
+(102, 1, 'plan', '2561-10-17', 'sadsad', 'MaxtpGf6_OYu_ix'),
+(109, 1, '55', '2018-10-27', '55', 'Q5BTI8Vq8n78IAn'),
+(110, 2, '6', '2018-10-19', '66', 'Q5BTI8Vq8n78IAn'),
+(111, 1, '77', '2018-10-20', '77', 'Q5BTI8Vq8n78IAn'),
+(113, 1, '222', '2018-10-25', '5646', 'tcBVbs1Id_TC0Z2'),
+(114, 2, 'Voluptate ut amet lorem voluptatibus rerum tempore ipsum ex non consequatur veritatis aliquam fuga Et qui repellendus Dolor eum magni', '0000-00-00', 'Sint suscipit excepturi velit quasi debitis rerum non et esse qui dicta non sint veniam', 'UIK_Sd0EZ8UtUy3'),
+(116, 2, 'Minim sit Nam dignissimos consequuntur aut et aut nostrum vel eiusmod exercitation assumenda ullam voluptatem suscipit sed', '0000-00-00', 'Laboriosam praesentium earum veritatis officia earum iusto est dolorum nulla pariatur Dolore mollit ', '6lWnte3QAZF4auA'),
+(117, 1, 'sad', '2561-10-27', 'fjghj', 'gyQZoIVe-ZhDJE2'),
+(118, 2, 'Non est aliqua Ut eum in aliquip optio sint dolor porro quasi cum voluptas ea delectus id qui ea', '2018-10-11', 'Commodi natus odit sit asperiores sequi error delectus et perferendis aut velit dolor qui', 'tBPoHuS5WHLK5Au'),
+(119, 3, 'Quia vitae alias minim dolorem magna id voluptatem nobis obcaecati rerum minim officia', '0000-00-00', 'Officia officia ut voluptatem cum', 'r_WLs3wFNx5UPzM'),
+(120, 3, 'Ex quia sunt quibusdam adipisicing molestiae optio autem itaque est quos in molestiae', '0000-00-00', 'A minima vero ad excepturi anim distinctio', 'Yjfe1aRgoi0bv0-'),
+(122, 3, 'Placeat aut occaecat laudantium architecto assumenda aute enim dignissimos quaerat eveniet est sit sunt et', '2018-10-17', 'Aliquid quo laudantium corrupti magna praesentium hic minus eius id unde quam nulla', 'Y4krjsBiZMNLkCI');
 
 -- --------------------------------------------------------
 
@@ -656,7 +746,8 @@ ALTER TABLE `activity`
   ADD KEY `fk_activity_project_plan1_idx` (`project_plan_id`),
   ADD KEY `fk_activity_budget_type1_idx` (`budget_type_id`),
   ADD KEY `fk_activity_budget_details1_idx` (`budget_details_id`),
-  ADD KEY `fk_activity_realted_subject1_idx` (`realted_subject_id`);
+  ADD KEY `fk_activity_realted_subject1_idx` (`realted_subject_id`),
+  ADD KEY `fk_activity_lastpage1_idx` (`lastpage_id`);
 
 --
 -- Indexes for table `activity_files`
@@ -694,6 +785,12 @@ ALTER TABLE `goal`
 --
 ALTER TABLE `indicator`
   ADD PRIMARY KEY (`indicator_id`);
+
+--
+-- Indexes for table `lastpage`
+--
+ALTER TABLE `lastpage`
+  ADD PRIMARY KEY (`last_id`);
 
 --
 -- Indexes for table `managers`
@@ -741,7 +838,8 @@ ALTER TABLE `project`
   ADD KEY `fk_project_project_paomai1_idx` (`projecti_paomai_id`),
   ADD KEY `fk_project_project_plan1_idx` (`project_plan_id`),
   ADD KEY `fk_project_budget_type1_idx` (`budget_budget_type`),
-  ADD KEY `fk_project_realted_subject1_idx` (`realted_subject_id`);
+  ADD KEY `fk_project_realted_subject1_idx` (`realted_subject_id`),
+  ADD KEY `fk_project_lastpage1_idx` (`lastpage_id`);
 
 --
 -- Indexes for table `project_files`
@@ -814,19 +912,19 @@ ALTER TABLE `strategy`
 -- AUTO_INCREMENT for table `activity`
 --
 ALTER TABLE `activity`
-  MODIFY `activity_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `activity_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `activity_files`
 --
 ALTER TABLE `activity_files`
-  MODIFY `file_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `file_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `budget_details`
 --
 ALTER TABLE `budget_details`
-  MODIFY `detail_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `detail_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT for table `budget_type`
@@ -853,10 +951,16 @@ ALTER TABLE `indicator`
   MODIFY `indicator_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
+-- AUTO_INCREMENT for table `lastpage`
+--
+ALTER TABLE `lastpage`
+  MODIFY `last_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
+
+--
 -- AUTO_INCREMENT for table `managers`
 --
 ALTER TABLE `managers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `organization`
@@ -886,31 +990,31 @@ ALTER TABLE `project`
 -- AUTO_INCREMENT for table `project_files`
 --
 ALTER TABLE `project_files`
-  MODIFY `file_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `file_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `project_kpi`
 --
 ALTER TABLE `project_kpi`
-  MODIFY `kpi_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `kpi_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
 
 --
 -- AUTO_INCREMENT for table `project_laksana`
 --
 ALTER TABLE `project_laksana`
-  MODIFY `laksana_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=83;
+  MODIFY `laksana_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=108;
 
 --
 -- AUTO_INCREMENT for table `project_paomai`
 --
 ALTER TABLE `project_paomai`
-  MODIFY `paomai_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'เป้าหมาย', AUTO_INCREMENT=34;
+  MODIFY `paomai_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'เป้าหมาย', AUTO_INCREMENT=59;
 
 --
 -- AUTO_INCREMENT for table `project_plan`
 --
 ALTER TABLE `project_plan`
-  MODIFY `plan_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=86;
+  MODIFY `plan_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=123;
 
 --
 -- AUTO_INCREMENT for table `project_type`
@@ -955,9 +1059,10 @@ ALTER TABLE `activity`
   ADD CONSTRAINT `fk_activity_element1` FOREIGN KEY (`element_element_id`) REFERENCES `element` (`element_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_activity_goal1` FOREIGN KEY (`goal_goal_id`) REFERENCES `goal` (`goal_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_activity_indicator` FOREIGN KEY (`indicator_indicator_id`) REFERENCES `indicator` (`indicator_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_activity_lastpage1` FOREIGN KEY (`lastpage_id`) REFERENCES `lastpage` (`last_id`) ON DELETE SET NULL ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_activity_organization1` FOREIGN KEY (`organization_organization_id`) REFERENCES `organization` (`organization_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_activity_product1` FOREIGN KEY (`product_product_id`) REFERENCES `product` (`product_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_activity_project1` FOREIGN KEY (`root_project_id`) REFERENCES `project` (`project_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_activity_project1` FOREIGN KEY (`root_project_id`) REFERENCES `project` (`project_id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_activity_project_laksana1` FOREIGN KEY (`project_laksana_id`) REFERENCES `project_laksana` (`laksana_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_activity_project_paomai1` FOREIGN KEY (`project_paomai_id`) REFERENCES `project_paomai` (`paomai_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_activity_project_plan1` FOREIGN KEY (`project_plan_id`) REFERENCES `project_plan` (`plan_id`) ON DELETE SET NULL ON UPDATE NO ACTION,
@@ -980,6 +1085,7 @@ ALTER TABLE `project`
   ADD CONSTRAINT `fk_project_element1` FOREIGN KEY (`element_id`) REFERENCES `element` (`element_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_project_goal1` FOREIGN KEY (`goal_id`) REFERENCES `goal` (`goal_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_project_indicator1` FOREIGN KEY (`indicator_id`) REFERENCES `indicator` (`indicator_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_project_lastpage1` FOREIGN KEY (`lastpage_id`) REFERENCES `lastpage` (`last_id`) ON DELETE SET NULL ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_project_managers` FOREIGN KEY (`created_by`) REFERENCES `managers` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_project_organization1` FOREIGN KEY (`organization_id`) REFERENCES `organization` (`organization_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_project_product1` FOREIGN KEY (`product_id`) REFERENCES `product` (`product_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,

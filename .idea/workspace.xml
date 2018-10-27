@@ -4,39 +4,7 @@
     <bookmark url="file://$PROJECT_DIR$/models/forms/ActivityForm.php" line="82" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a8b58588-c06b-459c-aba1-2943e9f72337" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/app.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/app.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/composer.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controllers/ActivityController.php" beforeDir="false" afterPath="$PROJECT_DIR$/controllers/ActivityController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controllers/ManagersController.php" beforeDir="false" afterPath="$PROJECT_DIR$/controllers/ManagersController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controllers/ProjectController.php" beforeDir="false" afterPath="$PROJECT_DIR$/controllers/ProjectController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/Activity.php" beforeDir="false" afterPath="$PROJECT_DIR$/models/Activity.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/ActivitySearch.php" beforeDir="false" afterPath="$PROJECT_DIR$/models/ActivitySearch.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/Managers.php" beforeDir="false" afterPath="$PROJECT_DIR$/models/Managers.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/Project.php" beforeDir="false" afterPath="$PROJECT_DIR$/models/Project.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/ProjectSearch.php" beforeDir="false" afterPath="$PROJECT_DIR$/models/ProjectSearch.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/models/User.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/composer/autoload_psr4.php" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/composer/autoload_psr4.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/composer/autoload_static.php" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/composer/autoload_static.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/composer/installed.json" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/composer/installed.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/yiisoft/extensions.php" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/yiisoft/extensions.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/activity/_form.php" beforeDir="false" afterPath="$PROJECT_DIR$/views/activity/_form.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/activity/activity_print.php" beforeDir="false" afterPath="$PROJECT_DIR$/views/activity/activity_print.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/activity/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/views/activity/index.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/managers/_form.php" beforeDir="false" afterPath="$PROJECT_DIR$/views/managers/_form.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/managers/create.php" beforeDir="false" afterPath="$PROJECT_DIR$/views/managers/create.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/managers/manage.php" beforeDir="false" afterPath="$PROJECT_DIR$/views/managers/manage.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/managers/update.php" beforeDir="false" afterPath="$PROJECT_DIR$/views/managers/update.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/project/_form.php" beforeDir="false" afterPath="$PROJECT_DIR$/views/project/_form.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/project/project_print.php" beforeDir="false" afterPath="$PROJECT_DIR$/views/project/project_print.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/files/cleopatra_app_new.mwb" beforeDir="false" afterPath="$PROJECT_DIR$/web/files/cleopatra_app_new.mwb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/files/cleopatra_app_new.mwb.bak" beforeDir="false" afterPath="$PROJECT_DIR$/web/files/cleopatra_app_new.mwb.bak" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/lastpage" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/lastpage.pdf" beforeDir="false" />
-    </list>
+    <list default="true" id="a8b58588-c06b-459c-aba1-2943e9f72337" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -83,35 +51,7 @@
     </session>
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="Managers.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/models/Managers.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="447">
-              <caret line="83" column="48" selection-start-line="83" selection-start-column="48" selection-end-line="83" selection-end-column="48" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="_form.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/views/managers/_form.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="221">
-              <caret line="15" column="72" selection-start-line="15" selection-start-column="72" selection-end-line="15" selection-end-column="72" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="create.php" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/views/managers/create.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="323">
-              <caret line="22" column="46" selection-start-line="22" selection-start-column="46" selection-end-line="22" selection-end-column="46" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300" />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -348,18 +288,7 @@
             <path>
               <item name="app" type="b2602c69:ProjectViewProjectNode" />
               <item name="app" type="462c0819:PsiDirectoryNode" />
-              <item name="models" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="app" type="b2602c69:ProjectViewProjectNode" />
-              <item name="app" type="462c0819:PsiDirectoryNode" />
-              <item name="views" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="app" type="b2602c69:ProjectViewProjectNode" />
-              <item name="app" type="462c0819:PsiDirectoryNode" />
-              <item name="views" type="462c0819:PsiDirectoryNode" />
-              <item name="managers" type="462c0819:PsiDirectoryNode" />
+              <item name="controllers" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -462,16 +391,15 @@
       <workItem from="1540481520725" duration="15000" />
       <workItem from="1540520464783" duration="163000" />
       <workItem from="1540570538182" duration="940000" />
-      <workItem from="1540632579533" duration="10623000" />
+      <workItem from="1540632579533" duration="10678000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="194284000" />
+    <option name="totallyTimeSpent" value="194339000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.18791947" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -1072,13 +1000,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/models/Managers.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="447">
-          <caret line="83" column="48" selection-start-line="83" selection-start-column="48" selection-end-line="83" selection-end-column="48" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/views/managers/_form.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="221">
@@ -1090,6 +1011,13 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="323">
           <caret line="22" column="46" selection-start-line="22" selection-start-column="46" selection-end-line="22" selection-end-column="46" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/models/Managers.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="447">
+          <caret line="83" column="48" selection-start-line="83" selection-start-column="48" selection-end-line="83" selection-end-column="48" />
         </state>
       </provider>
     </entry>
