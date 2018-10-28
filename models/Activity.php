@@ -105,7 +105,7 @@ class Activity extends \yii\db\ActiveRecord
             [['temp_max_amount','budget_plan'], 'safe'],
             [['root_project_id', 'organization_organization_id', 'strategic_strategic_id', 'goal_goal_id', 'strategy_strategy_id', 'indicator_indicator_id', 'element_element_id', 'product_product_id','responsible_by', 'lastpage_id'], 'integer'],
             [['activity_rationale', 'objective', 'activity_type', 'evaluation', 'benefit'], 'string'],
-            [['activity_name'], 'string', 'max' => 45],
+            [['activity_name'], 'string', 'max' => 255],
             //[['activity_type'], 'string', 'max' => 255],
             [['activity_key'], 'string', 'max' => 255],
             [['temp_type', 'temp_procced', 'paomai_quantity','paomai_quality'], 'safe'],

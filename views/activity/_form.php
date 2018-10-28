@@ -12,7 +12,7 @@ use kartik\money\MaskMoney;
 $project_id = Yii::$app->request->get('proj_id');
 $project_name = Yii::$app->request->get('proj_name');
 //$model->root_project_id = $project_id;
-$model->temp_max_amount = 5000;
+$model->temp_max_amount = 500;
 ?>
 
 <div class="activity-form">

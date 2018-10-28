@@ -369,7 +369,9 @@ class ActivityController extends Controller
     }
 
     public function actionPreview($activity_id, $activity_name) {
-        $mpdf = new Mpdf(['mode' => 's']);
+        //$mpdf = new Mpdf(['mode' => 's']);
+        $mpdf = new \Mpdf\Mpdf(['tempDir' => __DIR__ . '/mpdf/temp']);
+
         $model = $this->findModel($activity_id);
         $content  = $this->renderPartial('activity_print', [
             'model' => $model,

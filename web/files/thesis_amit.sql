@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 27, 2018 at 02:37 PM
+-- Generation Time: Oct 28, 2018 at 07:28 PM
 -- Server version: 10.1.36-MariaDB
 -- PHP Version: 7.2.10
 
@@ -31,7 +31,7 @@ SET time_zone = "+00:00";
 CREATE TABLE `activity` (
   `activity_id` int(11) NOT NULL,
   `root_project_id` int(11) DEFAULT NULL COMMENT 'โครงการ',
-  `activity_name` varchar(45) DEFAULT NULL COMMENT 'ชือกิจกรรม',
+  `activity_name` varchar(255) DEFAULT NULL COMMENT 'ชือกิจกรรม',
   `activity_rationale` text COMMENT 'หลักการและเหตุผล',
   `activity_type` text COMMENT 'ลักษณะกิจกรรม',
   `objective` text COMMENT 'วัตถุประสงค์',
@@ -206,7 +206,8 @@ INSERT INTO `lastpage` (`last_id`, `last_role`, `last_user`, `last_position`, `p
 (45, 1, 'sad', 'asd', 'gyQZoIVe-ZhDJE2'),
 (46, 3, 'sad', 'dsfdsfsdf', 'tBPoHuS5WHLK5Au'),
 (47, 3, 'Explicabo Rerum cupidatat non ut ex exercitationem quam veniam', 'Ipsam nisi esse incidunt sit qui dicta enim ad ab', 'Yjfe1aRgoi0bv0-'),
-(48, 1, 'rtyrt', 'y', 'Y4krjsBiZMNLkCI');
+(48, 1, 'rtyrt', 'y', 'Y4krjsBiZMNLkCI'),
+(50, 3, 'Sed aute in voluptatem maiores nobis et cumque vero reprehenderit dolor est', 'Voluptas culpa sed maiores aut iusto aliquip ut obcaecati qui deserunt nostrud omnis officia non', '07J01adU622WY2u');
 
 -- --------------------------------------------------------
 
@@ -332,6 +333,13 @@ CREATE TABLE `project` (
   `lastpage_id` int(11) DEFAULT NULL COMMENT 'หน้าสุดท้าย'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Dumping data for table `project`
+--
+
+INSERT INTO `project` (`project_id`, `project_name`, `organization_id`, `responsibler_id`, `project_laksana_id`, `strategic_id`, `goal_id`, `realted_subject_id`, `strategy_id`, `indicator_id`, `element_id`, `product_id`, `rationale`, `objective`, `project_kpi_id`, `projecti_paomai_id`, `lakshana_activity`, `project_plan_id`, `project_start`, `project_end`, `project_location`, `project_evaluation`, `project_benefit`, `created_by`, `project_money`, `budget_budget_type`, `project_year`, `project_status`, `project_key`, `lastpage_id`) VALUES
+(1, 'Griffith Hood', 3, 2, 109, 2, 2, 1, 3, 1, 2, 1, 'Tempor minim magna exercitationem minima possimus ea ad ratione assumenda molestiae deserunt hic', 'Inventore excepturi est ut aspernatur dolor et deserunt quia rerum anim et minima animi et', NULL, 60, 'Suscipit perferendis quae voluptate iste qui fuga Aspernatur sunt non ut autem voluptas nihil tenetur', 124, '2561-10-17', '2561-10-19', 'Deleniti magna voluptatem autem praesentium officia quaerat assumenda est', 'Aliqua Laudantium ad consequat Placeat aut sapiente nisi', 'Veniam pariatur Commodo anim reprehenderit ut ad quo nihil', 1, 5000, 1, '2004', 10, '07J01adU622WY2u', 50);
+
 -- --------------------------------------------------------
 
 --
@@ -343,6 +351,13 @@ CREATE TABLE `project_files` (
   `file_source` text COMMENT 'ที่อยู่ไฟล์',
   `project_id` int(11) NOT NULL COMMENT 'โครงการ'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `project_files`
+--
+
+INSERT INTO `project_files` (`file_id`, `file_source`, `project_id`) VALUES
+(1, '{\"5cf06b6d2d5645f58b6d606df14d53fa.pdf\":\"3.pdf\"}', 1);
 
 -- --------------------------------------------------------
 
@@ -491,7 +506,9 @@ INSERT INTO `project_laksana` (`laksana_id`, `project_type_id`, `procced_id`) VA
 (104, 3, 2),
 (105, 3, 2),
 (106, 1, 1),
-(107, 1, 1);
+(107, 1, 1),
+(108, 2, 2),
+(109, 2, 2);
 
 -- --------------------------------------------------------
 
@@ -567,7 +584,9 @@ INSERT INTO `project_paomai` (`paomai_id`, `project_quantity`, `project_quality`
 (55, 'Quam quidem voluptatem sit doloremque sint enim beatae blanditiis cupidatat dolore libero accusantium aut ea laborum rerum ea magnam aliquip', 'Eum optio suscipit quasi veniam voluptatem sit id assumenda voluptatem neque dolor dolores consequat Eos'),
 (56, 'Lorem amet et autem explicabo Ea nulla aut ullam aperiam tenetur voluptas quia quia qui placeat', 'Culpa nihil voluptate architecto sit autem natus libero quasi accusamus'),
 (57, 'Molestiae maiores aut accusamus commodi qui quas ut sint culpa reprehenderit nostrum sint consequatur illum', 'Qui error proident ut impedit ullamco eius'),
-(58, 'Molestiae maiores aut accusamus commodi qui quas ut sint culpa reprehenderit nostrum sint consequatur illum', 'Qui error proident ut impedit ullamco eius');
+(58, 'Molestiae maiores aut accusamus commodi qui quas ut sint culpa reprehenderit nostrum sint consequatur illum', 'Qui error proident ut impedit ullamco eius'),
+(59, 'Aliquam nesciunt tempora dolor et optio velit vel deleniti delectus cum illum aute aut aliquip labore praesentium', 'Quos a culpa quia ut vero voluptatem eligendi ut laudantium dolorem aute dolore quam'),
+(60, 'Aliquam nesciunt tempora dolor et optio velit vel deleniti delectus cum illum aute aut aliquip labore praesentium', 'Quos a culpa quia ut vero voluptatem eligendi ut laudantium dolorem aute dolore quam');
 
 -- --------------------------------------------------------
 
@@ -621,7 +640,8 @@ INSERT INTO `project_plan` (`plan_id`, `plan_process`, `plan_detail`, `plan_date
 (118, 2, 'Non est aliqua Ut eum in aliquip optio sint dolor porro quasi cum voluptas ea delectus id qui ea', '2018-10-11', 'Commodi natus odit sit asperiores sequi error delectus et perferendis aut velit dolor qui', 'tBPoHuS5WHLK5Au'),
 (119, 3, 'Quia vitae alias minim dolorem magna id voluptatem nobis obcaecati rerum minim officia', '0000-00-00', 'Officia officia ut voluptatem cum', 'r_WLs3wFNx5UPzM'),
 (120, 3, 'Ex quia sunt quibusdam adipisicing molestiae optio autem itaque est quos in molestiae', '0000-00-00', 'A minima vero ad excepturi anim distinctio', 'Yjfe1aRgoi0bv0-'),
-(122, 3, 'Placeat aut occaecat laudantium architecto assumenda aute enim dignissimos quaerat eveniet est sit sunt et', '2018-10-17', 'Aliquid quo laudantium corrupti magna praesentium hic minus eius id unde quam nulla', 'Y4krjsBiZMNLkCI');
+(122, 3, 'Placeat aut occaecat laudantium architecto assumenda aute enim dignissimos quaerat eveniet est sit sunt et', '2018-10-17', 'Aliquid quo laudantium corrupti magna praesentium hic minus eius id unde quam nulla', 'Y4krjsBiZMNLkCI'),
+(124, 2, 'Suscipit similique amet velit aliqua Pariatur Rerum', '0000-00-00', 'Dolor maiores rerum voluptate voluptate laborum Officia amet natus ut exercitation perferendis quam ', '07J01adU622WY2u');
 
 -- --------------------------------------------------------
 
@@ -912,7 +932,7 @@ ALTER TABLE `strategy`
 -- AUTO_INCREMENT for table `activity`
 --
 ALTER TABLE `activity`
-  MODIFY `activity_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `activity_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `activity_files`
@@ -954,13 +974,13 @@ ALTER TABLE `indicator`
 -- AUTO_INCREMENT for table `lastpage`
 --
 ALTER TABLE `lastpage`
-  MODIFY `last_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
+  MODIFY `last_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
 
 --
 -- AUTO_INCREMENT for table `managers`
 --
 ALTER TABLE `managers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `organization`
@@ -984,13 +1004,13 @@ ALTER TABLE `product`
 -- AUTO_INCREMENT for table `project`
 --
 ALTER TABLE `project`
-  MODIFY `project_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `project_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `project_files`
 --
 ALTER TABLE `project_files`
-  MODIFY `file_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `file_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `project_kpi`
@@ -1002,19 +1022,19 @@ ALTER TABLE `project_kpi`
 -- AUTO_INCREMENT for table `project_laksana`
 --
 ALTER TABLE `project_laksana`
-  MODIFY `laksana_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=108;
+  MODIFY `laksana_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=110;
 
 --
 -- AUTO_INCREMENT for table `project_paomai`
 --
 ALTER TABLE `project_paomai`
-  MODIFY `paomai_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'เป้าหมาย', AUTO_INCREMENT=59;
+  MODIFY `paomai_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'เป้าหมาย', AUTO_INCREMENT=61;
 
 --
 -- AUTO_INCREMENT for table `project_plan`
 --
 ALTER TABLE `project_plan`
-  MODIFY `plan_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=123;
+  MODIFY `plan_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=125;
 
 --
 -- AUTO_INCREMENT for table `project_type`

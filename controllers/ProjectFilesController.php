@@ -64,7 +64,8 @@ class ProjectFilesController extends Controller
 
     public function generateTable($model) {
 
-        $mpdf = new Mpdf(['mode' => 's']);
+        //$mpdf = new Mpdf(['mode' => 's']);
+        $mpdf = new \Mpdf\Mpdf(['tempDir' => __DIR__ . '/mpdf/temp']);
         $content = $this->renderPartial('project_table_pdf', [
             'model' => $model,
         ]);
@@ -93,7 +94,8 @@ class ProjectFilesController extends Controller
                 $i++;
             }
 
-            $mpdf = new Mpdf(['mode' => 's']);
+            //$mpdf = new Mpdf(['mode' => 's']);
+            $mpdf = new \Mpdf\Mpdf(['tempDir' => __DIR__ . '/mpdf/temp']);
             $content = $this->renderPartial('project_table_pdf', [
                 'model' => $data,
             ]);
@@ -125,7 +127,8 @@ class ProjectFilesController extends Controller
 
     public function Merge($project_name, $files)
     {
-        $pdf = new mPDF();
+        //$pdf = new mPDF();
+        $pdf = new \Mpdf\Mpdf(['tempDir' => __DIR__ . '/mpdf/temp']);
         $pdf->enableImports = true;
         foreach ($files as $file){
             $pdf->SetImportUse();
@@ -142,7 +145,8 @@ class ProjectFilesController extends Controller
     }
 
     public function generateLastPage($project_name){
-        $mpdf = new Mpdf(['mode' => 's']);
+        //$mpdf = new Mpdf(['mode' => 's']);
+        $mpdf = new \Mpdf\Mpdf(['tempDir' => __DIR__ . '/mpdf/temp']);
         $content = $this->renderPartial('lastpage');
         $stylesheet = "body{font-family: Garuda}";
         $mpdf->WriteHTML($stylesheet,1);

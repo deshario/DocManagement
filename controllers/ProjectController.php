@@ -420,7 +420,8 @@ class ProjectController extends Controller
     }
 
     public function actionPreview($project_id, $project_name) {
-        $mpdf = new Mpdf(['mode' => 's']);
+        //$mpdf = new Mpdf(['mode' => 's']);
+        $mpdf = new \Mpdf\Mpdf(['tempDir' => __DIR__ . '/mpdf/temp']);
         $model = $this->findModel($project_id);
          $content  = $this->renderPartial('project_print', [
             'model' => $model,
