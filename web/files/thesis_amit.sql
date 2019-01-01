@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 21, 2018 at 02:39 PM
--- Server version: 10.1.37-MariaDB
--- PHP Version: 7.1.24
+-- Generation Time: Jan 01, 2019 at 08:46 AM
+-- Server version: 10.1.36-MariaDB
+-- PHP Version: 7.2.10
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -31,19 +31,15 @@ SET time_zone = "+00:00";
 CREATE TABLE `activity` (
   `activity_id` int(11) NOT NULL,
   `root_project_id` int(11) DEFAULT NULL COMMENT 'โครงการ',
-  `activity_name` varchar(45) DEFAULT NULL COMMENT 'ชือกิจกรรม',
+  `activity_name` varchar(255) DEFAULT NULL COMMENT 'ชือกิจกรรม',
   `activity_rationale` text COMMENT 'หลักการและเหตุผล',
   `activity_type` text COMMENT 'ลักษณะกิจกรรม',
   `objective` text COMMENT 'วัตถุประสงค์',
   `evaluation` text COMMENT 'การประเมินผล',
   `benefit` text COMMENT 'ประโยช์ที่คาดว่าจะได้รับ',
   `organization_organization_id` int(11) DEFAULT NULL COMMENT 'หน่วยงาน',
-  `strategic_strategic_id` int(11) DEFAULT NULL COMMENT 'ยุทธศาสตร์',
-  `goal_goal_id` int(11) DEFAULT NULL COMMENT 'เป้าประสงค์',
   `responsible_by` int(11) DEFAULT NULL COMMENT 'ผู้รับผิดชอบ',
-  `strategy_strategy_id` int(11) DEFAULT NULL COMMENT 'กลยุทธ์',
-  `indicator_indicator_id` int(11) DEFAULT NULL COMMENT 'ตัวชี้วัด',
-  `realted_subject_id` int(11) DEFAULT NULL COMMENT 'รายวิชาที่สอดคล่อง',
+  `activity_consistency_id` int(11) DEFAULT NULL COMMENT 'ความสอดคล่อง',
   `element_element_id` int(11) DEFAULT NULL COMMENT 'องค์ประกอบ',
   `product_product_id` int(11) DEFAULT NULL COMMENT 'ผลผลิต',
   `project_laksana_id` int(11) DEFAULT NULL COMMENT 'ลักษณะโครงการ',
@@ -51,22 +47,14 @@ CREATE TABLE `activity` (
   `project_plan_id` int(11) DEFAULT NULL COMMENT 'กิจกรรมการดำเนินงาน',
   `budget_type_id` int(11) DEFAULT NULL COMMENT 'แหล่งที่มาของงบประมาณ',
   `activity_money` int(11) DEFAULT NULL COMMENT 'งบประมาณ',
+  `related_subject` varchar(255) DEFAULT NULL,
   `budget_details_id` int(11) DEFAULT NULL COMMENT 'รายละเอียดของงบประมาณ',
   `activity_status` int(11) DEFAULT NULL COMMENT 'สถานะ',
   `activity_key` varchar(255) DEFAULT NULL COMMENT 'Activity Key',
   `lastpage_id` int(11) DEFAULT NULL COMMENT 'หน้าสุดท้าย',
-  `created_by` int(11) DEFAULT NULL
+  `created_by` int(11) DEFAULT NULL,
+  `suggestion` text COMMENT 'ข้อเสนอแนะ'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `activity`
---
-
-INSERT INTO `activity` (`activity_id`, `root_project_id`, `activity_name`, `activity_rationale`, `activity_type`, `objective`, `evaluation`, `benefit`, `organization_organization_id`, `strategic_strategic_id`, `goal_goal_id`, `responsible_by`, `strategy_strategy_id`, `indicator_indicator_id`, `realted_subject_id`, `element_element_id`, `product_product_id`, `project_laksana_id`, `project_paomai_id`, `project_plan_id`, `budget_type_id`, `activity_money`, `budget_details_id`, `activity_status`, `activity_key`, `lastpage_id`, `created_by`) VALUES
-(1, 1, 'กิจกรรม34', 'ฟหกฟหก', 'กดกเกดเกดเกดเ', 'ฟหกฟหกฟหก', NULL, 'กดเกดเ', 3, 1, 2, 2, 5, 1, 1, 1, 2, 116, 67, 136, 2, 1000, 29, 10, 'BSC7QmMwzVkH2NE', NULL, 1),
-(2, 1, 'กิจกรรม2', 'กดเกดเดก', 'หกดกหด', 'หกดหกดหกดกดเกเด', NULL, '้เด้เดัดีด', 2, 3, 1, 3, 5, 1, 1, 2, 2, 112, 63, 127, 1, 5000, 26, 10, 'f8yDLVV8FRg1jYk', NULL, 13),
-(3, 1, 'mero activity', 'asdasd', 'asdsad', 'asdasd', NULL, '324ergtret', 2, 1, 2, 2, 3, 1, 1, 1, 1, 117, 68, 138, 1, 600000, 30, 10, 'QoJSLZTj-wpAFtE', 51, 1),
-(4, 2, '3333', 'sad', 'asd', 'asd', NULL, 'dsad', 3, 3, 1, 1, 3, 1, 1, 1, 2, 118, 69, 139, 2, 3003, 31, 10, '_-hUCQWChIvIeWC', 52, 1);
 
 -- --------------------------------------------------------
 
@@ -113,7 +101,12 @@ INSERT INTO `budget_details` (`detail_id`, `detail_name`, `detail_price`, `activ
 (26, 'กดเดกเ', 5000, 'f8yDLVV8FRg1jYk'),
 (29, 'กดเกดเ', 5000, 'BSC7QmMwzVkH2NE'),
 (30, 'asdasd', 234234, 'QoJSLZTj-wpAFtE'),
-(31, 'asd', 55555, '_-hUCQWChIvIeWC');
+(31, 'asd', 55555, '_-hUCQWChIvIeWC'),
+(32, 'asd', 31345, 'hpeBAD8nI5hpHyw'),
+(36, 'asd', 342, 'RpENWe1o-_Loy_O'),
+(37, 'sdfs', 345, 'k7jX1LVAwmedtv5'),
+(38, 'sdf', 324234, 'ePL2VF_9GGSEoZA'),
+(117, 'sad', 5000, 'y7cCuv2K4rCd9D5');
 
 -- --------------------------------------------------------
 
@@ -133,6 +126,44 @@ CREATE TABLE `budget_type` (
 INSERT INTO `budget_type` (`budget_type_id`, `budget_type_name`) VALUES
 (1, 'งบประมาณพิเศษ'),
 (2, 'รายได้');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `consistency`
+--
+
+CREATE TABLE `consistency` (
+  `consistency_id` int(11) NOT NULL,
+  `cons_strategic_id` int(11) DEFAULT NULL COMMENT 'ยุทธศาสตร์',
+  `cons_goal_id` int(11) DEFAULT NULL COMMENT 'เป้าประสงค์',
+  `cons_strategy_id` int(11) DEFAULT NULL COMMENT 'กลยุทธ์',
+  `cons_indicator_id` int(11) DEFAULT NULL COMMENT 'ตัวชี้วัด',
+  `project_act_key` varchar(255) DEFAULT NULL COMMENT 'อ้างอิง project รึ Act'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `consistency`
+--
+
+INSERT INTO `consistency` (`consistency_id`, `cons_strategic_id`, `cons_goal_id`, `cons_strategy_id`, `cons_indicator_id`, `project_act_key`) VALUES
+(11, 2, 3, 1, 1, 'RpENWe1o-_Loy_O'),
+(12, 1, 2, 2, 2, 'RpENWe1o-_Loy_O'),
+(13, 1, 2, 2, 2, 'k7jX1LVAwmedtv5'),
+(14, 2, 1, 1, 1, '31Y7nvj-0kFrXn2'),
+(21, 1, 1, 2, 1, 'VphFEx85HZ9lTja'),
+(22, 2, 2, NULL, NULL, 'VphFEx85HZ9lTja'),
+(23, 1, 2, 2, 1, 'ePL2VF_9GGSEoZA'),
+(24, 1, 1, 1, 1, '99U_JXOO6PiALHb'),
+(25, 1, 1, 1, 1, 'SNdcRZnXFl1VeAZ'),
+(26, 2, 1, 1, 1, 'p68Hw7qsgGLyi6X'),
+(27, NULL, NULL, NULL, NULL, 'RY2hwHPQDSuuVdt'),
+(28, NULL, NULL, NULL, NULL, 'VxdcZESrrDSHG_M'),
+(29, NULL, NULL, NULL, NULL, 'Fhc8mbRwG4pSQw4'),
+(30, NULL, NULL, NULL, NULL, 'd6abgyuXKMwdQLC'),
+(117, 1, 2, 1, 2, 'TILrut_QgeiiKYt'),
+(120, 1, 1, 2, 1, 'sa2KNck9PCiIlqk'),
+(121, 1, 1, 2, 2, 'y7cCuv2K4rCd9D5');
 
 -- --------------------------------------------------------
 
@@ -161,7 +192,7 @@ INSERT INTO `element` (`element_id`, `element_name`) VALUES
 
 CREATE TABLE `goal` (
   `goal_id` int(11) NOT NULL,
-  `goal_name` varchar(45) DEFAULT NULL COMMENT 'เป้าประสงค์'
+  `goal_name` varchar(255) NOT NULL COMMENT 'เป้าประสงค์'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -170,7 +201,8 @@ CREATE TABLE `goal` (
 
 INSERT INTO `goal` (`goal_id`, `goal_name`) VALUES
 (1, 'เป้าประสงค์ 1'),
-(2, 'เป้าประสงค์ 2');
+(2, 'เป้าประสงค์ 2'),
+(3, 'เป้าประสงค์ 11');
 
 -- --------------------------------------------------------
 
@@ -180,7 +212,7 @@ INSERT INTO `goal` (`goal_id`, `goal_name`) VALUES
 
 CREATE TABLE `indicator` (
   `indicator_id` int(11) NOT NULL,
-  `indicator_name` varchar(45) DEFAULT NULL COMMENT 'ตัวชี้วัด'
+  `indicator_name` varchar(255) NOT NULL COMMENT 'ตัวชี้วัด'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -189,7 +221,7 @@ CREATE TABLE `indicator` (
 
 INSERT INTO `indicator` (`indicator_id`, `indicator_name`) VALUES
 (1, 'ตัวชี้วัด 1'),
-(2, 'ตัวชี้วัด 2');
+(2, 'ตัวชี้วัด 11');
 
 -- --------------------------------------------------------
 
@@ -204,28 +236,6 @@ CREATE TABLE `lastpage` (
   `last_position` varchar(100) NOT NULL COMMENT 'ตำแหน่งผู้ใช้งาน',
   `project_act_key` varchar(255) NOT NULL COMMENT 'อ้างอิง project'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `lastpage`
---
-
-INSERT INTO `lastpage` (`last_id`, `last_role`, `last_user`, `last_position`, `project_act_key`) VALUES
-(32, 1, 'พระมหาอนันต์ องคุสิริ', 'อาจารย์ประจำหลักสูตร', 'MaxtpGf6_OYu_ix'),
-(33, 2, 'พระปลัดนฤดล ', 'ผูอำนวยการสำนักงานวิทยาลัย', 'MaxtpGf6_OYu_ix'),
-(35, 1, 'aa', 'aa', 'Q5BTI8Vq8n78IAn'),
-(36, 2, 'bb', 'cc', 'Q5BTI8Vq8n78IAn'),
-(37, 1, 'aa', 'aa', 'tcBVbs1Id_TC0Z2'),
-(38, 1, 'ss', 'ss', 'tcBVbs1Id_TC0Z2'),
-(42, 1, 'qqq', 'wwwww', '6lWnte3QAZF4auA'),
-(43, 2, 'ewrwe', 'rwerwerwer', '6lWnte3QAZF4auA'),
-(44, 2, 'ttt', 'ttttttt', '6lWnte3QAZF4auA'),
-(45, 1, 'sad', 'asd', 'gyQZoIVe-ZhDJE2'),
-(46, 3, 'sad', 'dsfdsfsdf', 'tBPoHuS5WHLK5Au'),
-(47, 3, 'Explicabo Rerum cupidatat non ut ex exercitationem quam veniam', 'Ipsam nisi esse incidunt sit qui dicta enim ad ab', 'Yjfe1aRgoi0bv0-'),
-(48, 1, 'rtyrt', 'y', 'Y4krjsBiZMNLkCI'),
-(50, 1, 'sdfd', 'dfgdfgfdgfgfdgdfgdfg', 'gdBL-siug1yr7PI'),
-(51, 2, 'ert', 'ertert', 'QoJSLZTj-wpAFtE'),
-(52, 2, 'asdsad', 'asdasd', '_-hUCQWChIvIeWC');
 
 -- --------------------------------------------------------
 
@@ -253,10 +263,7 @@ CREATE TABLE `managers` (
 
 INSERT INTO `managers` (`id`, `username`, `auth_key`, `password_hash`, `password_reset_token`, `email`, `created_at`, `updated_at`, `roles`, `status`, `picture`) VALUES
 (1, 'amit', 'ZIJ-hJxg9mFNIbLR0xv7XCjtVEfU_P6N', '$2y$13$fMAwC9LVwGFW0VROj375derZg6LdYKA4.HxKyHPaegQeJ2TCsNoEa', NULL, 'amit@gmail.com', 1538491076, 1538491076, 20, 10, NULL),
-(11, 'girl', 'xPihY-5nwV3HgnNuUDQ1M-tO-NB_JA2K', '$2y$13$b0aeOkZqnaOlZGxK0D6ZSOr9Rnk6P84Bw0xB6tsG98vWIGmtEvWRe', NULL, 'lccle7nd@virtual.com', 1540963474, 1540963474, 10, 10, 'girl.png'),
-(12, 'pong', 'UrHmcVVj_FnO4sS8TCsTQlCl64pZvKie', '$2y$13$ceUZfpkoWx1uGo0gvCCWHen9NyX8ANSuUUvEqrPT1Lwt1..uG.1xS', NULL, 'pong@gmail.com', 1541921787, 1541921787, 20, 10, 'pong.jpg'),
-(13, 'deshario', '16b_rDKGRFFqnj2DjtiX34zXpdsLMRy3', '$2y$13$7nXO6Puk1t09Lmbgirc6AO2DlPcYJdCaTyPcXZ9qfOq0MxEr6PZ0e', NULL, '2z1cxdgw@virtual.com', 1542802232, 1542802232, 10, 10, 'deshario.png'),
-(14, 'bikash', '7r-7DoNb88phHuJPq4kXlI2VlMYf0GaE', '$2y$13$21YsdeRyG7aojXM6bkBzu.rHSFNJaDfivHUgmovW/q5SLbac6TT7q', NULL, 'bh0aav7n@virtual.com', 1542806912, 1542806912, 10, 10, 'bikash.png');
+(14, 'deshario', 'qAWiDIgIA3xpGLXj5CBg9AV3FmS_1Vo3', '$2y$13$hCu5gUT6fnJRP961kIzc3eA1NJhj54YhZVPLvkxdq1SA9MWnUsft2', NULL, 'deshario@admin.com', 1544287271, 1544287271, 20, 10, 'deshario.png');
 
 -- --------------------------------------------------------
 
@@ -326,13 +333,9 @@ CREATE TABLE `project` (
   `project_id` int(11) NOT NULL,
   `project_name` varchar(255) DEFAULT NULL COMMENT 'ชือโครงการ',
   `organization_id` int(11) DEFAULT NULL COMMENT 'ชื่อหน่วยงาน',
+  `project_consistency_id` int(11) DEFAULT NULL COMMENT 'ความสอดคล่อง',
   `responsibler_id` int(11) DEFAULT NULL COMMENT 'ผู้รับผิดชอบ',
   `project_laksana_id` int(11) DEFAULT NULL COMMENT 'ลักษณะโครงการ',
-  `strategic_id` int(11) DEFAULT NULL COMMENT 'ยุทธศาสตร์',
-  `goal_id` int(11) DEFAULT NULL COMMENT 'เป้าประสงค์',
-  `realted_subject_id` int(11) DEFAULT NULL COMMENT 'รายวิชาที่สอดคล่อง',
-  `strategy_id` int(11) DEFAULT NULL COMMENT 'กลยุทธ์',
-  `indicator_id` int(11) DEFAULT NULL COMMENT 'ตัวชีวัด',
   `element_id` int(11) DEFAULT NULL COMMENT 'องค์ประกอบ',
   `product_id` int(11) DEFAULT NULL COMMENT 'ผลผลิต',
   `rationale` text COMMENT 'หลักการและเหตุผล',
@@ -342,6 +345,7 @@ CREATE TABLE `project` (
   `lakshana_activity` text COMMENT 'ลักษณะกิจกรรม',
   `project_plan_id` int(11) DEFAULT NULL COMMENT 'แผนปฏิบัติการกิจกรรม',
   `project_start` varchar(50) DEFAULT NULL COMMENT 'วันที่เริ่มโครงการ',
+  `related_subject` varchar(255) DEFAULT NULL,
   `project_end` varchar(50) DEFAULT NULL COMMENT 'วันที่สินสุดโครงการ',
   `project_location` varchar(255) DEFAULT NULL COMMENT 'สถานที่ดำเนินการ',
   `project_evaluation` text COMMENT 'การประเมินผล',
@@ -352,16 +356,9 @@ CREATE TABLE `project` (
   `project_year` varchar(4) DEFAULT NULL COMMENT 'ปีงบประมาณ',
   `project_status` int(11) DEFAULT '10' COMMENT 'สถานะโครงการ',
   `project_key` varchar(255) DEFAULT NULL COMMENT 'Project Key',
-  `lastpage_id` int(11) DEFAULT NULL COMMENT 'หน้าสุดท้าย'
+  `lastpage_id` int(11) DEFAULT NULL COMMENT 'หน้าสุดท้าย',
+  `suggestion` text COMMENT 'ข้อเสนอแนะ'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `project`
---
-
-INSERT INTO `project` (`project_id`, `project_name`, `organization_id`, `responsibler_id`, `project_laksana_id`, `strategic_id`, `goal_id`, `realted_subject_id`, `strategy_id`, `indicator_id`, `element_id`, `product_id`, `rationale`, `objective`, `project_kpi_id`, `projecti_paomai_id`, `lakshana_activity`, `project_plan_id`, `project_start`, `project_end`, `project_location`, `project_evaluation`, `project_benefit`, `created_by`, `project_money`, `budget_budget_type`, `project_year`, `project_status`, `project_key`, `lastpage_id`) VALUES
-(1, 'xfgvxcvxc', 1, 3, 110, 1, 2, 1, 2, 1, 1, 2, 'dasdasdasdasdadasdasdasasdas', 'asdasd', 42, 61, 'asdasdasd', 125, '2561-10-17', '2561-10-24', 'asdasdasdad', 'asdasd', 'asdasd', 1, 50000, 1, '2561', 10, 'gdBL-siug1yr7PI', 50),
-(2, 'asdasdasd', 1, 2, 113, 3, 2, 1, 3, 2, NULL, NULL, 'asdasdasdasdasdasd', 'adasdasd', NULL, 64, 'asdasd', NULL, '2561-11-14', '2561-11-19', 'asdasd', 'asdasda', 'asdsad', 11, 520000, 2, '2561', 10, 'RLMs9-29ux3XSRm', NULL);
 
 -- --------------------------------------------------------
 
@@ -372,16 +369,8 @@ INSERT INTO `project` (`project_id`, `project_name`, `organization_id`, `respons
 CREATE TABLE `project_files` (
   `file_id` int(11) NOT NULL,
   `file_source` text COMMENT 'ที่อยู่ไฟล์',
-  `project_id` int(11) NOT NULL COMMENT 'โครงการ'
+  `project_id` int(11) DEFAULT NULL COMMENT 'โครงการ'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `project_files`
---
-
-INSERT INTO `project_files` (`file_id`, `file_source`, `project_id`) VALUES
-(1, '{\"785d0c4d7f2204dcad90f57517fb81ce.pdf\":\"07_ch2.pdf\"}', 1),
-(2, '{\"077062f432f05ec2fe6c34c0f385e9d2.pdf\":\"2559Vol4No1_9.pdf\"}', 1);
 
 -- --------------------------------------------------------
 
@@ -410,7 +399,15 @@ INSERT INTO `project_kpi` (`kpi_id`, `kpi_name`, `kpi_goal`, `kpi_project_key`) 
 (38, 'asad', 'asd', 'MaxtpGf6_OYu_ix'),
 (39, 'asd', 'asd', 'gyQZoIVe-ZhDJE2'),
 (40, 'Paul Dale', 'Magni ipsam vel ipsum et eu in tempore', 'r_WLs3wFNx5UPzM'),
-(42, 'asdasdasd', 'asdasdasdasdasd', 'gdBL-siug1yr7PI');
+(42, 'asdasdasd', 'asdasdasdasdasd', 'gdBL-siug1yr7PI'),
+(43, 'asd', 'asd', 'GE1YvMTqFT9gQx9'),
+(44, 'uio', 'uio', 'ywQ_SMQH5PJD0rO'),
+(46, 'kpi1', 'val1', 'fORB2bk73ajTJQr'),
+(47, 'kpi2', 'val2', 'fORB2bk73ajTJQr'),
+(63, 'kpi1', 'val1', 'VphFEx85HZ9lTja'),
+(64, 'kpi2', 'val2', 'VphFEx85HZ9lTja'),
+(73, 'asd', 'asd', 'TILrut_QgeiiKYt'),
+(76, 'asd', '22', 'sa2KNck9PCiIlqk');
 
 -- --------------------------------------------------------
 
@@ -542,7 +539,129 @@ INSERT INTO `project_laksana` (`laksana_id`, `project_type_id`, `procced_id`) VA
 (115, 2, 1),
 (116, 2, 1),
 (117, 2, 2),
-(118, 2, 1);
+(118, 2, 1),
+(119, 2, 2),
+(120, 3, 1),
+(121, 3, 1),
+(122, 2, 1),
+(123, 2, 1),
+(124, 2, 1),
+(125, 3, 1),
+(126, 3, 1),
+(127, 3, 1),
+(128, 3, 1),
+(129, 3, 1),
+(130, 3, 1),
+(131, 3, 1),
+(132, 3, 1),
+(133, 3, 1),
+(134, 3, 1),
+(135, 3, 1),
+(136, 2, 1),
+(137, 3, 1),
+(138, 3, 1),
+(139, 3, 1),
+(140, 3, 1),
+(141, 3, 1),
+(142, 2, 2),
+(143, 3, 2),
+(144, 3, 2),
+(145, 3, 1),
+(146, 3, 1),
+(147, 3, 1),
+(148, 2, 2),
+(149, 3, 1),
+(150, 3, 1),
+(151, 3, 1),
+(152, 2, 1),
+(153, 2, 1),
+(154, 2, 1),
+(155, 2, 1),
+(156, 2, 1),
+(157, 2, 1),
+(158, 2, 1),
+(159, 2, 1),
+(160, 2, 1),
+(161, 2, 1),
+(162, 2, 1),
+(163, 2, 1),
+(164, 2, 1),
+(165, 2, 1),
+(166, 2, 1),
+(167, 3, 1),
+(168, 2, 1),
+(169, 2, 1),
+(170, 2, 1),
+(171, 2, 1),
+(172, 2, 1),
+(173, 2, 1),
+(174, 2, 2),
+(175, 2, 2),
+(176, 2, 2),
+(177, 2, 2),
+(178, 2, 2),
+(179, 2, 2),
+(180, 2, 1),
+(181, 2, 1),
+(182, 2, 1),
+(183, 2, 1),
+(184, 2, 1),
+(185, 2, 1),
+(186, 2, 1),
+(187, 2, 1),
+(188, 2, 1),
+(189, 2, 1),
+(190, 2, 1),
+(191, 2, 1),
+(192, 2, 1),
+(193, 2, 1),
+(194, 2, 1),
+(195, 2, 1),
+(196, 2, 1),
+(197, 2, 1),
+(198, 2, 1),
+(199, 2, 1),
+(200, 2, 1),
+(201, 2, 1),
+(202, 2, 1),
+(203, 2, 1),
+(204, 2, 1),
+(205, 2, 1),
+(206, 2, 1),
+(207, 2, 1),
+(208, 2, 1),
+(209, 2, 1),
+(210, 2, 1),
+(211, 2, 1),
+(212, 2, 1),
+(213, 2, 1),
+(214, 2, 1),
+(215, 2, 1),
+(216, 2, 1),
+(217, 2, 1),
+(218, 3, 1),
+(219, 3, 1),
+(220, 3, 1),
+(221, 3, 1),
+(222, 2, 1),
+(223, 2, 1),
+(224, 2, 1),
+(225, 2, 1),
+(226, 2, 1),
+(227, 2, 1),
+(228, 2, 1),
+(229, 2, 1),
+(230, 2, 1),
+(231, 2, 1),
+(232, 2, 1),
+(233, 2, 1),
+(234, 2, 1),
+(235, 3, 1),
+(236, 3, 1),
+(237, 3, 1),
+(238, 3, 1),
+(239, 3, 1),
+(240, 2, 1);
 
 -- --------------------------------------------------------
 
@@ -553,83 +672,206 @@ INSERT INTO `project_laksana` (`laksana_id`, `project_type_id`, `procced_id`) VA
 CREATE TABLE `project_paomai` (
   `paomai_id` int(11) NOT NULL COMMENT 'เป้าหมาย',
   `project_quantity` text COMMENT 'เชิงปริมาณ',
-  `project_quality` text COMMENT 'เชิงคูณภาพ'
+  `project_quality` text COMMENT 'เชิงคูณภาพ',
+  `project_time` text COMMENT 'เชิงเวลา'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `project_paomai`
 --
 
-INSERT INTO `project_paomai` (`paomai_id`, `project_quantity`, `project_quality`) VALUES
-(1, '111', '222'),
-(2, '333', '444'),
-(3, 'Et molestiae ullamco fuga Voluptate nulla voluptatem id magnam sit ad iste ea labore saepe cum quia qui', 'Laboris occaecat consequatur possimus quidem eum'),
-(4, 'Dolorum est vitae excepturi dolor autem culpa est qui labore in qui esse ad sed inventore tempora', 'Quibusdam perspiciatis ut consequatur et cupidatat eum ratione at elit consequatur id'),
-(5, 'Dolorum est vitae excepturi dolor autem culpa est qui labore in qui esse ad sed inventore tempora', 'Quibusdam perspiciatis ut consequatur et cupidatat eum ratione at elit consequatur id'),
-(6, 'Quis velit ex vero magna itaque ut veniam et ea rerum', 'Veniam voluptas ea maxime pariatur Est ut mollitia voluptate Nam quo unde quibusdam aute'),
-(7, 'Quis velit ex vero magna itaque ut veniam et ea rerum', 'Veniam voluptas ea maxime pariatur Est ut mollitia voluptate Nam quo unde quibusdam aute'),
-(8, 'Enim consectetur quis esse pariatur Ducimus iste laboris autem velit iusto eu quo iure rerum ut ullam mollitia voluptas', 'Deleniti nemo exercitationem quia accusantium nesciunt dolorum est distinctio Inventore rerum accusantium quam tempore totam eligendi cupiditate et'),
-(9, 'Velit aut fugit aliquip fugiat a aut provident placeat est', 'Odit enim quia in impedit ducimus'),
-(10, 'Laborum soluta sint excepturi veniam sit tempore eveniet aliqua Dolores', 'Consequatur harum ut aliquam officia corrupti ad aut nihil aliquip odit quaerat quis totam officiis'),
-(11, 'เชิงปริมาณเชิงปริมาณเชิงปริมาณ', 'เชิงคุณภาพเชิงคุณภาพเชิงคุณภาพเชิงคุณภาพ'),
-(12, 'หกด', 'หกด'),
-(13, 'asd', 'asd'),
-(14, 'asd', 'asd'),
-(15, 'asd', 'asd'),
-(16, 'asd', 'asd'),
-(17, 'asd', 'asd'),
-(18, 'asd', 'asd'),
-(19, 'asd', 'asd'),
-(20, 'asd', 'asd'),
-(21, 'asd', 'asd'),
-(22, 'asdsa', 'dsad'),
-(23, 'asd', 'asd'),
-(24, 'asd', 'asd'),
-(25, 'asd', 'asd'),
-(26, 'asd', 'asd'),
-(27, 'asd', 'asd'),
-(28, 'asd', 'asd'),
-(29, '111', '222'),
-(30, '111', '222'),
-(31, '111', '222'),
-(32, '111', '222'),
-(33, 'เชิงปริมาณเชิงปริมาณเชิงปริมาณเชิงปริมาณเชิงปริมาณเชิงปริมาณเชิงปริมาณ', 'เชิงคุณภาพเชิงคุณภาพเชิงคุณภาพเชิงคุณภาพเชิงคุณภาพเชิงคุณภาพเชิงคุณภาพเชิงคุณภาพเชิงคุณภาพ'),
-(34, 'Recusandae Aute qui incididunt perferendis recusandae', 'Soluta ipsam ipsum est aperiam laboriosam aut magni lorem vitae aliquam animi pariatur Qui nostrud dolor voluptatem nemo expedita'),
-(35, 'Recusandae Aute qui incididunt perferendis recusandae', 'Soluta ipsam ipsum est aperiam laboriosam aut magni lorem vitae aliquam animi pariatur Qui nostrud dolor voluptatem nemo expedita'),
-(36, 'Recusandae Aute qui incididunt perferendis recusandae', 'Soluta ipsam ipsum est aperiam laboriosam aut magni lorem vitae aliquam animi pariatur Qui nostrud dolor voluptatem nemo expedita'),
-(37, 'asd', 'sad'),
-(38, 'asd', 'sad'),
-(39, 'asd', 'sad'),
-(40, 'asd', 'sad'),
-(41, 'asd', 'sad'),
-(42, 'asd', 'sad'),
-(43, 'asd', 'sad'),
-(44, 'asd', 'sad'),
-(45, 'asd', 'sad'),
-(46, 'asdsa', 'dsad'),
-(47, 'asdsa', 'dsad'),
-(48, 'dfg', 'dfg'),
-(49, 'dfg', 'dfg'),
-(50, 'Nisi recusandae Dignissimos nulla et qui veniam quia quaerat dolorem pariatur Numquam', 'Error do culpa aut iure eligendi autem numquam Nam omnis molestias'),
-(51, 'Eveniet distinctio Ut labore sunt fugiat expedita sed necessitatibus nulla sed', 'Quas neque dolor delectus dolore'),
-(52, 'Eveniet distinctio Ut labore sunt fugiat expedita sed necessitatibus nulla sed', 'Quas neque dolor delectus dolore'),
-(53, 'asd', 'sad'),
-(54, 'Provident tempore illum eos amet nesciunt', 'Porro nisi est veritatis quam'),
-(55, 'Quam quidem voluptatem sit doloremque sint enim beatae blanditiis cupidatat dolore libero accusantium aut ea laborum rerum ea magnam aliquip', 'Eum optio suscipit quasi veniam voluptatem sit id assumenda voluptatem neque dolor dolores consequat Eos'),
-(56, 'Lorem amet et autem explicabo Ea nulla aut ullam aperiam tenetur voluptas quia quia qui placeat', 'Culpa nihil voluptate architecto sit autem natus libero quasi accusamus'),
-(57, 'Molestiae maiores aut accusamus commodi qui quas ut sint culpa reprehenderit nostrum sint consequatur illum', 'Qui error proident ut impedit ullamco eius'),
-(58, 'Molestiae maiores aut accusamus commodi qui quas ut sint culpa reprehenderit nostrum sint consequatur illum', 'Qui error proident ut impedit ullamco eius'),
-(59, 'dasdasdasd', 'sadasdasdasdasdasd'),
-(60, 'กดกดเกดเ', 'กดเกดเ'),
-(61, 'dasdasdasd', 'sadasdasdasdasdasd'),
-(62, 'กดกดเกดเ', 'กดเกดเ'),
-(63, 'กหดหกด', 'กดเกดเดกเ'),
-(64, '', ''),
-(65, 'กดกดเกดเ', 'กดเกดเ'),
-(66, 'กดกดเกดเ', 'กดเกดเ'),
-(67, 'กดกดเกดเ', 'กดเกดเ'),
-(68, 'asdasd', 'asdasdasd'),
-(69, 'asd', 'asd');
+INSERT INTO `project_paomai` (`paomai_id`, `project_quantity`, `project_quality`, `project_time`) VALUES
+(1, '111', '222', NULL),
+(2, '333', '444', NULL),
+(3, 'Et molestiae ullamco fuga Voluptate nulla voluptatem id magnam sit ad iste ea labore saepe cum quia qui', 'Laboris occaecat consequatur possimus quidem eum', NULL),
+(4, 'Dolorum est vitae excepturi dolor autem culpa est qui labore in qui esse ad sed inventore tempora', 'Quibusdam perspiciatis ut consequatur et cupidatat eum ratione at elit consequatur id', NULL),
+(5, 'Dolorum est vitae excepturi dolor autem culpa est qui labore in qui esse ad sed inventore tempora', 'Quibusdam perspiciatis ut consequatur et cupidatat eum ratione at elit consequatur id', NULL),
+(6, 'Quis velit ex vero magna itaque ut veniam et ea rerum', 'Veniam voluptas ea maxime pariatur Est ut mollitia voluptate Nam quo unde quibusdam aute', NULL),
+(7, 'Quis velit ex vero magna itaque ut veniam et ea rerum', 'Veniam voluptas ea maxime pariatur Est ut mollitia voluptate Nam quo unde quibusdam aute', NULL),
+(8, 'Enim consectetur quis esse pariatur Ducimus iste laboris autem velit iusto eu quo iure rerum ut ullam mollitia voluptas', 'Deleniti nemo exercitationem quia accusantium nesciunt dolorum est distinctio Inventore rerum accusantium quam tempore totam eligendi cupiditate et', NULL),
+(9, 'Velit aut fugit aliquip fugiat a aut provident placeat est', 'Odit enim quia in impedit ducimus', NULL),
+(10, 'Laborum soluta sint excepturi veniam sit tempore eveniet aliqua Dolores', 'Consequatur harum ut aliquam officia corrupti ad aut nihil aliquip odit quaerat quis totam officiis', NULL),
+(11, 'เชิงปริมาณเชิงปริมาณเชิงปริมาณ', 'เชิงคุณภาพเชิงคุณภาพเชิงคุณภาพเชิงคุณภาพ', NULL),
+(12, 'หกด', 'หกด', NULL),
+(13, 'asd', 'asd', NULL),
+(14, 'asd', 'asd', NULL),
+(15, 'asd', 'asd', NULL),
+(16, 'asd', 'asd', NULL),
+(17, 'asd', 'asd', NULL),
+(18, 'asd', 'asd', NULL),
+(19, 'asd', 'asd', NULL),
+(20, 'asd', 'asd', NULL),
+(21, 'asd', 'asd', NULL),
+(22, 'asdsa', 'dsad', NULL),
+(23, 'asd', 'asd', NULL),
+(24, 'asd', 'asd', NULL),
+(25, 'asd', 'asd', NULL),
+(26, 'asd', 'asd', NULL),
+(27, 'asd', 'asd', NULL),
+(28, 'asd', 'asd', NULL),
+(29, '111', '222', NULL),
+(30, '111', '222', NULL),
+(31, '111', '222', NULL),
+(32, '111', '222', NULL),
+(33, 'เชิงปริมาณเชิงปริมาณเชิงปริมาณเชิงปริมาณเชิงปริมาณเชิงปริมาณเชิงปริมาณ', 'เชิงคุณภาพเชิงคุณภาพเชิงคุณภาพเชิงคุณภาพเชิงคุณภาพเชิงคุณภาพเชิงคุณภาพเชิงคุณภาพเชิงคุณภาพ', NULL),
+(34, 'Recusandae Aute qui incididunt perferendis recusandae', 'Soluta ipsam ipsum est aperiam laboriosam aut magni lorem vitae aliquam animi pariatur Qui nostrud dolor voluptatem nemo expedita', NULL),
+(35, 'Recusandae Aute qui incididunt perferendis recusandae', 'Soluta ipsam ipsum est aperiam laboriosam aut magni lorem vitae aliquam animi pariatur Qui nostrud dolor voluptatem nemo expedita', NULL),
+(36, 'Recusandae Aute qui incididunt perferendis recusandae', 'Soluta ipsam ipsum est aperiam laboriosam aut magni lorem vitae aliquam animi pariatur Qui nostrud dolor voluptatem nemo expedita', NULL),
+(37, 'asd', 'sad', NULL),
+(38, 'asd', 'sad', NULL),
+(39, 'asd', 'sad', NULL),
+(40, 'asd', 'sad', NULL),
+(41, 'asd', 'sad', NULL),
+(42, 'asd', 'sad', NULL),
+(43, 'asd', 'sad', NULL),
+(44, 'asd', 'sad', NULL),
+(45, 'asd', 'sad', NULL),
+(46, 'asdsa', 'dsad', NULL),
+(47, 'asdsa', 'dsad', NULL),
+(48, 'dfg', 'dfg', NULL),
+(49, 'dfg', 'dfg', NULL),
+(50, 'Nisi recusandae Dignissimos nulla et qui veniam quia quaerat dolorem pariatur Numquam', 'Error do culpa aut iure eligendi autem numquam Nam omnis molestias', NULL),
+(51, 'Eveniet distinctio Ut labore sunt fugiat expedita sed necessitatibus nulla sed', 'Quas neque dolor delectus dolore', NULL),
+(52, 'Eveniet distinctio Ut labore sunt fugiat expedita sed necessitatibus nulla sed', 'Quas neque dolor delectus dolore', NULL),
+(53, 'asd', 'sad', NULL),
+(54, 'Provident tempore illum eos amet nesciunt', 'Porro nisi est veritatis quam', NULL),
+(55, 'Quam quidem voluptatem sit doloremque sint enim beatae blanditiis cupidatat dolore libero accusantium aut ea laborum rerum ea magnam aliquip', 'Eum optio suscipit quasi veniam voluptatem sit id assumenda voluptatem neque dolor dolores consequat Eos', NULL),
+(56, 'Lorem amet et autem explicabo Ea nulla aut ullam aperiam tenetur voluptas quia quia qui placeat', 'Culpa nihil voluptate architecto sit autem natus libero quasi accusamus', NULL),
+(57, 'Molestiae maiores aut accusamus commodi qui quas ut sint culpa reprehenderit nostrum sint consequatur illum', 'Qui error proident ut impedit ullamco eius', NULL),
+(58, 'Molestiae maiores aut accusamus commodi qui quas ut sint culpa reprehenderit nostrum sint consequatur illum', 'Qui error proident ut impedit ullamco eius', NULL),
+(59, 'dasdasdasd', 'sadasdasdasdasdasd', NULL),
+(60, 'กดกดเกดเ', 'กดเกดเ', NULL),
+(61, 'dasdasdasd', 'sadasdasdasdasdasd', NULL),
+(62, 'กดกดเกดเ', 'กดเกดเ', NULL),
+(63, 'กหดหกด', 'กดเกดเดกเ', NULL),
+(64, '', '', NULL),
+(65, 'กดกดเกดเ', 'กดเกดเ', NULL),
+(66, 'กดกดเกดเ', 'กดเกดเ', NULL),
+(67, 'กดกดเกดเ', 'กดเกดเ', NULL),
+(68, 'asdasd', 'asdasdasd', NULL),
+(69, 'asd', 'asd', NULL),
+(70, 'asd', 'asd', NULL),
+(71, 'dfg', 'dfg', NULL),
+(72, 'asd', 'asd', NULL),
+(73, 'uio', 'uio', NULL),
+(74, 'asd', 'asd', NULL),
+(75, 'asd', 'asd', NULL),
+(76, 'sad', 'asd', NULL),
+(77, 'asdas', 'd', NULL),
+(78, 'sad', 'asd', NULL),
+(79, 'sad', 'asd', NULL),
+(80, 'sad', 'asd', NULL),
+(81, 'sad', 'asd', NULL),
+(82, 'sad', 'asd', NULL),
+(83, 'sad', 'asd', NULL),
+(84, 'asdas', 'd', NULL),
+(85, 'asdas', 'd', NULL),
+(86, 'asdas', 'd', NULL),
+(87, 'sdf', 'sdf', NULL),
+(88, '', '', NULL),
+(89, 'sad', 'asd', NULL),
+(90, 'sad', 'asd', NULL),
+(91, 'sad', 'asd', NULL),
+(92, 'sad', 'asd', NULL),
+(93, 'dsf', 'sdf', NULL),
+(94, '', '', NULL),
+(95, '', '', NULL),
+(96, '', '', NULL),
+(97, '', '', NULL),
+(98, '', '', NULL),
+(99, '', '', NULL),
+(100, '', '', NULL),
+(101, '11', '22', '33'),
+(102, '11', '22', '334'),
+(103, 'aa', 'bb', 'cc'),
+(104, 'aa', 'bb', 'dd'),
+(105, 'aa', 'bb', 'dd'),
+(106, 'aa', 'bb', 'dd'),
+(107, 'aa', 'bb', 'dd'),
+(108, 'aa', 'bb', 'dd'),
+(109, 'aa', 'bb', 'dd'),
+(110, 'aa', 'bb', 'cc'),
+(111, 'aa', 'bb', 'cc'),
+(112, 'aa', 'bb', 'cc'),
+(113, 'aa', 'bb', 'cc'),
+(114, 'aa', 'bb', 'cc'),
+(115, 'aa', 'bb', 'cc'),
+(116, 'aa', 'bb', 'cc'),
+(117, 'aa', 'bb', 'cc'),
+(118, '11', '22', '334'),
+(119, 'aa', 'bb', 'cc'),
+(120, 'aa', 'bb', 'cc'),
+(121, 'aa', 'bb', 'cc'),
+(122, 'aa', 'bb', 'cc'),
+(123, 'aa', 'bb', 'cc'),
+(124, 'aa', 'bb', 'cc'),
+(125, 'aa', 'bb', 'cc'),
+(126, 'aa', 'bb', 'cc'),
+(127, 'aa', 'bb', 'cc'),
+(128, 'aa', 'bb', 'cc'),
+(129, 'aa', 'bb', 'cc'),
+(130, 'aa', 'bb', 'cc'),
+(131, 'aa', 'bb', 'cc'),
+(132, 'aa', 'bb', 'cc'),
+(133, 'aa', 'bb', 'cc'),
+(134, 'aa', 'bb', 'cc'),
+(135, 'aa', 'bb', 'cc'),
+(136, 'aa', 'bb', 'cc'),
+(137, 'aa', 'bb', 'cc'),
+(138, 'aa', 'bb', NULL),
+(139, 'aa', 'bb', NULL),
+(140, 'aa', 'bb', NULL),
+(141, 'aa', 'bb', NULL),
+(142, 'aa', 'bb', NULL),
+(143, 'aa', 'bb', NULL),
+(144, 'aa', 'bb', NULL),
+(145, 'aa', 'bb', NULL),
+(146, 'aa', 'bb', NULL),
+(147, 'aa', 'bb', NULL),
+(148, 'aa', 'bb', NULL),
+(149, 'aa', 'bb', NULL),
+(150, 'aa', 'bb', NULL),
+(151, 'aa', 'bb', NULL),
+(152, 'aa', 'bb', NULL),
+(153, 'aa', 'bb', NULL),
+(154, 'aa', 'bb', NULL),
+(155, 'aa', 'bb', NULL),
+(156, 'aa', 'bb', NULL),
+(157, 'aa', 'bb', NULL),
+(158, 'aa', 'bb', NULL),
+(159, 'aa', 'bb', NULL),
+(160, 'aa', 'bb', NULL),
+(161, 'aa', 'bb', NULL),
+(162, 'aa', 'bb', NULL),
+(163, 'aa', 'bb', NULL),
+(164, 'aa', 'bb', NULL),
+(165, 'aa', 'bb', NULL),
+(166, 'aa', 'bb', NULL),
+(167, 'aa', 'bb', NULL),
+(168, 'aa', 'bb', NULL),
+(169, '11', '22', '334'),
+(170, 'sad', 'asd', ''),
+(171, '11', '22', '334'),
+(172, '11', '22', '334'),
+(173, 'aa', 'bb', NULL),
+(174, 'aa', 'bb', NULL),
+(175, 'aa', 'bb', NULL),
+(176, 'aa', 'bb', NULL),
+(177, 'aa', 'bb', NULL),
+(178, 'aa', 'bb', NULL),
+(179, 'aa', 'bb', NULL),
+(180, 'aa', 'bb', NULL),
+(181, 'aa', 'bb', NULL),
+(182, 'aa', 'bb', NULL),
+(183, 'aa', 'bbt', NULL),
+(184, 'aa', 'bbt', NULL),
+(185, 'aa', 'bbt', '111'),
+(186, '11', '22', '334'),
+(187, 'sad', 'asd', ''),
+(188, '11', '22', '334'),
+(189, '11', '22', '334'),
+(190, '11', '22', '334'),
+(191, 'aa', 'bbt', '111');
 
 -- --------------------------------------------------------
 
@@ -695,7 +937,20 @@ INSERT INTO `project_plan` (`plan_id`, `plan_process`, `plan_detail`, `plan_date
 (136, 2, '456', '2018-11-23', '456', 'BSC7QmMwzVkH2NE'),
 (137, 1, '234', '2018-11-10', '234234', 'QoJSLZTj-wpAFtE'),
 (138, 2, '234', '2018-11-29', '324234234', 'QoJSLZTj-wpAFtE'),
-(139, 2, 'dsadasd', '2018-11-24', 'dsadasdasd', '_-hUCQWChIvIeWC');
+(139, 2, 'dsadasd', '2018-11-24', 'dsadasdasd', '_-hUCQWChIvIeWC'),
+(140, 1, 'asd', '2561-12-14', 'asd', 'GE1YvMTqFT9gQx9'),
+(141, 1, 'dfg', '2018-12-20', 'dfgdfg', 'UMDWzjbJI4bpamO'),
+(142, 1, '33', '2018-12-21', 'ert', 'hpeBAD8nI5hpHyw'),
+(143, 1, 'uio', '2561-12-19', 'uio', 'ywQ_SMQH5PJD0rO'),
+(145, 2, 'sdf', '2018-12-08', 'sdf', 'UxNwR7IpzmkeNkP'),
+(148, 2, 'asd', '2561-12-22', 'asd', 'fORB2bk73ajTJQr'),
+(156, 1, 'dsf', '2018-12-19', 'sdf', 'RpENWe1o-_Loy_O'),
+(157, 3, 'sdf', '2018-12-13', 'sdf', 'k7jX1LVAwmedtv5'),
+(161, 2, 'asd', '2561-12-22', 'asd', 'VphFEx85HZ9lTja'),
+(162, 1, '324', '2018-12-12', '324324', 'ePL2VF_9GGSEoZA'),
+(249, 2, 'asd', '2561-12-12', 'asd', 'TILrut_QgeiiKYt'),
+(252, 2, 'sad', '2562-01-19', 'asd', 'sa2KNck9PCiIlqk'),
+(253, 1, 'dsad', '2019-01-18', 'asd', 'y7cCuv2K4rCd9D5');
 
 -- --------------------------------------------------------
 
@@ -716,25 +971,6 @@ INSERT INTO `project_type` (`type_id`, `type_name`) VALUES
 (1, 'โครงการต่อเนื่อง'),
 (2, 'โครงการพัฒนางานเดิม'),
 (3, 'โครงการใหม่');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `realted_subject`
---
-
-CREATE TABLE `realted_subject` (
-  `subject_id` int(11) NOT NULL,
-  `subject_name` varchar(60) DEFAULT NULL COMMENT 'รายวิชา',
-  `subject_teacher` varchar(60) DEFAULT NULL COMMENT 'อาจารย์'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `realted_subject`
---
-
-INSERT INTO `realted_subject` (`subject_id`, `subject_name`, `subject_teacher`) VALUES
-(1, 'วัฒนธรรมไทย', 'ฐิติพร');
 
 -- --------------------------------------------------------
 
@@ -773,8 +1009,7 @@ CREATE TABLE `strategic` (
 
 INSERT INTO `strategic` (`strategic_id`, `strategic_name`) VALUES
 (1, 'ยุทธศาสตร์ 1'),
-(2, 'ยุทธศาสตร์ 2'),
-(3, 'การทำนุบำรุงพระพุทธศาสนา ศิลปวัฒนธรรม');
+(2, 'ยุทธศาสตร์ 2');
 
 -- --------------------------------------------------------
 
@@ -784,7 +1019,7 @@ INSERT INTO `strategic` (`strategic_id`, `strategic_name`) VALUES
 
 CREATE TABLE `strategy` (
   `strategy_id` int(11) NOT NULL,
-  `strategy_name` varchar(90) DEFAULT NULL COMMENT 'กลยุทธ์'
+  `strategy_name` varchar(255) NOT NULL COMMENT 'กลยุทธ์'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -792,10 +1027,8 @@ CREATE TABLE `strategy` (
 --
 
 INSERT INTO `strategy` (`strategy_id`, `strategy_name`) VALUES
-(2, 'กลยุทธ์ 2'),
-(3, 'กลยุทธ์ 3'),
-(4, 'กลยุทธ์ 4'),
-(5, 'รณรงค์ให้นิสิตและบุคลากรมีความตระหนักในเรื่องการทำนุบำรุงศิลปวัฒนธรรมและมีบทบาทในการส่งเสฟ');
+(1, 'กลยุทธ์ 1'),
+(2, 'กลยุทธ์ 11');
 
 --
 -- Indexes for dumped tables
@@ -808,10 +1041,6 @@ ALTER TABLE `activity`
   ADD PRIMARY KEY (`activity_id`),
   ADD KEY `fk_activity_project1_idx` (`root_project_id`),
   ADD KEY `fk_activity_organization1_idx` (`organization_organization_id`),
-  ADD KEY `fk_activity_strategic1_idx` (`strategic_strategic_id`),
-  ADD KEY `fk_activity_goal1_idx` (`goal_goal_id`),
-  ADD KEY `fk_activity_strategy1_idx` (`strategy_strategy_id`),
-  ADD KEY `fk_activity_indicator1_idx` (`indicator_indicator_id`),
   ADD KEY `fk_activity_element1_idx` (`element_element_id`),
   ADD KEY `fk_activity_product1_idx` (`product_product_id`),
   ADD KEY `fk_activity_project_responsible1_idx` (`responsible_by`),
@@ -820,9 +1049,9 @@ ALTER TABLE `activity`
   ADD KEY `fk_activity_project_plan1_idx` (`project_plan_id`),
   ADD KEY `fk_activity_budget_type1_idx` (`budget_type_id`),
   ADD KEY `fk_activity_budget_details1_idx` (`budget_details_id`),
-  ADD KEY `fk_activity_realted_subject1_idx` (`realted_subject_id`),
   ADD KEY `fk_activity_lastpage1_idx` (`lastpage_id`),
-  ADD KEY `fk_activity_managers1_idx` (`created_by`);
+  ADD KEY `fk_activity_managers1_idx` (`created_by`),
+  ADD KEY `fk_activity_consistency1_idx` (`activity_consistency_id`);
 
 --
 -- Indexes for table `activity_files`
@@ -842,6 +1071,16 @@ ALTER TABLE `budget_details`
 --
 ALTER TABLE `budget_type`
   ADD PRIMARY KEY (`budget_type_id`);
+
+--
+-- Indexes for table `consistency`
+--
+ALTER TABLE `consistency`
+  ADD PRIMARY KEY (`consistency_id`),
+  ADD KEY `fk_consistency_strategic1_idx` (`cons_strategic_id`),
+  ADD KEY `fk_consistency_goal1_idx` (`cons_goal_id`),
+  ADD KEY `fk_consistency_strategy1_idx` (`cons_strategy_id`),
+  ADD KEY `fk_consistency_indicator1_idx` (`cons_indicator_id`);
 
 --
 -- Indexes for table `element`
@@ -903,18 +1142,14 @@ ALTER TABLE `project`
   ADD KEY `fk_project_organization1_idx` (`organization_id`),
   ADD KEY `fk_project_responsibler1_idx` (`responsibler_id`),
   ADD KEY `fk_project_project_laksana1_idx` (`project_laksana_id`),
-  ADD KEY `fk_project_strategic1_idx` (`strategic_id`),
-  ADD KEY `fk_project_goal1_idx` (`goal_id`),
-  ADD KEY `fk_project_strategy1_idx` (`strategy_id`),
-  ADD KEY `fk_project_indicator1_idx` (`indicator_id`),
   ADD KEY `fk_project_element1_idx` (`element_id`),
   ADD KEY `fk_project_product1_idx` (`product_id`),
   ADD KEY `fk_project_project_kpi1_idx` (`project_kpi_id`),
   ADD KEY `fk_project_project_paomai1_idx` (`projecti_paomai_id`),
   ADD KEY `fk_project_project_plan1_idx` (`project_plan_id`),
   ADD KEY `fk_project_budget_type1_idx` (`budget_budget_type`),
-  ADD KEY `fk_project_realted_subject1_idx` (`realted_subject_id`),
-  ADD KEY `fk_project_lastpage1_idx` (`lastpage_id`);
+  ADD KEY `fk_project_lastpage1_idx` (`lastpage_id`),
+  ADD KEY `fk_project_consistency1_idx` (`project_consistency_id`);
 
 --
 -- Indexes for table `project_files`
@@ -956,12 +1191,6 @@ ALTER TABLE `project_type`
   ADD PRIMARY KEY (`type_id`);
 
 --
--- Indexes for table `realted_subject`
---
-ALTER TABLE `realted_subject`
-  ADD PRIMARY KEY (`subject_id`);
-
---
 -- Indexes for table `responsibler`
 --
 ALTER TABLE `responsibler`
@@ -987,7 +1216,7 @@ ALTER TABLE `strategy`
 -- AUTO_INCREMENT for table `activity`
 --
 ALTER TABLE `activity`
-  MODIFY `activity_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `activity_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `activity_files`
@@ -999,13 +1228,19 @@ ALTER TABLE `activity_files`
 -- AUTO_INCREMENT for table `budget_details`
 --
 ALTER TABLE `budget_details`
-  MODIFY `detail_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `detail_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=118;
 
 --
 -- AUTO_INCREMENT for table `budget_type`
 --
 ALTER TABLE `budget_type`
   MODIFY `budget_type_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `consistency`
+--
+ALTER TABLE `consistency`
+  MODIFY `consistency_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=122;
 
 --
 -- AUTO_INCREMENT for table `element`
@@ -1017,7 +1252,7 @@ ALTER TABLE `element`
 -- AUTO_INCREMENT for table `goal`
 --
 ALTER TABLE `goal`
-  MODIFY `goal_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `goal_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `indicator`
@@ -1029,7 +1264,7 @@ ALTER TABLE `indicator`
 -- AUTO_INCREMENT for table `lastpage`
 --
 ALTER TABLE `lastpage`
-  MODIFY `last_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
+  MODIFY `last_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `managers`
@@ -1059,49 +1294,43 @@ ALTER TABLE `product`
 -- AUTO_INCREMENT for table `project`
 --
 ALTER TABLE `project`
-  MODIFY `project_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `project_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `project_files`
 --
 ALTER TABLE `project_files`
-  MODIFY `file_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `file_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `project_kpi`
 --
 ALTER TABLE `project_kpi`
-  MODIFY `kpi_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
+  MODIFY `kpi_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=77;
 
 --
 -- AUTO_INCREMENT for table `project_laksana`
 --
 ALTER TABLE `project_laksana`
-  MODIFY `laksana_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=119;
+  MODIFY `laksana_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=241;
 
 --
 -- AUTO_INCREMENT for table `project_paomai`
 --
 ALTER TABLE `project_paomai`
-  MODIFY `paomai_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'เป้าหมาย', AUTO_INCREMENT=70;
+  MODIFY `paomai_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'เป้าหมาย', AUTO_INCREMENT=192;
 
 --
 -- AUTO_INCREMENT for table `project_plan`
 --
 ALTER TABLE `project_plan`
-  MODIFY `plan_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=140;
+  MODIFY `plan_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=254;
 
 --
 -- AUTO_INCREMENT for table `project_type`
 --
 ALTER TABLE `project_type`
   MODIFY `type_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-
---
--- AUTO_INCREMENT for table `realted_subject`
---
-ALTER TABLE `realted_subject`
-  MODIFY `subject_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `responsibler`
@@ -1113,13 +1342,13 @@ ALTER TABLE `responsibler`
 -- AUTO_INCREMENT for table `strategic`
 --
 ALTER TABLE `strategic`
-  MODIFY `strategic_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `strategic_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `strategy`
 --
 ALTER TABLE `strategy`
-  MODIFY `strategy_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `strategy_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- Constraints for dumped tables
@@ -1131,21 +1360,17 @@ ALTER TABLE `strategy`
 ALTER TABLE `activity`
   ADD CONSTRAINT `fk_activity_budget_details_new` FOREIGN KEY (`budget_details_id`) REFERENCES `budget_details` (`detail_id`) ON DELETE SET NULL ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_activity_budget_type1` FOREIGN KEY (`budget_type_id`) REFERENCES `budget_type` (`budget_type_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_activity_consistency1` FOREIGN KEY (`activity_consistency_id`) REFERENCES `consistency` (`consistency_id`) ON DELETE SET NULL ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_activity_element1` FOREIGN KEY (`element_element_id`) REFERENCES `element` (`element_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_activity_goal1` FOREIGN KEY (`goal_goal_id`) REFERENCES `goal` (`goal_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_activity_indicator` FOREIGN KEY (`indicator_indicator_id`) REFERENCES `indicator` (`indicator_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_activity_lastpage1` FOREIGN KEY (`lastpage_id`) REFERENCES `lastpage` (`last_id`) ON DELETE SET NULL ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_activity_managers1` FOREIGN KEY (`created_by`) REFERENCES `managers` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_activity_managers1` FOREIGN KEY (`created_by`) REFERENCES `managers` (`id`) ON DELETE SET NULL ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_activity_organization1` FOREIGN KEY (`organization_organization_id`) REFERENCES `organization` (`organization_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_activity_product1` FOREIGN KEY (`product_product_id`) REFERENCES `product` (`product_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_activity_project1` FOREIGN KEY (`root_project_id`) REFERENCES `project` (`project_id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_activity_project_laksana1` FOREIGN KEY (`project_laksana_id`) REFERENCES `project_laksana` (`laksana_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_activity_project_paomai1` FOREIGN KEY (`project_paomai_id`) REFERENCES `project_paomai` (`paomai_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_activity_project_plan1` FOREIGN KEY (`project_plan_id`) REFERENCES `project_plan` (`plan_id`) ON DELETE SET NULL ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_activity_project_responsible1` FOREIGN KEY (`responsible_by`) REFERENCES `responsibler` (`responsible_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_activity_realted_subject1` FOREIGN KEY (`realted_subject_id`) REFERENCES `realted_subject` (`subject_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_activity_strategic1` FOREIGN KEY (`strategic_strategic_id`) REFERENCES `strategic` (`strategic_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_activity_strategy1` FOREIGN KEY (`strategy_strategy_id`) REFERENCES `strategy` (`strategy_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `fk_activity_project_responsible1` FOREIGN KEY (`responsible_by`) REFERENCES `responsibler` (`responsible_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Constraints for table `activity_files`
@@ -1154,31 +1379,36 @@ ALTER TABLE `activity_files`
   ADD CONSTRAINT `fk_activity_files_activity1` FOREIGN KEY (`activity_id`) REFERENCES `activity` (`activity_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
+-- Constraints for table `consistency`
+--
+ALTER TABLE `consistency`
+  ADD CONSTRAINT `fk_consistency_goal1` FOREIGN KEY (`cons_goal_id`) REFERENCES `goal` (`goal_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_consistency_indicator1` FOREIGN KEY (`cons_indicator_id`) REFERENCES `indicator` (`indicator_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_consistency_strategic1` FOREIGN KEY (`cons_strategic_id`) REFERENCES `strategic` (`strategic_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_consistency_strategy1` FOREIGN KEY (`cons_strategy_id`) REFERENCES `strategy` (`strategy_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
 -- Constraints for table `project`
 --
 ALTER TABLE `project`
   ADD CONSTRAINT `fk_project_budget_type1` FOREIGN KEY (`budget_budget_type`) REFERENCES `budget_type` (`budget_type_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_project_consistency1` FOREIGN KEY (`project_consistency_id`) REFERENCES `consistency` (`consistency_id`) ON DELETE SET NULL ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_project_element1` FOREIGN KEY (`element_id`) REFERENCES `element` (`element_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_project_goal1` FOREIGN KEY (`goal_id`) REFERENCES `goal` (`goal_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_project_indicator1` FOREIGN KEY (`indicator_id`) REFERENCES `indicator` (`indicator_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_project_lastpage1` FOREIGN KEY (`lastpage_id`) REFERENCES `lastpage` (`last_id`) ON DELETE SET NULL ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_project_managers` FOREIGN KEY (`created_by`) REFERENCES `managers` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_project_managers` FOREIGN KEY (`created_by`) REFERENCES `managers` (`id`) ON DELETE SET NULL ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_project_organization1` FOREIGN KEY (`organization_id`) REFERENCES `organization` (`organization_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_project_product1` FOREIGN KEY (`product_id`) REFERENCES `product` (`product_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_project_project_kpi1` FOREIGN KEY (`project_kpi_id`) REFERENCES `project_kpi` (`kpi_id`) ON DELETE SET NULL ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_project_project_laksana1` FOREIGN KEY (`project_laksana_id`) REFERENCES `project_laksana` (`laksana_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_project_project_paomai1` FOREIGN KEY (`projecti_paomai_id`) REFERENCES `project_paomai` (`paomai_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_project_project_plan1` FOREIGN KEY (`project_plan_id`) REFERENCES `project_plan` (`plan_id`) ON DELETE SET NULL ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_project_realted_subject1` FOREIGN KEY (`realted_subject_id`) REFERENCES `realted_subject` (`subject_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_project_responsibler1` FOREIGN KEY (`responsibler_id`) REFERENCES `responsibler` (`responsible_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_project_strategic1` FOREIGN KEY (`strategic_id`) REFERENCES `strategic` (`strategic_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_project_strategy1` FOREIGN KEY (`strategy_id`) REFERENCES `strategy` (`strategy_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `fk_project_responsibler1` FOREIGN KEY (`responsibler_id`) REFERENCES `responsibler` (`responsible_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Constraints for table `project_files`
 --
 ALTER TABLE `project_files`
-  ADD CONSTRAINT `fk_project_files_project1` FOREIGN KEY (`project_id`) REFERENCES `project` (`project_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `fk_project_files_project1` FOREIGN KEY (`project_id`) REFERENCES `project` (`project_id`) ON DELETE SET NULL ON UPDATE NO ACTION;
 
 --
 -- Constraints for table `project_laksana`
