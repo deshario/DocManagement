@@ -2,7 +2,6 @@
 
 use yii\helpers\Html;
 
-
 /* @var $this yii\web\View */
 /* @var $model app\models\Activity */
 $project_id = Yii::$app->request->get('proj_id');
@@ -25,6 +24,9 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="panel-body">
             <?= $this->render('_form', [
                 'model' => $model,
+                'tempGoal' => [],
+                'tempStrategy' => [],
+                'tempIndicator' => [],
             ]) ?>
         </div>
     </div>

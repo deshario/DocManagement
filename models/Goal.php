@@ -28,7 +28,7 @@ class Goal extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['goal_name'], 'string', 'max' => 45],
+            [['goal_name'], 'string', 'max' => 255],
         ];
     }
 

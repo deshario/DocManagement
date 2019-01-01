@@ -7,7 +7,7 @@ use yii\helpers\Html;
 /* @var $model app\models\Goal */
 
 $this->title = 'เพิ่มใหม่';
-$this->params['breadcrumbs'][] = ['label' => 'เปาประสงค์', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'เป้าประสงค์', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="goal-create">

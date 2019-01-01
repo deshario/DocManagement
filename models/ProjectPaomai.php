@@ -10,6 +10,7 @@ use Yii;
  * @property int $paomai_id เป้าหมาย
  * @property string $project_quantity เชิงปริมาณ
  * @property string $project_quality เชิงคูณภาพ
+ * @property string $project_time เชิงเวลา
  *
  * @property Activity[] $activities
  * @property Project[] $projects
@@ -30,7 +31,7 @@ class ProjectPaomai extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['project_quantity', 'project_quality'], 'string'],
+            [['project_quantity', 'project_quality', 'project_time'], 'string'],
         ];
     }
 
@@ -43,6 +44,7 @@ class ProjectPaomai extends \yii\db\ActiveRecord
             'paomai_id' => 'เป้าหมาย',
             'project_quantity' => 'เชิงปริมาณ',
             'project_quality' => 'เชิงคูณภาพ',
+            'project_time' => 'เชิงเวลา',
         ];
     }
 

@@ -70,7 +70,7 @@ if (Yii::$app->controller->action->id === 'login') {
     <body class="hold-transition skin-red sidebar-mini">
     <?php } ?> -->
 
-    <body class="hold-transition skin-green sidebar-mini">
+    <body class="hold-transition skin-red sidebar-mini">
 
     <?php $this->beginBody() ?>
     <div class="wrapper">
@@ -79,6 +79,8 @@ if (Yii::$app->controller->action->id === 'login') {
             'header.php',
             ['directoryAsset' => $directoryAsset]
         ) ?>
+
+
 
         <?= $this->render(
             'left.php',
@@ -89,9 +91,8 @@ if (Yii::$app->controller->action->id === 'login') {
         <?= $this->render(
             'content.php',
             ['content' => $content, 'directoryAsset' => $directoryAsset]
-        ) ?>
-
-
+        ) ?> 
+ 
         <?php foreach (Yii::$app->session->getAllFlashes() as $message):; ?>
             <?php
             echo Growl::widget([

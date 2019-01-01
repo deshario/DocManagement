@@ -6,6 +6,7 @@ use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use kartik\grid\GridView;
 use yii\helpers\Url;
+use yii\rbac\Role;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\ProjectSearch */
@@ -26,6 +27,14 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'kartik\grid\SerialColumn', 'header' => '', ],
 
             //'project_id',
+
+            ['attribute' => 'project_year',
+                'headerOptions' => ['width' => '30px'],
+                'contentOptions' => ['class' => 'text-center'],
+                'value' => function ($model) {
+                    return $model->project_year;
+                },
+            ],
             ['attribute' => 'project_name',
                 'format' => 'html',
                 'headerOptions' => ['width' => '400px'],
@@ -48,18 +57,11 @@ $this->params['breadcrumbs'][] = $this->title;
                 'format'=>['decimal', 0],
             ],
             ['attribute' => 'budget_budget_type',
-                'label' => 'แหลงที่มาของงบ',
+                'label' => 'แหล่งที่มาของงบ',
                 'filter'=>ArrayHelper::map(BudgetType::find()->asArray()->all(), 'budget_type_id', 'budget_type_name'),
                 'headerOptions' => ['width' => '50px'],
                 'value' => function ($model) {
                     return $model->budgetBudgetType->budget_type_name;
-                },
-            ],
-            ['attribute' => 'project_year',
-                'headerOptions' => ['width' => '30px'],
-                'contentOptions' => ['class' => 'text-center'],
-                'value' => function ($model) {
-                    return $model->project_year;
                 },
             ],
 //            ['attribute' => 'created_by',
@@ -69,11 +71,13 @@ $this->params['breadcrumbs'][] = $this->title;
 //                },
 //            ],
             ['format' => 'html',
-                'attribute' => 'created_by',
+                'attribute' => 'project_status',
                 'label' => 'สถานะโครงการ',
                 'headerOptions' => ['width' => '150px'],
+                'filter'=>array("10"=>"กำลังดำเนินงาน","20"=>"อนุมัติแล้ว"),
                 'value' => function ($model) {
-                    return '<code><i>' . $model->getProjectStatus($model->project_status) . '</i></code>';
+                    $temp = $model->project_status;
+                    return '<code><i>' . $model->getProjectStatus($temp) . '</i></code>';
                 },
             ],
             ['class' => 'yii\grid\ActionColumn',
@@ -148,6 +152,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'bordered' => true,
             'encodeLabels' => false
         ]);
+
 
         ?>
     </div>

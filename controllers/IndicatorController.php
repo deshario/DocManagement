@@ -2,12 +2,12 @@
 
 namespace app\controllers;
 
-use Yii;
 use app\models\Indicator;
 use app\models\IndicatorSearch;
+use Yii;
+use yii\filters\VerbFilter;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
 
 /**
  * IndicatorController implements the CRUD actions for Indicator model.
@@ -67,7 +67,7 @@ class IndicatorController extends Controller
         $model = new Indicator();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->indicator_id]);
+            return $this->redirect(['index']);
         }
 
         return $this->render('create', [

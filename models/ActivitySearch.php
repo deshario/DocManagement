@@ -18,8 +18,8 @@ class ActivitySearch extends Activity
     public function rules()
     {
         return [
-            [['activity_id', 'root_project_id', 'organization_organization_id', 'strategic_strategic_id', 'goal_goal_id', 'responsible_by', 'strategy_strategy_id', 'indicator_indicator_id', 'realted_subject_id', 'element_element_id', 'product_product_id', 'project_laksana_id', 'project_paomai_id', 'project_plan_id', 'budget_type_id', 'activity_money', 'budget_details_id', 'activity_status', 'lastpage_id'], 'integer'],
-            [['activity_name', 'activity_rationale', 'activity_type', 'objective', 'evaluation', 'benefit','activity_key'], 'safe'],
+            [['activity_id', 'root_project_id', 'organization_organization_id', 'responsible_by', 'element_element_id', 'product_product_id', 'project_laksana_id', 'project_paomai_id', 'project_plan_id', 'budget_type_id', 'activity_money', 'budget_details_id', 'activity_status', 'lastpage_id'], 'integer'],
+            [['activity_name', 'activity_rationale', 'activity_type', 'objective', 'evaluation', 'benefit','activity_key','suggestion'], 'safe'],
         ];
     }
 
@@ -62,12 +62,7 @@ class ActivitySearch extends Activity
             'activity_id' => $this->activity_id,
             'root_project_id' => $this->root_project_id,
             'organization_organization_id' => $this->organization_organization_id,
-            'strategic_strategic_id' => $this->strategic_strategic_id,
-            'goal_goal_id' => $this->goal_goal_id,
             'responsible_by' => $this->responsible_by,
-            'strategy_strategy_id' => $this->strategy_strategy_id,
-            'indicator_indicator_id' => $this->indicator_indicator_id,
-            'realted_subject_id' => $this->realted_subject_id,
             'element_element_id' => $this->element_element_id,
             'product_product_id' => $this->product_product_id,
             'project_laksana_id' => $this->project_laksana_id,
@@ -86,7 +81,8 @@ class ActivitySearch extends Activity
             ->andFilterWhere(['like', 'objective', $this->objective])
             ->andFilterWhere(['like', 'evaluation', $this->evaluation])
             ->andFilterWhere(['like', 'benefit', $this->benefit])
-            ->andFilterWhere(['like', 'activity_key', $this->activity_key]);
+            ->andFilterWhere(['like', 'activity_key', $this->activity_key])
+            ->andFilterWhere(['like', 'suggestion', $this->suggestion]);
 
         return $dataProvider;
     }

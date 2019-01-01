@@ -1,10 +1,10 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5e584c47d499014f0fc7e4d26e3f51f4",
+    "content-hash": "5a92fd1068ec39d18cf594e7b197a253",
     "packages": [
         {
             "name": "almasaeed2010/adminlte",
@@ -703,6 +703,53 @@
             "time": "2015-06-26T14:48:16+00:00"
         },
         {
+            "name": "kartik-v/dependent-dropdown",
+            "version": "v1.4.8",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/kartik-v/dependent-dropdown.git",
+                "reference": "1349e7f5816a65e89bc227098386aac5b2c89363"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/kartik-v/dependent-dropdown/zipball/1349e7f5816a65e89bc227098386aac5b2c89363",
+                "reference": "1349e7f5816a65e89bc227098386aac5b2c89363",
+                "shasum": ""
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.4.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "kartik\\plugins\\depdrop\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Kartik Visweswaran",
+                    "email": "kartikv2@gmail.com",
+                    "homepage": "http://www.krajee.com/"
+                }
+            ],
+            "description": "A multi level dependent dropdown JQuery plugin that allows nested dependencies.",
+            "homepage": "https://github.com/kartik-v/dependent-dropdown",
+            "keywords": [
+                "dependent",
+                "dropdown",
+                "jquery",
+                "option",
+                "select"
+            ],
+            "time": "2017-08-01T11:43:55+00:00"
+        },
+        {
             "name": "kartik-v/yii2-date-range",
             "version": "dev-master",
             "source": {
@@ -754,7 +801,7 @@
                 "widget",
                 "yii2"
             ],
-            "time": "2018-10-09 12:34:51"
+            "time": "2018-10-09T12:34:51+00:00"
         },
         {
             "name": "kartik-v/yii2-detail-view",
@@ -807,7 +854,7 @@
                 "widget",
                 "yii2"
             ],
-            "time": "2018-10-10 08:20:20"
+            "time": "2018-10-10T08:20:20+00:00"
         },
         {
             "name": "kartik-v/yii2-dialog",
@@ -866,12 +913,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/kartik-v/yii2-grid.git",
-                "reference": "0f50299c11e26c4150e83d84fe23be8ef2367f9c"
+                "reference": "c9bfdb2bd7133e4d1e78bcb2b4557003f4de0015"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/yii2-grid/zipball/0f50299c11e26c4150e83d84fe23be8ef2367f9c",
-                "reference": "0f50299c11e26c4150e83d84fe23be8ef2367f9c",
+                "url": "https://api.github.com/repos/kartik-v/yii2-grid/zipball/c9bfdb2bd7133e4d1e78bcb2b4557003f4de0015",
+                "reference": "c9bfdb2bd7133e4d1e78bcb2b4557003f4de0015",
                 "shasum": ""
             },
             "require": {
@@ -910,7 +957,7 @@
                 "widget",
                 "yii2"
             ],
-            "time": "2018-10-14 11:05:40"
+            "time": "2018-10-27T06:52:39+00:00"
         },
         {
             "name": "kartik-v/yii2-krajee-base",
@@ -1021,12 +1068,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/kartik-v/yii2-mpdf.git",
-                "reference": "4f2babb1b3bdfc0b87231915919ff1c43bf88591"
+                "reference": "fb71e832cc1864578a9a9fe888785039755bf58c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/yii2-mpdf/zipball/4f2babb1b3bdfc0b87231915919ff1c43bf88591",
-                "reference": "4f2babb1b3bdfc0b87231915919ff1c43bf88591",
+                "url": "https://api.github.com/repos/kartik-v/yii2-mpdf/zipball/fb71e832cc1864578a9a9fe888785039755bf58c",
+                "reference": "fb71e832cc1864578a9a9fe888785039755bf58c",
                 "shasum": ""
             },
             "require": {
@@ -1065,7 +1112,7 @@
                 "utf8",
                 "yii2"
             ],
-            "time": "2018-10-15 05:19:33"
+            "time": "2018-10-26T19:08:56+00:00"
         },
         {
             "name": "kartik-v/yii2-sortable",
@@ -1170,7 +1217,7 @@
                 "widget",
                 "yii2"
             ],
-            "time": "2018-08-29 02:33:59"
+            "time": "2018-08-29T02:33:59+00:00"
         },
         {
             "name": "kartik-v/yii2-tabs-x",
@@ -1223,7 +1270,7 @@
                 "tabs",
                 "tabs-x"
             ],
-            "time": "2018-09-27 03:59:02"
+            "time": "2018-09-27T03:59:02+00:00"
         },
         {
             "name": "kartik-v/yii2-widget-activeform",
@@ -1329,7 +1376,61 @@
                 "widget",
                 "yii2"
             ],
-            "time": "2018-10-09 11:34:49"
+            "time": "2018-10-09T11:34:49+00:00"
+        },
+        {
+            "name": "kartik-v/yii2-widget-depdrop",
+            "version": "v1.0.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/kartik-v/yii2-widget-depdrop.git",
+                "reference": "0598b220e62350b2f0a6372def96358e3b660f10"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/kartik-v/yii2-widget-depdrop/zipball/0598b220e62350b2f0a6372def96358e3b660f10",
+                "reference": "0598b220e62350b2f0a6372def96358e3b660f10",
+                "shasum": ""
+            },
+            "require": {
+                "kartik-v/dependent-dropdown": "~1.4",
+                "kartik-v/yii2-krajee-base": ">=2.0.0"
+            },
+            "type": "yii2-extension",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "kartik\\depdrop\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Kartik Visweswaran",
+                    "email": "kartikv2@gmail.com",
+                    "homepage": "http://www.krajee.com/"
+                }
+            ],
+            "description": "Widget that enables setting up dependent dropdowns with nested dependencies (sub repo split from yii2-widgets)",
+            "homepage": "https://github.com/kartik-v/yii2-widget-depdrop",
+            "keywords": [
+                "dependent",
+                "dropdown",
+                "extension",
+                "form",
+                "jquery",
+                "plugin",
+                "widget",
+                "yii2"
+            ],
+            "time": "2018-10-09T11:43:32+00:00"
         },
         {
             "name": "kartik-v/yii2-widget-fileinput",
@@ -1384,7 +1485,7 @@
                 "widget",
                 "yii2"
             ],
-            "time": "2018-09-19 13:09:42"
+            "time": "2018-09-19T13:09:42+00:00"
         },
         {
             "name": "kartik-v/yii2-widget-growl",
@@ -1437,16 +1538,16 @@
         },
         {
             "name": "mpdf/mpdf",
-            "version": "v7.1.5",
+            "version": "v7.1.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mpdf/mpdf.git",
-                "reference": "2ed29c3a59fa23e77052e9d7fa7e31c707fb7502"
+                "reference": "ef5d8cf2c63def40fb76fc0a9e286721cb4dffcd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mpdf/mpdf/zipball/2ed29c3a59fa23e77052e9d7fa7e31c707fb7502",
-                "reference": "2ed29c3a59fa23e77052e9d7fa7e31c707fb7502",
+                "url": "https://api.github.com/repos/mpdf/mpdf/zipball/ef5d8cf2c63def40fb76fc0a9e286721cb4dffcd",
+                "reference": "ef5d8cf2c63def40fb76fc0a9e286721cb4dffcd",
                 "shasum": ""
             },
             "require": {
@@ -1472,7 +1573,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-development": "7.0-dev"
+                    "dev-development": "7.x-dev"
                 }
             },
             "autoload": {
@@ -1501,7 +1602,7 @@
                 "php",
                 "utf-8"
             ],
-            "time": "2018-09-19T09:58:39+00:00"
+            "time": "2018-10-18T11:37:12+00:00"
         },
         {
             "name": "myclabs/deep-copy",
@@ -2956,16 +3057,16 @@
         },
         {
             "name": "phpunit/php-code-coverage",
-            "version": "6.0.8",
+            "version": "6.1.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-code-coverage.git",
-                "reference": "848f78b3309780fef7ec8c4666b7ab4e6b09b22f"
+                "reference": "4d3ae9b21a7d7e440bd0cf65565533117976859f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/848f78b3309780fef7ec8c4666b7ab4e6b09b22f",
-                "reference": "848f78b3309780fef7ec8c4666b7ab4e6b09b22f",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/4d3ae9b21a7d7e440bd0cf65565533117976859f",
+                "reference": "4d3ae9b21a7d7e440bd0cf65565533117976859f",
                 "shasum": ""
             },
             "require": {
@@ -2976,7 +3077,7 @@
                 "phpunit/php-text-template": "^1.2.1",
                 "phpunit/php-token-stream": "^3.0",
                 "sebastian/code-unit-reverse-lookup": "^1.0.1",
-                "sebastian/environment": "^3.1",
+                "sebastian/environment": "^3.1 || ^4.0",
                 "sebastian/version": "^2.0.1",
                 "theseer/tokenizer": "^1.1"
             },
@@ -2989,7 +3090,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "6.0-dev"
+                    "dev-master": "6.1-dev"
                 }
             },
             "autoload": {
@@ -3015,7 +3116,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2018-10-04T03:41:23+00:00"
+            "time": "2018-10-23T05:59:32+00:00"
         },
         {
             "name": "phpunit/php-file-iterator",
@@ -4674,7 +4775,8 @@
         "kartik-v/yii2-widget-fileinput": 20,
         "kartik-v/yii2-mpdf": 20,
         "kartik-v/yii2-detail-view": 20,
-        "kartik-v/yii2-sortable-input": 20
+        "kartik-v/yii2-sortable-input": 20,
+        "kartik-v/yii2-widget-depdrop": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

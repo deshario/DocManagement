@@ -28,7 +28,7 @@ class Strategic extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['strategic_name'], 'string', 'max' => 90],
+            [['strategic_name'], 'string', 'max' => 255],
         ];
     }
 
@@ -46,8 +46,24 @@ class Strategic extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getActivities()
-    {
+    public function getActivities() 
+    { 
         return $this->hasMany(Activity::className(), ['strategic_strategic_id' => 'strategic_id']);
-    }
+    } 
+
+    /** 
+     * @return \yii\db\ActiveQuery 
+     */ 
+    public function getGoals() 
+    { 
+        return $this->hasMany(Goal::className(), ['strategic_id' => 'strategic_id']);
+    } 
+
+    /** 
+     * @return \yii\db\ActiveQuery 
+     */ 
+    public function getProjects() 
+    { 
+        return $this->hasMany(Project::className(), ['strategic_id' => 'strategic_id']);
+    } 
 }

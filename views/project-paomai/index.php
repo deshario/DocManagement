@@ -28,6 +28,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'paomai_id',
             'project_quantity:ntext',
             'project_quality:ntext',
+            'project_time:ntext',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

@@ -25,8 +25,19 @@ use yii\bootstrap\Modal;
         <?php } else { ?>
             <div class="user-panel">
                 <div class="pull-left image">
-                    <img src="<?php echo Yii::getAlias('@web') . '/img/man.png'; ?>" class="img-circle"
-                         alt="User Image"/>
+                    <?php
+                    $id = Yii::$app->user->identity->id;
+                    $model = \app\models\Managers::find()->where('id = ' . $id)->one();
+                    if($model->picture != null){
+                        $imgdir = Yii::getAlias('@web').'/uploads/avatars/';
+                        $img = $imgdir.$model->picture;
+                    }else{
+                        $imgdir = Yii::getAlias('@web').'/img/';
+                        $img = $imgdir.'man.png';
+                    }
+                    ?>
+                    <img src="<?php echo $img; ?>" class="img-circle" alt="User Image"/>
+
                 </div>
                 <div class="pull-left info">
 
@@ -52,19 +63,20 @@ use yii\bootstrap\Modal;
                         ],
                     ],
                     [
-                        'label' => 'จัดการข้อมูลเบืองต้น',
+                        'label' => 'จัดการข้อมูลเบื้องต้น',
                         'icon' => 'cog',
                         'active' => true,
                         'url' => '#',
                         'items' => [
                             ['label' => 'หน่วยงาน', 'icon' => 'arrow-right', 'url' => ['organization/index'],],
-                            ['label' => 'กลยุทธ์', 'icon' => 'arrow-right', 'url' => ['strategy/index'],],
-                            ['label' => 'เปาประสงค์', 'icon' => 'arrow-right', 'url' => ['goal/index'],],
                             ['label' => 'ยุทธศาสตร์', 'icon' => 'arrow-right', 'url' => ['strategic/index'],],
-                            ['label' => 'ตัวชีวัด', 'icon' => 'arrow-right', 'url' => ['indicator/index'],],
+                            ['label' => 'เป้าประสงค์', 'icon' => 'arrow-right', 'url' => ['goal/index'],],
+                            ['label' => 'กลยุทธ์', 'icon' => 'arrow-right', 'url' => ['strategy/index'],],
+                            ['label' => 'ตัวชี้วัด', 'icon' => 'arrow-right', 'url' => ['indicator/index'],],
                             ['label' => 'องค์ประกอบ', 'icon' => 'arrow-right', 'url' => ['element/index'],],
                             ['label' => 'ผลผลิต', 'icon' => 'arrow-right', 'url' => ['product/index'],],
                             ['label' => 'แหล่งที่มาของงบประมาณ', 'icon' => 'arrow-right', 'url' => ['budget-type/index'],],
+
                             ['label' => 'ผู้รับผิดชอบโครงการ', 'icon' => 'arrow-right', 'url' => ['responsibler/index'],],
                         ],
                     ],
@@ -87,10 +99,13 @@ use yii\bootstrap\Modal;
                     ['label' => 'โครงการของฉัน', 'icon' => 'book', 'url' => ['project/mine'],],
                     ['label' => 'ออกจากระบบ', 'url' => ['site/logout'], 'template' => '<a href="{url}" data-method="post"><i class="fa fa-sign-out"></i>{label}</a>'],
                 ];
+
             }
             ?>
 
+
         <?php } ?>
+
 
 
 

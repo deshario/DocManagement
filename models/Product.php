@@ -39,7 +39,7 @@ class Product extends \yii\db\ActiveRecord
     {
         return [
             'product_id' => 'Product ID',
-            'product_name' => 'ผลผลิต Name',
+            'product_name' => 'ผลผลิต ',
         ];
     }
 

@@ -6,7 +6,7 @@ use yii\helpers\Html;
 /* @var $model app\models\Goal */
 
 $this->title = 'แก้ไข';
-$this->params['breadcrumbs'][] = ['label' => 'เปาประสงค์', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'เป้าประสงค์', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->goal_name, 'url' => ['view', 'id' => $model->goal_id]];
 $this->params['breadcrumbs'][] = 'แก้ไข';
 ?>

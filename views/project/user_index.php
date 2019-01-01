@@ -24,7 +24,20 @@ $this->params['breadcrumbs'][] = $this->title;
             //['class' => 'yii\grid\SerialColumn'],
 
             //'project_id',
-            'project_name',
+            ['attribute' => 'project_name',
+                'format' => 'html',
+                'headerOptions' => ['width' => '400px'],
+                'label' => 'รายการ',
+                'contentOptions' => ['style' => 'width:490px;  min-width:430px;'],
+                'value' => function ($data) {
+                    return Html::a($data->project_name, ['activity/index',
+                        'project_id' => $data->project_id,
+                        'project_name' => $data->project_name,
+                        'project_status' => $data->project_status,
+                    ]);
+                },
+
+            ],
             ['attribute' => 'created_by',
                 'headerOptions' => ['width' => '50px'],
                 'value' => function ($model) {
@@ -32,25 +45,40 @@ $this->params['breadcrumbs'][] = $this->title;
                 },
             ],
             ['format' => 'html',
-                'attribute' => 'created_by',
+                'attribute' => 'project_status',
                 'label' => 'สถานะโครงการ',
                 'headerOptions' => ['width' => '150px'],
+                'filter'=>array("10"=>"กำลังดำเนินงาน","20"=>"อนุมัติแล้ว"),
                 'value' => function ($model) {
-                    return '<code><i>' . $model->getProjectStatus($model->project_status) . '</i></code>';
+                    $temp = $model->project_status;
+                    return '<code><i>' . $model->getProjectStatus($temp) . '</i></code>';
                 },
             ],
             ['class' => 'yii\grid\ActionColumn',
                 'header' => 'คำสั่ง',
                 'headerOptions' => ['width' => '100px', 'style' => 'cursor:default; color:#428bca;'],
-                'template' => '{details}',   //{view}&nbsp;
+                'contentOptions' => ['class' => 'text-center'],
+                'template' => '{print}',
                 'buttons' => [
+                    'print' => function ($url, $model) {
+                        return Html::a('<button class="btn btn-xs btn-primary primary-tooltip" data-toggle="tooltip"
+                                data-placement="top" title="พิมพ์โครงการ"><i class="fa fa-print"></i> พิมพ์โครงการ</button>', $url
+                        );
+                    },
                     'details' => function ($url, $model) {
                         return Html::a('<button class="btn btn-xs btn-primary primary-tooltip" data-toggle="tooltip"
-                                data-placement="top" title="View Details"><i class="fa fa-search-plus"></i> เปิดใช้งาน</button>', $url
+                                data-placement="top" title="เปิดใช้งาน"><i class="fa fa-search-plus"></i> </button>', $url
                         );
                     },
                 ],
                 'urlCreator' => function ($action, $model, $key, $index) {
+                    if ($action == 'print') {
+                        $url = Url::toRoute(['preview',
+                            'project_id' => $model->project_id,
+                            'project_name' => $model->project_name,
+                        ]);
+                        return $url;
+                    }
                     if ($action == 'details') {
                         $url = Url::toRoute(['activity/index',
                             'project_id' => $model->project_id,

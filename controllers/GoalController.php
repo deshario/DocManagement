@@ -2,12 +2,12 @@
 
 namespace app\controllers;
 
-use Yii;
 use app\models\Goal;
 use app\models\GoalSearch;
+use Yii;
+use yii\filters\VerbFilter;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
 
 /**
  * GoalController implements the CRUD actions for Goal model.
@@ -67,7 +67,7 @@ class GoalController extends Controller
         $model = new Goal();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->goal_id]);
+            return $this->redirect(['index']);
         }
 
         return $this->render('create', [

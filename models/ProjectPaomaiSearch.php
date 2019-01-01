@@ -19,7 +19,7 @@ class ProjectPaomaiSearch extends ProjectPaomai
     {
         return [
             [['paomai_id'], 'integer'],
-            [['project_quantity', 'project_quality'], 'safe'],
+            [['project_quantity', 'project_quality', 'project_time'], 'safe'],
         ];
     }
 
@@ -63,7 +63,8 @@ class ProjectPaomaiSearch extends ProjectPaomai
         ]);
 
         $query->andFilterWhere(['like', 'project_quantity', $this->project_quantity])
-            ->andFilterWhere(['like', 'project_quality', $this->project_quality]);
+            ->andFilterWhere(['like', 'project_quality', $this->project_quality])
+            ->andFilterWhere(['like', 'project_time', $this->project_time]);
 
         return $dataProvider;
     }

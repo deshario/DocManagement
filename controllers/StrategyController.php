@@ -67,7 +67,7 @@ class StrategyController extends Controller
         $model = new Strategy();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->strategy_id]);
+            return $this->redirect(['index']);
         }
 
         return $this->render('create', [

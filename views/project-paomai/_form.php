@@ -16,6 +16,8 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'project_quality')->textarea(['rows' => 6]) ?>
 
+    <?= $form->field($model, 'project_time')->textarea(['rows' => 6]) ?>
+
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
     </div>

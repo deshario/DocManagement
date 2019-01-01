@@ -7,7 +7,7 @@ use yii\helpers\Html;
 
 $this->title = 'แก้ไขกิจกรรม';
 $this->params['breadcrumbs'][] = ['label' => 'โครงการ', 'url' => '#'];
-$this->params['breadcrumbs'][] = ['label' => $model->activity_name, 'url' => ['view', 'id' => $model->activity_id]];
+$this->params['breadcrumbs'][] = ['label' => $model->activity_name, 'url' => '#'];
 $this->params['breadcrumbs'][] = 'แก้ไข';
 
 ?>
@@ -15,12 +15,15 @@ $this->params['breadcrumbs'][] = 'แก้ไข';
 
     <div class="panel panel-default">
         <div class="panel-heading">
-            <h3 class="panel-title"><?= $this->title; ?></h3>
+            <h3 class="panel-title"><?=$this->title;?></h3>
         </div>
         <div class="panel-body">
-            <?= $this->render('_form', [
-                'model' => $model,
-            ]) ?>
+            <?=$this->render('_form', [
+    'model' => $model,
+    'tempGoal' => $tempGoal,
+    'tempStrategy' => $tempStrategy,
+    'tempIndicator' => $tempIndicator,
+])?>
         </div>
     </div>
 

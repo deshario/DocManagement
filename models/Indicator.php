@@ -28,7 +28,7 @@ class Indicator extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['indicator_name'], 'string', 'max' => 45],
+            [['indicator_name'], 'string', 'max' => 255],
         ];
     }
 

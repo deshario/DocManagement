@@ -1,5 +1,6 @@
 <?php
 
+use kartik\growl\Growl;
 use yii\helpers\Html;
 use kartik\grid\GridView;
 use yii\helpers\Url;
@@ -54,8 +55,8 @@ use yii\helpers\Url;
         ['class' => 'kartik\grid\ActionColumn',
             'header' => 'คำสั่ง',
             'headerOptions' => ['class' => 'text-center'],
-            'contentOptions' => ['style' => 'width:100px;  min-width:80px;', 'class' => 'text-center'],
-            'template' => '{print}&nbsp{update}&nbsp{manage}',
+            'contentOptions' => ['style' => 'width:100px;  min-width:90px;', 'class' => 'text-center'],
+            'template' => '{print}&nbsp{update}&nbsp{manage}&nbsp{delete}',
             'buttons' => [
                 'print' => function ($url, $model) {
                     return Html::a('<button class="btn btn-xs btn-primary primary-tooltip" data-toggle="tooltip"
@@ -72,6 +73,24 @@ use yii\helpers\Url;
                                 data-placement="top" title="จัดการไฟล์"><i class="fa fa-file-text-o"></i> </button>', $url
                     );
                 },
+                'delete' => function ($url, $model) {
+//                    return Html::a('<button class="btn btn-xs btn-danger primary-tooltip" data-toggle="tooltip"
+//                                data-placement="top" title="ลบกิจกรรม"><i class="fa fa-trash"></i> </button>', $url, ['data-method' => 'POST']
+//                    );
+                    $temp_id = $model->created_by;
+                    $id = Yii::$app->user->identity->id;
+                    if($temp_id == $id){
+                        $url = Url::to(['delete', 'id' => $model->activity_id]);
+                    }else {
+                        $url = null;
+                    }
+                    return Html::a('<button class="btn btn-xs btn-danger primary-tooltip" data-toggle="tooltip"
+                        data-placement="top" title="ลบกิจกรรม"><i class="fa fa-trash"></i> </button>', $url, [
+                        'title'        => 'delete',
+                        'data-confirm' => 'Are you sure want to delete ?',
+                        'data-method'  => 'post',
+                    ]);
+                },
             ],
             'urlCreator' => function ($action, $model, $key, $index) {
                 if ($action == 'print') {
@@ -85,17 +104,24 @@ use yii\helpers\Url;
                     $url = Url::toRoute(['update',
                         'id' => $model->activity_id,
                         'project_status' => $model->rootProject->project_status,
+                        'proj_id' => $model->rootProject->project_id,
                     ]);
                     return $url;
                 }
                 if ($action == 'manage') {
-                    $url = Url::toRoute(['activity-files/create',
-                        'activity_id' => $model->activity_id,
-                        'activity_name' => $model->activity_name,
-                        'project_id' => $model->rootProject->project_id,
-                        'project_name' => $model->rootProject->project_name,
-                        'project_status' => $model->rootProject->project_status,
-                    ]);
+                    $temp_id = $model->created_by;
+                    $id = Yii::$app->user->identity->id;
+                    if($temp_id == $id){
+                        $url = Url::toRoute(['activity-files/create',
+                            'activity_id' => $model->activity_id,
+                            'activity_name' => $model->activity_name,
+                            'project_id' => $model->rootProject->project_id,
+                            'project_name' => $model->rootProject->project_name,
+                            'project_status' => $model->rootProject->project_status,
+                        ]);
+                    }else {
+                        $url = null;
+                    }
                     return $url;
                 }
             }

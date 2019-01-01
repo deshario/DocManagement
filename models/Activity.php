@@ -19,12 +19,8 @@ use yii\helpers\Json;
  * @property string $evaluation การประเมินผล
  * @property string $benefit ประโยช์ที่คาดว่าจะได้รับ
  * @property int $organization_organization_id หน่วยงาน
- * @property int $strategic_strategic_id ยุทธศาสตร์
- * @property int $goal_goal_id เป้าประสงค์
  * @property int $responsible_by ผู้รับผิดชอบ
- * @property int $strategy_strategy_id กลยุทธ์
- * @property int $indicator_indicator_id ตัวชี้วัด
- * @property int $realted_subject_id รายวิชาที่สอดคล่อง
+ * @property int $activity_consistency_id ความสอดคล่อง
  * @property int $element_element_id องค์ประกอบ
  * @property int $product_product_id ผลผลิต
  * @property int $project_laksana_id ลักษณะโครงการ
@@ -32,17 +28,20 @@ use yii\helpers\Json;
  * @property int $project_plan_id กิจกรรมการดำเนินงาน
  * @property int $budget_type_id แหล่งที่มาของงบประมาณ
  * @property int $activity_money งบประมาณ
+ * @property string $related_subject
  * @property int $budget_details_id รายละเอียดของงบประมาณ
  * @property int $activity_status สถานะ
  * @property string $activity_key Activity Key
  * @property int $lastpage_id หน้าสุดท้าย
+ * @property int $created_by
+ * @property string $suggestion ข้อเสนอแนะ
  *
  * @property BudgetDetails $budgetDetails
  * @property BudgetType $budgetType
+ * @property Consistency $activityConsistency
  * @property Element $elementElement
- * @property Goal $goalGoal
- * @property Indicator $indicatorIndicator
  * @property Lastpage $lastpage
+ * @property Managers $createdBy
  * @property Organization $organizationOrganization
  * @property Product $productProduct
  * @property Project $rootProject
@@ -50,11 +49,9 @@ use yii\helpers\Json;
  * @property ProjectPaomai $projectPaomai
  * @property ProjectPlan $projectPlan
  * @property Responsibler $responsibleBy
- * @property RealtedSubject $realtedSubject
- * @property Strategic $strategicStrategic
- * @property Strategy $strategyStrategy
  * @property ActivityFiles[] $activityFiles
  */
+
 class Activity extends \yii\db\ActiveRecord
 {
 
@@ -75,6 +72,7 @@ class Activity extends \yii\db\ActiveRecord
 
     public $paomai_quantity; // เป้าหมายเชิงปริมาณ
     public $paomai_quality; // เป้าหมายเชิงคุณภาพ
+    public $paomai_time; // เป้าหมายเชิงคุณภาพ
 
     public $status1;
 
@@ -84,6 +82,13 @@ class Activity extends \yii\db\ActiveRecord
     public $lastpage_role;
     public $lastpage_name;
     public $lastpage_position;
+
+    public $cons_strategic_id;
+    public $cons_goal_id;
+    public $cons_strategy_id;
+    public $cons_indicator_id;
+
+    public $temp_project_consistency;
 
     public static function tableName()
     {
@@ -97,40 +102,35 @@ class Activity extends \yii\db\ActiveRecord
     {
         return [
             //[['root_project_id', 'product_product_id'], 'required'],
-            [['activity_name','activity_money','organization_organization_id','responsible_by'], 'required'],
-            [['activity_type','activity_rationale','benefit','objective','realted_subject_id'], 'required'],
-            [['project_laksana_id','budget_type_id','temp_type', 'temp_procced'], 'required'],
-            [['strategic_strategic_id','indicator_indicator_id','goal_goal_id','strategy_strategy_id'], 'required'],
-            [['activity_temp_files','temp_project_plan_id','activity_plan'], 'safe'],
+            [['activity_name','activity_money','organization_organization_id','responsible_by','created_by','element_element_id','product_product_id'], 'required'],
+            [['activity_type','activity_rationale','benefit','objective'], 'required'],
+            [['project_laksana_id','budget_type_id','temp_type', 'temp_procced','suggestion'], 'required'],
+            [['activity_temp_files','temp_project_plan_id','activity_plan','temp_project_consistency'], 'safe'],
             [['temp_max_amount','budget_plan'], 'safe'],
-            [['root_project_id', 'organization_organization_id', 'strategic_strategic_id', 'goal_goal_id', 'strategy_strategy_id', 'indicator_indicator_id', 'element_element_id', 'product_product_id','responsible_by', 'lastpage_id'], 'integer'],
-            [['activity_rationale', 'objective', 'activity_type', 'evaluation', 'benefit'], 'string'],
+            [['temp_max_amount','activity_money'], 'number'],
+            [['root_project_id', 'organization_organization_id', 'element_element_id', 'product_product_id','responsible_by', 'lastpage_id','activity_consistency_id'], 'integer'],
+            [['activity_rationale', 'objective', 'activity_type', 'evaluation', 'benefit', 'suggestion'], 'string'],
             [['activity_name'], 'string', 'max' => 255],
-            //[['activity_type'], 'string', 'max' => 255],
-            [['activity_key'], 'string', 'max' => 255],
-            [['temp_type', 'temp_procced', 'paomai_quantity','paomai_quality'], 'safe'],
+            [['cons_strategic_id','cons_goal_id','cons_strategy_id','cons_indicator_id'], 'safe'],
+            [['activity_key','related_subject'], 'string', 'max' => 255],
+            [['temp_type', 'temp_procced', 'paomai_quantity','paomai_quality','paomai_time'], 'safe'],
 
             [['lastpage_main','lastpage_role','lastpage_name','lastpage_position'], 'safe'],
 
-            //['activity_money', 'number', 'max' => 'temp_max_amount'],
+            ['activity_money', 'validateChildrenFunds'],
 
           //  [['temp_project_name','temp_organization','temp_strategic','temp_goal','temp_strategy','temp_indicator','temp_element','temp_product'], 'required'],
             [['budget_details_id'], 'exist', 'skipOnError' => true, 'targetClass' => BudgetDetails::className(), 'targetAttribute' => ['budget_details_id' => 'detail_id']],
             [['budget_type_id'], 'exist', 'skipOnError' => true, 'targetClass' => BudgetType::className(), 'targetAttribute' => ['budget_type_id' => 'budget_type_id']],
             [['element_element_id'], 'exist', 'skipOnError' => true, 'targetClass' => Element::className(), 'targetAttribute' => ['element_element_id' => 'element_id']],
-            [['goal_goal_id'], 'exist', 'skipOnError' => true, 'targetClass' => Goal::className(), 'targetAttribute' => ['goal_goal_id' => 'goal_id']],
-            [['indicator_indicator_id'], 'exist', 'skipOnError' => true, 'targetClass' => Indicator::className(), 'targetAttribute' => ['indicator_indicator_id' => 'indicator_id']],
             [['organization_organization_id'], 'exist', 'skipOnError' => true, 'targetClass' => Organization::className(), 'targetAttribute' => ['organization_organization_id' => 'organization_id']],
             [['product_product_id'], 'exist', 'skipOnError' => true, 'targetClass' => Product::className(), 'targetAttribute' => ['product_product_id' => 'product_id']],
             [['root_project_id'], 'exist', 'skipOnError' => true, 'targetClass' => Project::className(), 'targetAttribute' => ['root_project_id' => 'project_id']],
             [['project_laksana_id'], 'exist', 'skipOnError' => true, 'targetClass' => ProjectLaksana::className(), 'targetAttribute' => ['project_laksana_id' => 'laksana_id']],
             [['project_paomai_id'], 'exist', 'skipOnError' => true, 'targetClass' => ProjectPaomai::className(), 'targetAttribute' => ['project_paomai_id' => 'paomai_id']],
-            [['realted_subject_id'], 'exist', 'skipOnError' => true, 'targetClass' => RealtedSubject::className(), 'targetAttribute' => ['realted_subject_id' => 'subject_id']],
             [['project_plan_id'], 'exist', 'skipOnError' => true, 'targetClass' => ProjectPlan::className(), 'targetAttribute' => ['project_plan_id' => 'plan_id']],
             [['responsible_by'], 'exist', 'skipOnError' => true, 'targetClass' => Responsibler::className(), 'targetAttribute' => ['responsible_by' => 'responsible_id']],
-            [['strategic_strategic_id'], 'exist', 'skipOnError' => true, 'targetClass' => Strategic::className(), 'targetAttribute' => ['strategic_strategic_id' => 'strategic_id']],
-            [['strategy_strategy_id'], 'exist', 'skipOnError' => true, 'targetClass' => Strategy::className(), 'targetAttribute' => ['strategy_strategy_id' => 'strategy_id']],
-            [['lastpage_id'], 'exist', 'skipOnError' => true, 'targetClass' => Lastpage::className(), 'targetAttribute' => ['lastpage_id' => 'last_id']],
+            [['created_by'], 'exist', 'skipOnError' => true, 'targetClass' => Managers::className(), 'targetAttribute' => ['created_by' => 'id']],
         ];
     }
 
@@ -143,18 +143,22 @@ class Activity extends \yii\db\ActiveRecord
             'activity_id' => 'Activity ID',
             'root_project_id' => 'ชื่อโครงการ',
             'activity_name' => 'ชื่อกิจกรรม',
-            'activity_rationale' => 'หลักการและเหตผล',
+            'activity_rationale' => 'หลักการและเหตุผล',
             'objective' => 'วัตถุประสงค์',
             'activity_type' => ' ลักษณะกิจกรรม',
             'responsible_by' => 'ผู้รับผิดชอบ',
             'evaluation' => 'การประเมินผล',
             'benefit' => 'ประโยชน์ที่คาดว่าจะได้รับ',
-            'realted_subject_id' => 'รายวิชาที่สอดคล่อง',
+            'related_subject' => 'รายวิชาที่สอดคล้อง',
             'organization_organization_id' => 'ชื่อหน่วยงาน',
-            'strategic_strategic_id' => 'ยุทธศาสตร์',
-            'goal_goal_id' => 'เป้าประสงค์',
-            'strategy_strategy_id' => 'กลยุทธ์',
-            'indicator_indicator_id' => 'ตัวชี้วัด',
+
+            'activity_consistency_id' => 'ความสอดคล่อง',
+
+            'cons_strategic_id' => 'ยุทธศาสตร์',
+            'cons_goal_id' => 'เป้าประสงค์',
+            'cons_strategy_id' => 'กลยุทธ์',
+            'cons_indicator_id' => 'ตัวชี้วัด',
+
             'element_element_id' => 'องค์ประกอบ',
             'product_product_id' => 'ผลผลิต',
             'activity_temp_files' => 'ไฟล์ประกอบ',
@@ -182,7 +186,33 @@ class Activity extends \yii\db\ActiveRecord
 
             'paomai_quantity' => 'เชิงปริมาณ',
             'paomai_quality' => 'เชิงคุณภาพ',
+            'paomai_time' => 'เชิงเวลา',
+
+            'created_by' => 'Created By',
+            'suggestion' => 'ข้อเสนอแนะ',
         ];
+    }
+
+
+    public function validateChildrenFunds($attribute, $params)
+    {
+        if ($this->activity_money > $this->getTotal()) {
+             $this->addError('activity_money', 'งบประมาณที่เหลือ ฿'.$this->getTotal());
+        }
+    }
+
+    public function getTotal(){
+        $total = 0;
+        $project_id = Yii::$app->request->get('proj_id');
+        $project = Project::find()->where(['project_id' => $project_id])->one();
+        $activities = Activity::find()->where(['root_project_id' => $project_id])->all();
+        if (!empty($activities)) {
+            foreach ($activities as $activity) {
+                $total = $total + $activity->activity_money;
+            }
+        }
+        $total = $project->project_money-$total;
+        return $total;
     }
 
     public function getBudgetDetails()
@@ -206,25 +236,6 @@ class Activity extends \yii\db\ActiveRecord
         return $this->hasOne(Element::className(), ['element_id' => 'element_element_id']);
     }
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getGoalGoal()
-    {
-        return $this->hasOne(Goal::className(), ['goal_id' => 'goal_goal_id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getIndicatorIndicator()
-    {
-        return $this->hasOne(Indicator::className(), ['indicator_id' => 'indicator_indicator_id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
     public function getOrganizationOrganization()
     {
         return $this->hasOne(Organization::className(), ['organization_id' => 'organization_organization_id']);
@@ -286,20 +297,9 @@ class Activity extends \yii\db\ActiveRecord
         return $this->hasOne(Responsibler::className(), ['responsible_id' => 'responsible_by']);
     }
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getStrategicStrategic()
+    public function getCreatedBy()
     {
-        return $this->hasOne(Strategic::className(), ['strategic_id' => 'strategic_strategic_id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getStrategyStrategy()
-    {
-        return $this->hasOne(Strategy::className(), ['strategy_id' => 'strategy_strategy_id']);
+        return $this->hasOne(Managers::className(), ['id' => 'created_by']);
     }
 
     public function getOrganizationList(){

@@ -7,7 +7,7 @@ use yii\widgets\DetailView;
 /* @var $model app\models\Goal */
 
 $this->title = $model->goal_name;
-$this->params['breadcrumbs'][] = ['label' => 'เปาประสงค์', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'เป้าประสงค์', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="goal-view">

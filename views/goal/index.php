@@ -9,7 +9,7 @@ use yii\helpers\Url;
 /* @var $searchModel app\models\GoalSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'เปาประสงค์';
+$this->title = 'เป้าประสงค์';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="goal-index">
@@ -41,11 +41,11 @@ $this->params['breadcrumbs'][] = $this->title;
         <?php
         $items = [
             [
-                'label' => '<i class="fa fa-envelope-o"></i>&nbsp; เปาประสงค์',
+                'label' => '<i class="fa fa-envelope-o"></i>&nbsp; เป้าประสงค์',
                 'content' => $content,
                 'active' => true,
             ],
-            ['label'=>'<i class="fa fa-plus"></i>&nbsp; สร้างเปาประสงค์', 'url' => Url::to(['create'])]
+            ['label'=>'<i class="fa fa-plus"></i>&nbsp; สร้างเป้าประสงค์', 'url' => Url::to(['create'])]
         ];
 
         echo TabsX::widget([

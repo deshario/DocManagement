@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use Exception;
 use Yii;
 use app\models\Managers;
 use app\models\ManagersSearch;
@@ -10,6 +11,7 @@ use kartik\growl\Growl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\UploadedFile;
 
 /**
  * ManagersController implements the CRUD actions for Managers model.
@@ -77,6 +79,29 @@ class ManagersController extends Controller
         return $str;
     }
 
+    private function uploadSingleFile($model,$tempFile=null){
+        $file = [];
+        $json = '';
+        $temp = '';
+        try {
+            $UploadedFile = UploadedFile::getInstance($model,'picture');
+            if($UploadedFile !== null){
+                $uploadPath = Managers::getUploadPath();
+                $temp = $model->username.'.'.$UploadedFile->extension;
+                $FileName = $uploadPath.$temp;
+                if(file_exists($FileName)){
+                    @unlink($FileName);
+                }
+                $UploadedFile->saveAs($FileName);
+            }else{
+                $json=$tempFile;
+            }
+        } catch (Exception $e) {
+            $json=$tempFile;
+        }
+        return $temp ;
+    }
+
     public function actionCreate()
     {
         $model = new Managers();
@@ -85,6 +110,7 @@ class ManagersController extends Controller
             $model->generateAuthKey();
             $model->created_at = time();
             $model->updated_at = time();
+            $model->picture = $this->uploadSingleFile($model);
             if($model->save()){
                 return $this->redirect(['manage']);
             }

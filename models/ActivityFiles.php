@@ -50,7 +50,7 @@ class ActivityFiles extends \yii\db\ActiveRecord
     {
         return [
             'file_id' => 'File ID',
-            'file_source' => 'ที่อยู่ไฟล์',
+            'file_source' => 'ที่อยู่ไฟล์ (ไม่เกิน 2 mb และ ต้องเป็นนามสกุล   .pdf  เท่านั่น)',
             'activity_id' => 'กิจกรรม',
             'temp_activity_name' => 'กิจกรรม',
         ];

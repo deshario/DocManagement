@@ -1,11 +1,11 @@
 <?php
 
-
 $params = require __DIR__ . '/params.php';
 $db = require __DIR__ . '/db.php';
 
 $config = [
     'id' => 'basic',
+    'name' => 'ระบบบริหารเอกสาร',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'language' => 'th',
@@ -15,14 +15,14 @@ $config = [
     ],
     'modules' => [
         'gridview' => [
-            'class' => '\kartik\grid\Module'
+            'class' => '\kartik\grid\Module',
         ],
     ],
     'components' => [
         'view' => [
             'theme' => [
                 'pathMap' => [
-                    '@app/views' => '@app/themes/adminlte'
+                    '@app/views' => '@app/themes/adminlte',
                 ],
             ],
         ],
@@ -33,7 +33,7 @@ $config = [
             // Disable r= routes
             'enablePrettyUrl' => true,
             'rules' => array(
-               '<controller:\w+>/<id:\d+>' => '<controller>/view',
+                '<controller:\w+>/<id:\d+>' => '<controller>/view',
                 '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
                 '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
                 'module/<module:\w+>/<controller:\w+>/<action:\w+>' => '<module>/<controller>/<action>',
@@ -71,19 +71,19 @@ $config = [
         ],
         'db' => $db,
         /*
-        'urlManager' => [
-            'enablePrettyUrl' => true,
-            'showScriptName' => false,
-            'rules' => [
-            ],
-        ],
-        */
+    'urlManager' => [
+    'enablePrettyUrl' => true,
+    'showScriptName' => false,
+    'rules' => [
+    ],
+    ],
+     */
     ],
     'params' => $params,
 ];
 
 if (YII_ENV_DEV) {
-     // configuration adjustments for 'dev' environment
+    // configuration adjustments for 'dev' environment
     $config['bootstrap'][] = 'debug';
     $config['modules']['debug'] = [
         'class' => 'yii\debug\Module',

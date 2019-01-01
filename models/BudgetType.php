@@ -40,7 +40,7 @@ class BudgetType extends \yii\db\ActiveRecord
     {
         return [
             'budget_type_id' => 'Budget Type ID',
-            'budget_type_name' => 'ชืองบประมาณ',
+            'budget_type_name' => 'ชื่องบประมาณ',
         ];
     }
 

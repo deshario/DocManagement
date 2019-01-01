@@ -112,10 +112,17 @@ Modal::end();
             </div>
         </div>
         <div class="box-body">
-            <img src="<?= Yii::getAlias('@web').'/img/icon.png';?>"  class="img-responsive img-circle" width="200" style="padding:10px; margin: 0 auto"/>
+            <?php
+                if($model->picture != null){
+                    $avatar = Yii::getAlias('@web').'/uploads/avatars/'.$model->picture;
+                }else{
+                    $avatar = Yii::getAlias('@web').'/img/icon.png';
+                }
+            ?>
+            <img src="<?php echo $avatar; ?>"  class="img-responsive img-circle" width="200" style="padding:10px; margin: 0 auto"/>
             <div style="padding-left: 10px; padding-right: 10px; margin-top:-15px; padding-top:-40px;">
                 <hr/>
-                <p><span class="fa fa-envelope-o"></span> อีเมล์ : <?php echo $model->email; ?></p>
+                <p><span class="fa fa-envelope-o"></span> อีเมล : <?php echo $model->email; ?></p>
                 <p><span class="fa fa-calendar-o"></span> วันที่สมัคร : <?php echo Yii::$app->formatter->asDate($model->created_at,'medium') ?></p>
                 <a style="color: black"><span class="fa fa-wifi"></span> สถานะ : <?php echo $model->getStatus($model->status); ?></a>
                 <p style="margin-top: 5px"> </p>
@@ -126,20 +133,20 @@ Modal::end();
         <div class="box-footer" align="center">
 
             <?php if($model->roles == Managers::ROLE_ADMIN){ ?>
-                <?= Html::a("<span class='fa fa-user-circle'></span>&nbsp;เปลียนสิทธิ",
+                <?= Html::a("<span class='fa fa-user-circle'></span>&nbsp;เปลี่ยนสิทธิ์",
                     ['/managers/change_roles', 'id' => $model->id , 'newRole' => Managers::ROLE_USER],
                     ['class'=>'btn btn-primary btn-flat',
                         'data' => [
-                            'confirm' => 'คุณแน่ใจหรือไม่ว่าต้องการเปลียนสิทธิผู้ใช้งานคนนี้',
+                            'confirm' => 'คุณแน่ใจหรือไม่ว่าต้องการเปลี่ยนสิทธิผู้ใช้งานคนนี้',
                             'method' => 'post',
                         ],
                     ]) ?>
             <?php }else{?>
-                <?= Html::a("<span class='fa fa-user'></span>&nbsp;เปลียนสิทธิ",
+                <?= Html::a("<span class='fa fa-user'></span>&nbsp;เปลี่ยนสิทธิ์",
                     ['/managers/change_roles', 'id' => $model->id, 'newRole' => Managers::ROLE_ADMIN],
                     ['class'=>'btn btn-success btn-flat',
                         'data' => [
-                            'confirm' => 'คุณแน่ใจหรือไม่ว่าต้องการเปลียนสิทธิผู้ใช้งานคนนี้',
+                            'confirm' => 'คุณแน่ใจหรือไม่ว่าต้องการเปลี่ยนสิทธิ์ผู้ใช้งานคนนี้',
                             'method' => 'post',
                         ],
                     ]) ?>

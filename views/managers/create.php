@@ -4,6 +4,7 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use app\models\User;
 use kartik\range\RangeInput;
+use kartik\file\FileInput;
 
 /* @var $this yii\web\View */
 /* @var $model app\Models\Yii2User */
@@ -14,6 +15,7 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="user-create">
 
+
     <div class="box box-default">
         <div class="box-header with-border">
             <h3 class="box-title">เพิ่มผู้ใช้งาน</h3>
@@ -21,6 +23,20 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="box-body">
 
             <?php $form = ActiveForm::begin(); ?>
+
+            <?= $form->field($model, 'picture')->widget(FileInput::classname(), [
+                'options' => ['accept' => 'image/*', 'multiple' => false],
+                'pluginOptions' => [
+                    'previewFileType' => 'image',
+                    'showPreview' => true,
+                    'showCaption' => true,
+                    'showRemove' => false,
+                    'showUpload' => false,
+                    'initialPreview'=>$model->initialPreview($model->picture),
+                    'overwriteInitial' => false,
+                ],
+            ]);
+            ?>
 
             <?= $form->field($model, 'username')->textInput(['maxlength' => true]) ?>
 

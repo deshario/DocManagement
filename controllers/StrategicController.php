@@ -2,12 +2,12 @@
 
 namespace app\controllers;
 
-use Yii;
 use app\models\Strategic;
 use app\models\StrategicSearch;
+use Yii;
+use yii\filters\VerbFilter;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
 
 /**
  * StrategicController implements the CRUD actions for Strategic model.
@@ -67,7 +67,7 @@ class StrategicController extends Controller
         $model = new Strategic();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->strategic_id]);
+            return $this->redirect(['index']);
         }
 
         return $this->render('create', [

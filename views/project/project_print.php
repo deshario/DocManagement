@@ -9,6 +9,7 @@ use app\models\Activity;
 use app\models\ProjectKpi;
 use app\models\ProjectPlan;
 use app\models\LastPage;
+use app\models\Consistency;
 
 $project_name = $model->project_name;
 $project_money = $model->project_money;
@@ -20,19 +21,23 @@ $organization = $model->organization->organization_name;
 $responsible_by = $model->responsibler->responsible_by;
 $type = $model->projectLaksana->projectType->type_name;
 $procced = $model->projectLaksana->procced->procced_name;
-$strategic = $model->strategic->strategic_name;
-$goal_name = $model->goal->goal_name;
-$strategy = $model->strategy->strategy_name;
-$indicator_name = $model->indicator->indicator_name;
-$realted_sub = $model->realtedSubject->subject_name;
+
+//$strategic = $model->strategic->strategic_name;
+//$goal_name = $model->goal->goal_name;
+//$strategy = $model->strategy->strategy_name;
+//$indicator_name = $model->indicator->indicator_name;
+
+$realted_sub = $model->related_subject;
 $element_name = $model->element->element_name;
 $product_name = $model->product->product_name;
 $quantity = $model->projectiPaomai->project_quantity;
 $quality = $model->projectiPaomai->project_quality;
+$time = $model->projectiPaomai->project_time;
 $lakshana_activity = $model->lakshana_activity;
 $duration = $model->project_start.' ถึง '.$model->project_end;
 $project_location = $model->project_location;
 $project_evaluation = $model->project_evaluation;
+$suggestion = $model->suggestion;
 $project_benefit = $model->project_benefit;
 $creator = $model->createdBy->username;
 $space = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
@@ -44,6 +49,7 @@ echo '<p align="center">' . $project_name . ' <br/> วิทยาลัยส�
 
 echo '<p><strong>๑.ชื่อโครงการ</strong> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . $project_name . '</p>';
 
+
 echo '<p><strong>๒. ชื่อหน่วยงาน</strong> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . $organization . '</p>';
 
 echo '<p><strong>๓. ผู้รับผิดชอบโครงการ </strong> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . $responsible_by . '</p>';
@@ -53,10 +59,39 @@ echo '<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ประเภท : ' 
 echo '<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;วิธีดำเนินงาน : ' . $procced . '</p>';
 
 echo '<p><strong>๕. ความสอดคล้อง</strong></p>';
-echo '<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ยุทธศาสตร์ : ' . $strategic . '</p>';
-echo '<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;เปาประสงค์ : ' . $goal_name . '</p>';
-echo '<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;กลยุทธ์ : ' . $strategy . '</p>';
-echo '<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ตัวชี้วัด : ' . $indicator_name . '</p>';
+
+$consistency = Consistency::find()->where(['project_act_key' => $model->project_key])->all();
+if (!empty($consistency)) {
+    foreach ($consistency as $item) {
+        if(!empty($item->consStrategic->strategic_name)){
+            echo '<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; '.$item->consStrategic->strategic_name.'</p>';
+        }
+    }
+
+    foreach ($consistency as $item) {
+        if(!empty($item->consGoal->goal_name)){
+            echo '<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; '.$item->consGoal->goal_name.'</p>';
+        }
+    }
+
+    foreach ($consistency as $item) {
+        if(!empty($item->consStrategy->strategy_name)){
+            echo '<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; '.$item->consStrategy->strategy_name.'</p>';
+        }
+    }
+
+    foreach ($consistency as $item) {
+        if(!empty($item->consIndicator->indicator_name)){
+            echo '<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; '.$item->consIndicator->indicator_name.'</p>';
+        }
+    }
+}
+
+//echo '<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ยุทธศาสตร์ : ' . $strategic . '</p>';
+//echo '<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;เปาประสงค์ : ' . $goal_name . '</p>';
+//echo '<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;กลยุทธ์ : ' . $strategy . '</p>';
+//echo '<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ตัวชี้วัด : ' . $indicator_name . '</p>';
+
 echo '<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;องค์ประกอบ : ' . $element_name . '</p>';
 echo '<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;รายวิชาที่สอดคล้อง/อาจารย์ที่ปรึกษา : ' . $realted_sub . '</p>';
 
@@ -66,7 +101,10 @@ echo '<p><strong>๗. หลักการและเหตุผล</strong><
 echo '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . $rationale;
 
 echo '<p><strong>๘. วัตถุประสงค์</strong></p>';
-echo '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . $objective;
+$newObjective = explode("\n", $objective);
+foreach($newObjective as $value) {
+    echo '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . $value.'<br/>';
+}
 
 echo '<p><strong>๙. เป้าหมายตัวชี้วัด</strong></p>';
 echo "<table class='table table-striped' border='1'>
@@ -101,6 +139,11 @@ echo '<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ๑๐.๒ เ
 echo '<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 ' . $quality . '</p>';
+
+echo '<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ๑๐.๓ เชิงเวลา</strong></p>';
+echo '<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                ' . $time . '</p>';
 
 echo '<p><strong>๑๑. ลักษณะกิจกรรม</strong></p>';
 echo '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . $lakshana_activity;
@@ -199,7 +242,13 @@ echo '<p><strong>๑๗. การประเมินผล</strong></p>';
 echo '<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . $project_evaluation . '</p>';
 
 echo '<p><strong>๑๘. ประโยชน์ที่คาดว่าจะได้รับ</strong></p>';
-echo '<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . $project_benefit . '</p>';
+$newProjectBenefit = explode("\n", $project_benefit);
+foreach($newProjectBenefit as $value) {
+    echo '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . $value.'<br/>';
+}
+
+echo '<p><strong>๑๙. ข้อเสนอแนะ</strong></p>';
+echo '<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . $suggestion . '</p>';
 
 ?>
 
@@ -226,9 +275,10 @@ if (!empty($lastpages)) {
         </p>
             <?php } ?>
 
+<!--        <br/>-->
         <p align="center">ลงชื่อ ....................................... <?php echo $tit; ?></p>
-        <p align="center">(<?php echo $item->last_user; ?>)</p>
-        <p align="center"><?php echo $item->last_position; ?></p>
+        <p align="left" style="margin-left:30%">(<?php echo $item->last_user; ?>)</p>
+        <p align="left" style="margin-left:30%"><?php echo $item->last_position; ?></p>
 
         <?php
     }

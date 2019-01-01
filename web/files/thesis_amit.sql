@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 28, 2018 at 07:28 PM
--- Server version: 10.1.36-MariaDB
--- PHP Version: 7.2.10
+-- Generation Time: Nov 21, 2018 at 02:39 PM
+-- Server version: 10.1.37-MariaDB
+-- PHP Version: 7.1.24
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -31,7 +31,7 @@ SET time_zone = "+00:00";
 CREATE TABLE `activity` (
   `activity_id` int(11) NOT NULL,
   `root_project_id` int(11) DEFAULT NULL COMMENT 'โครงการ',
-  `activity_name` varchar(255) DEFAULT NULL COMMENT 'ชือกิจกรรม',
+  `activity_name` varchar(45) DEFAULT NULL COMMENT 'ชือกิจกรรม',
   `activity_rationale` text COMMENT 'หลักการและเหตุผล',
   `activity_type` text COMMENT 'ลักษณะกิจกรรม',
   `objective` text COMMENT 'วัตถุประสงค์',
@@ -54,8 +54,19 @@ CREATE TABLE `activity` (
   `budget_details_id` int(11) DEFAULT NULL COMMENT 'รายละเอียดของงบประมาณ',
   `activity_status` int(11) DEFAULT NULL COMMENT 'สถานะ',
   `activity_key` varchar(255) DEFAULT NULL COMMENT 'Activity Key',
-  `lastpage_id` int(11) DEFAULT NULL COMMENT 'หน้าสุดท้าย'
+  `lastpage_id` int(11) DEFAULT NULL COMMENT 'หน้าสุดท้าย',
+  `created_by` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `activity`
+--
+
+INSERT INTO `activity` (`activity_id`, `root_project_id`, `activity_name`, `activity_rationale`, `activity_type`, `objective`, `evaluation`, `benefit`, `organization_organization_id`, `strategic_strategic_id`, `goal_goal_id`, `responsible_by`, `strategy_strategy_id`, `indicator_indicator_id`, `realted_subject_id`, `element_element_id`, `product_product_id`, `project_laksana_id`, `project_paomai_id`, `project_plan_id`, `budget_type_id`, `activity_money`, `budget_details_id`, `activity_status`, `activity_key`, `lastpage_id`, `created_by`) VALUES
+(1, 1, 'กิจกรรม34', 'ฟหกฟหก', 'กดกเกดเกดเกดเ', 'ฟหกฟหกฟหก', NULL, 'กดเกดเ', 3, 1, 2, 2, 5, 1, 1, 1, 2, 116, 67, 136, 2, 1000, 29, 10, 'BSC7QmMwzVkH2NE', NULL, 1),
+(2, 1, 'กิจกรรม2', 'กดเกดเดก', 'หกดกหด', 'หกดหกดหกดกดเกเด', NULL, '้เด้เดัดีด', 2, 3, 1, 3, 5, 1, 1, 2, 2, 112, 63, 127, 1, 5000, 26, 10, 'f8yDLVV8FRg1jYk', NULL, 13),
+(3, 1, 'mero activity', 'asdasd', 'asdsad', 'asdasd', NULL, '324ergtret', 2, 1, 2, 2, 3, 1, 1, 1, 1, 117, 68, 138, 1, 600000, 30, 10, 'QoJSLZTj-wpAFtE', 51, 1),
+(4, 2, '3333', 'sad', 'asd', 'asd', NULL, 'dsad', 3, 3, 1, 1, 3, 1, 1, 1, 2, 118, 69, 139, 2, 3003, 31, 10, '_-hUCQWChIvIeWC', 52, 1);
 
 -- --------------------------------------------------------
 
@@ -98,7 +109,11 @@ INSERT INTO `budget_details` (`detail_id`, `detail_name`, `detail_price`, `activ
 (18, 'Leo Porter', 588, 'UIK_Sd0EZ8UtUy3'),
 (20, 'Hyacinth Brennan', 827, '6lWnte3QAZF4auA'),
 (21, 'Micah Gilmore', 112, 'tBPoHuS5WHLK5Au'),
-(23, 'Colt Cantrell', 982, 'Y4krjsBiZMNLkCI');
+(23, 'Colt Cantrell', 982, 'Y4krjsBiZMNLkCI'),
+(26, 'กดเดกเ', 5000, 'f8yDLVV8FRg1jYk'),
+(29, 'กดเกดเ', 5000, 'BSC7QmMwzVkH2NE'),
+(30, 'asdasd', 234234, 'QoJSLZTj-wpAFtE'),
+(31, 'asd', 55555, '_-hUCQWChIvIeWC');
 
 -- --------------------------------------------------------
 
@@ -116,7 +131,8 @@ CREATE TABLE `budget_type` (
 --
 
 INSERT INTO `budget_type` (`budget_type_id`, `budget_type_name`) VALUES
-(1, 'งบประมาณพิเศษ');
+(1, 'งบประมาณพิเศษ'),
+(2, 'รายได้');
 
 -- --------------------------------------------------------
 
@@ -207,7 +223,9 @@ INSERT INTO `lastpage` (`last_id`, `last_role`, `last_user`, `last_position`, `p
 (46, 3, 'sad', 'dsfdsfsdf', 'tBPoHuS5WHLK5Au'),
 (47, 3, 'Explicabo Rerum cupidatat non ut ex exercitationem quam veniam', 'Ipsam nisi esse incidunt sit qui dicta enim ad ab', 'Yjfe1aRgoi0bv0-'),
 (48, 1, 'rtyrt', 'y', 'Y4krjsBiZMNLkCI'),
-(50, 3, 'Sed aute in voluptatem maiores nobis et cumque vero reprehenderit dolor est', 'Voluptas culpa sed maiores aut iusto aliquip ut obcaecati qui deserunt nostrud omnis officia non', '07J01adU622WY2u');
+(50, 1, 'sdfd', 'dfgdfgfdgfgfdgdfgdfg', 'gdBL-siug1yr7PI'),
+(51, 2, 'ert', 'ertert', 'QoJSLZTj-wpAFtE'),
+(52, 2, 'asdsad', 'asdasd', '_-hUCQWChIvIeWC');
 
 -- --------------------------------------------------------
 
@@ -225,16 +243,20 @@ CREATE TABLE `managers` (
   `created_at` int(11) NOT NULL COMMENT 'Created At',
   `updated_at` int(11) NOT NULL COMMENT 'Updated At',
   `roles` int(11) NOT NULL COMMENT 'Roles',
-  `status` smallint(6) NOT NULL DEFAULT '10' COMMENT 'Status'
+  `status` smallint(6) NOT NULL DEFAULT '10' COMMENT 'Status',
+  `picture` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'รูป\n'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `managers`
 --
 
-INSERT INTO `managers` (`id`, `username`, `auth_key`, `password_hash`, `password_reset_token`, `email`, `created_at`, `updated_at`, `roles`, `status`) VALUES
-(1, 'amit', 'ZIJ-hJxg9mFNIbLR0xv7XCjtVEfU_P6N', '$2y$13$fMAwC9LVwGFW0VROj375derZg6LdYKA4.HxKyHPaegQeJ2TCsNoEa', NULL, 'amit@gmail.com', 1538491076, 1538491076, 20, 10),
-(2, 'สมชาย', 'N-39hgHZtPUhHH8bwIdRg0Sw-qZUhqS4', '$2y$13$TZBiL5OcGr3ud/fuAhnwceJpe1c8Sigk3YIHJPIl9yhcO182xFfae', NULL, 'demo@gmail.com', 1538567377, 1538567377, 10, 10);
+INSERT INTO `managers` (`id`, `username`, `auth_key`, `password_hash`, `password_reset_token`, `email`, `created_at`, `updated_at`, `roles`, `status`, `picture`) VALUES
+(1, 'amit', 'ZIJ-hJxg9mFNIbLR0xv7XCjtVEfU_P6N', '$2y$13$fMAwC9LVwGFW0VROj375derZg6LdYKA4.HxKyHPaegQeJ2TCsNoEa', NULL, 'amit@gmail.com', 1538491076, 1538491076, 20, 10, NULL),
+(11, 'girl', 'xPihY-5nwV3HgnNuUDQ1M-tO-NB_JA2K', '$2y$13$b0aeOkZqnaOlZGxK0D6ZSOr9Rnk6P84Bw0xB6tsG98vWIGmtEvWRe', NULL, 'lccle7nd@virtual.com', 1540963474, 1540963474, 10, 10, 'girl.png'),
+(12, 'pong', 'UrHmcVVj_FnO4sS8TCsTQlCl64pZvKie', '$2y$13$ceUZfpkoWx1uGo0gvCCWHen9NyX8ANSuUUvEqrPT1Lwt1..uG.1xS', NULL, 'pong@gmail.com', 1541921787, 1541921787, 20, 10, 'pong.jpg'),
+(13, 'deshario', '16b_rDKGRFFqnj2DjtiX34zXpdsLMRy3', '$2y$13$7nXO6Puk1t09Lmbgirc6AO2DlPcYJdCaTyPcXZ9qfOq0MxEr6PZ0e', NULL, '2z1cxdgw@virtual.com', 1542802232, 1542802232, 10, 10, 'deshario.png'),
+(14, 'bikash', '7r-7DoNb88phHuJPq4kXlI2VlMYf0GaE', '$2y$13$21YsdeRyG7aojXM6bkBzu.rHSFNJaDfivHUgmovW/q5SLbac6TT7q', NULL, 'bh0aav7n@virtual.com', 1542806912, 1542806912, 10, 10, 'bikash.png');
 
 -- --------------------------------------------------------
 
@@ -338,7 +360,8 @@ CREATE TABLE `project` (
 --
 
 INSERT INTO `project` (`project_id`, `project_name`, `organization_id`, `responsibler_id`, `project_laksana_id`, `strategic_id`, `goal_id`, `realted_subject_id`, `strategy_id`, `indicator_id`, `element_id`, `product_id`, `rationale`, `objective`, `project_kpi_id`, `projecti_paomai_id`, `lakshana_activity`, `project_plan_id`, `project_start`, `project_end`, `project_location`, `project_evaluation`, `project_benefit`, `created_by`, `project_money`, `budget_budget_type`, `project_year`, `project_status`, `project_key`, `lastpage_id`) VALUES
-(1, 'Griffith Hood', 3, 2, 109, 2, 2, 1, 3, 1, 2, 1, 'Tempor minim magna exercitationem minima possimus ea ad ratione assumenda molestiae deserunt hic', 'Inventore excepturi est ut aspernatur dolor et deserunt quia rerum anim et minima animi et', NULL, 60, 'Suscipit perferendis quae voluptate iste qui fuga Aspernatur sunt non ut autem voluptas nihil tenetur', 124, '2561-10-17', '2561-10-19', 'Deleniti magna voluptatem autem praesentium officia quaerat assumenda est', 'Aliqua Laudantium ad consequat Placeat aut sapiente nisi', 'Veniam pariatur Commodo anim reprehenderit ut ad quo nihil', 1, 5000, 1, '2004', 10, '07J01adU622WY2u', 50);
+(1, 'xfgvxcvxc', 1, 3, 110, 1, 2, 1, 2, 1, 1, 2, 'dasdasdasdasdadasdasdasasdas', 'asdasd', 42, 61, 'asdasdasd', 125, '2561-10-17', '2561-10-24', 'asdasdasdad', 'asdasd', 'asdasd', 1, 50000, 1, '2561', 10, 'gdBL-siug1yr7PI', 50),
+(2, 'asdasdasd', 1, 2, 113, 3, 2, 1, 3, 2, NULL, NULL, 'asdasdasdasdasdasd', 'adasdasd', NULL, 64, 'asdasd', NULL, '2561-11-14', '2561-11-19', 'asdasd', 'asdasda', 'asdsad', 11, 520000, 2, '2561', 10, 'RLMs9-29ux3XSRm', NULL);
 
 -- --------------------------------------------------------
 
@@ -357,7 +380,8 @@ CREATE TABLE `project_files` (
 --
 
 INSERT INTO `project_files` (`file_id`, `file_source`, `project_id`) VALUES
-(1, '{\"5cf06b6d2d5645f58b6d606df14d53fa.pdf\":\"3.pdf\"}', 1);
+(1, '{\"785d0c4d7f2204dcad90f57517fb81ce.pdf\":\"07_ch2.pdf\"}', 1),
+(2, '{\"077062f432f05ec2fe6c34c0f385e9d2.pdf\":\"2559Vol4No1_9.pdf\"}', 1);
 
 -- --------------------------------------------------------
 
@@ -385,7 +409,8 @@ INSERT INTO `project_kpi` (`kpi_id`, `kpi_name`, `kpi_goal`, `kpi_project_key`) 
 (30, 'asad', 'asd', 'CmNhnpfyZbm3S_N'),
 (38, 'asad', 'asd', 'MaxtpGf6_OYu_ix'),
 (39, 'asd', 'asd', 'gyQZoIVe-ZhDJE2'),
-(40, 'Paul Dale', 'Magni ipsam vel ipsum et eu in tempore', 'r_WLs3wFNx5UPzM');
+(40, 'Paul Dale', 'Magni ipsam vel ipsum et eu in tempore', 'r_WLs3wFNx5UPzM'),
+(42, 'asdasdasd', 'asdasdasdasdasd', 'gdBL-siug1yr7PI');
 
 -- --------------------------------------------------------
 
@@ -507,8 +532,17 @@ INSERT INTO `project_laksana` (`laksana_id`, `project_type_id`, `procced_id`) VA
 (105, 3, 2),
 (106, 1, 1),
 (107, 1, 1),
-(108, 2, 2),
-(109, 2, 2);
+(108, 2, 1),
+(109, 2, 1),
+(110, 2, 1),
+(111, 2, 1),
+(112, 2, 1),
+(113, 3, 1),
+(114, 2, 1),
+(115, 2, 1),
+(116, 2, 1),
+(117, 2, 2),
+(118, 2, 1);
 
 -- --------------------------------------------------------
 
@@ -585,8 +619,17 @@ INSERT INTO `project_paomai` (`paomai_id`, `project_quantity`, `project_quality`
 (56, 'Lorem amet et autem explicabo Ea nulla aut ullam aperiam tenetur voluptas quia quia qui placeat', 'Culpa nihil voluptate architecto sit autem natus libero quasi accusamus'),
 (57, 'Molestiae maiores aut accusamus commodi qui quas ut sint culpa reprehenderit nostrum sint consequatur illum', 'Qui error proident ut impedit ullamco eius'),
 (58, 'Molestiae maiores aut accusamus commodi qui quas ut sint culpa reprehenderit nostrum sint consequatur illum', 'Qui error proident ut impedit ullamco eius'),
-(59, 'Aliquam nesciunt tempora dolor et optio velit vel deleniti delectus cum illum aute aut aliquip labore praesentium', 'Quos a culpa quia ut vero voluptatem eligendi ut laudantium dolorem aute dolore quam'),
-(60, 'Aliquam nesciunt tempora dolor et optio velit vel deleniti delectus cum illum aute aut aliquip labore praesentium', 'Quos a culpa quia ut vero voluptatem eligendi ut laudantium dolorem aute dolore quam');
+(59, 'dasdasdasd', 'sadasdasdasdasdasd'),
+(60, 'กดกดเกดเ', 'กดเกดเ'),
+(61, 'dasdasdasd', 'sadasdasdasdasdasd'),
+(62, 'กดกดเกดเ', 'กดเกดเ'),
+(63, 'กหดหกด', 'กดเกดเดกเ'),
+(64, '', ''),
+(65, 'กดกดเกดเ', 'กดเกดเ'),
+(66, 'กดกดเกดเ', 'กดเกดเ'),
+(67, 'กดกดเกดเ', 'กดเกดเ'),
+(68, 'asdasd', 'asdasdasd'),
+(69, 'asd', 'asd');
 
 -- --------------------------------------------------------
 
@@ -641,7 +684,18 @@ INSERT INTO `project_plan` (`plan_id`, `plan_process`, `plan_detail`, `plan_date
 (119, 3, 'Quia vitae alias minim dolorem magna id voluptatem nobis obcaecati rerum minim officia', '0000-00-00', 'Officia officia ut voluptatem cum', 'r_WLs3wFNx5UPzM'),
 (120, 3, 'Ex quia sunt quibusdam adipisicing molestiae optio autem itaque est quos in molestiae', '0000-00-00', 'A minima vero ad excepturi anim distinctio', 'Yjfe1aRgoi0bv0-'),
 (122, 3, 'Placeat aut occaecat laudantium architecto assumenda aute enim dignissimos quaerat eveniet est sit sunt et', '2018-10-17', 'Aliquid quo laudantium corrupti magna praesentium hic minus eius id unde quam nulla', 'Y4krjsBiZMNLkCI'),
-(124, 2, 'Suscipit similique amet velit aliqua Pariatur Rerum', '0000-00-00', 'Dolor maiores rerum voluptate voluptate laborum Officia amet natus ut exercitation perferendis quam ', '07J01adU622WY2u');
+(125, 2, 'zdsfsdf', '2561-10-30', 'sdfsdfsdf', 'gdBL-siug1yr7PI'),
+(127, 2, 'เดกปเดก', '2018-10-01', 'ัดเ้่ด่ัดีัแ', 'f8yDLVV8FRg1jYk'),
+(130, 2, 'กดเด้ดเ้', '2018-10-12', 'jhgvbhjvhj', 'BSC7QmMwzVkH2NE'),
+(131, 1, '3esfd', '2018-11-29', 'asd', 'BSC7QmMwzVkH2NE'),
+(132, 1, 'asd', '2018-11-29', 'asdasd', 'BSC7QmMwzVkH2NE'),
+(133, 1, 'asd', '2018-11-29', 'asd', 'BSC7QmMwzVkH2NE'),
+(134, 1, 'asd', '2018-11-29', 'asd', 'BSC7QmMwzVkH2NE'),
+(135, 1, 'asd', '2018-11-23', 'asd', 'BSC7QmMwzVkH2NE'),
+(136, 2, '456', '2018-11-23', '456', 'BSC7QmMwzVkH2NE'),
+(137, 1, '234', '2018-11-10', '234234', 'QoJSLZTj-wpAFtE'),
+(138, 2, '234', '2018-11-29', '324234234', 'QoJSLZTj-wpAFtE'),
+(139, 2, 'dsadasd', '2018-11-24', 'dsadasdasd', '_-hUCQWChIvIeWC');
 
 -- --------------------------------------------------------
 
@@ -767,7 +821,8 @@ ALTER TABLE `activity`
   ADD KEY `fk_activity_budget_type1_idx` (`budget_type_id`),
   ADD KEY `fk_activity_budget_details1_idx` (`budget_details_id`),
   ADD KEY `fk_activity_realted_subject1_idx` (`realted_subject_id`),
-  ADD KEY `fk_activity_lastpage1_idx` (`lastpage_id`);
+  ADD KEY `fk_activity_lastpage1_idx` (`lastpage_id`),
+  ADD KEY `fk_activity_managers1_idx` (`created_by`);
 
 --
 -- Indexes for table `activity_files`
@@ -932,7 +987,7 @@ ALTER TABLE `strategy`
 -- AUTO_INCREMENT for table `activity`
 --
 ALTER TABLE `activity`
-  MODIFY `activity_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `activity_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `activity_files`
@@ -944,13 +999,13 @@ ALTER TABLE `activity_files`
 -- AUTO_INCREMENT for table `budget_details`
 --
 ALTER TABLE `budget_details`
-  MODIFY `detail_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `detail_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- AUTO_INCREMENT for table `budget_type`
 --
 ALTER TABLE `budget_type`
-  MODIFY `budget_type_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `budget_type_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `element`
@@ -974,13 +1029,13 @@ ALTER TABLE `indicator`
 -- AUTO_INCREMENT for table `lastpage`
 --
 ALTER TABLE `lastpage`
-  MODIFY `last_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
+  MODIFY `last_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
 
 --
 -- AUTO_INCREMENT for table `managers`
 --
 ALTER TABLE `managers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `organization`
@@ -1004,37 +1059,37 @@ ALTER TABLE `product`
 -- AUTO_INCREMENT for table `project`
 --
 ALTER TABLE `project`
-  MODIFY `project_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `project_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `project_files`
 --
 ALTER TABLE `project_files`
-  MODIFY `file_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `file_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `project_kpi`
 --
 ALTER TABLE `project_kpi`
-  MODIFY `kpi_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
+  MODIFY `kpi_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
 
 --
 -- AUTO_INCREMENT for table `project_laksana`
 --
 ALTER TABLE `project_laksana`
-  MODIFY `laksana_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=110;
+  MODIFY `laksana_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=119;
 
 --
 -- AUTO_INCREMENT for table `project_paomai`
 --
 ALTER TABLE `project_paomai`
-  MODIFY `paomai_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'เป้าหมาย', AUTO_INCREMENT=61;
+  MODIFY `paomai_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'เป้าหมาย', AUTO_INCREMENT=70;
 
 --
 -- AUTO_INCREMENT for table `project_plan`
 --
 ALTER TABLE `project_plan`
-  MODIFY `plan_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=125;
+  MODIFY `plan_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=140;
 
 --
 -- AUTO_INCREMENT for table `project_type`
@@ -1080,6 +1135,7 @@ ALTER TABLE `activity`
   ADD CONSTRAINT `fk_activity_goal1` FOREIGN KEY (`goal_goal_id`) REFERENCES `goal` (`goal_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_activity_indicator` FOREIGN KEY (`indicator_indicator_id`) REFERENCES `indicator` (`indicator_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_activity_lastpage1` FOREIGN KEY (`lastpage_id`) REFERENCES `lastpage` (`last_id`) ON DELETE SET NULL ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_activity_managers1` FOREIGN KEY (`created_by`) REFERENCES `managers` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_activity_organization1` FOREIGN KEY (`organization_organization_id`) REFERENCES `organization` (`organization_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_activity_product1` FOREIGN KEY (`product_product_id`) REFERENCES `product` (`product_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_activity_project1` FOREIGN KEY (`root_project_id`) REFERENCES `project` (`project_id`) ON DELETE CASCADE ON UPDATE NO ACTION,

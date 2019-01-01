@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use app\models\BudgetDetails;
+use app\models\Consistency;
 use app\models\Element;
 use app\models\Goal;
 use app\models\Indicator;
@@ -22,10 +23,13 @@ use Yii;
 use app\models\Activity;
 use app\models\ActivitySearch;
 use yii\base\Model;
+use yii\bootstrap\ActiveForm;
 use yii\helpers\Json;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\helpers\ArrayHelper;
+use yii\web\Response;
 
 /**
  * ActivityController implements the CRUD actions for Activity model.
@@ -113,6 +117,12 @@ class ActivityController extends Controller
     public function actionCreate()
     {
         $model = new Activity();
+
+        if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())) {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            return ActiveForm::validate($model);
+        }
+
         if ($model->load(Yii::$app->request->post())) {
             $transaction = Yii::$app->db->beginTransaction();
             try {
@@ -120,8 +130,20 @@ class ActivityController extends Controller
                 $temp_project_plan_id = 0;
                 $temp_project_budget_details_id = 0;
                 $temp_lastpage_id = 0;
+                $temp_consistency_id = 0;
                 $items = Yii::$app->request->post();
                 $model->root_project_id = Yii::$app->request->get('proj_id');
+
+                foreach ($items['Activity']['temp_project_consistency'] as $key => $val) {
+                    $project_consistency = new Consistency();
+                    $project_consistency->cons_strategic_id = $val['cons_strategic_id'];
+                    $project_consistency->cons_goal_id = $val['cons_goal_id'];
+                    $project_consistency->cons_strategy_id = $val['cons_strategy_id'];
+                    $project_consistency->cons_indicator_id = $val['cons_indicator_id'];
+                    $project_consistency->project_act_key = $randomString;
+                    $project_consistency->save();
+                    $temp_consistency_id = $project_consistency->consistency_id;
+                }
 
                 foreach ($items['Activity']['budget_plan'] as $key => $val) {
                     $budget_details = new BudgetDetails();
@@ -163,6 +185,7 @@ class ActivityController extends Controller
             $project_paomai = new ProjectPaomai();
             $project_paomai->project_quantity = $model->paomai_quantity;
             $project_paomai->project_quality = $model->paomai_quality;
+            $project_paomai->project_time = $model->paomai_time;
             $project_paomai->save();
 
             $project_laksana = new ProjectLaksana();
@@ -174,10 +197,12 @@ class ActivityController extends Controller
             $model->project_paomai_id = $project_paomai->paomai_id;
             $model->budget_details_id = $temp_project_budget_details_id;
             $model->project_plan_id = $temp_project_plan_id;
+            $model->activity_consistency_id = $temp_consistency_id;
             $model->activity_status = Project::PROJECT_RUNNING;
             $model->lastpage_id = $temp_lastpage_id;
+            $model->created_by = Yii::$app->user->identity->id;
 
-            if ($model->validate()){
+            if ($model->validate()) {
                 $model->activity_key = $randomString;
                 $model->save();
                 Yii::$app->getSession()->setFlash('activity_create_done', [
@@ -193,7 +218,7 @@ class ActivityController extends Controller
                     'project_id' => $model->root_project_id,
                     'project_name' => $model->rootProject->project_name,
                     'project_status' => $model->rootProject->project_status,
-                    ]);
+                ]);
             }
 
         } else {
@@ -220,35 +245,54 @@ class ActivityController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+
         $model->temp_type = $model->projectLaksana->projectType->type_id;
         $model->temp_procced = $model->projectLaksana->procced->procced_id;
 
         $model->paomai_quantity = ProjectPaomai::find()->where(['paomai_id' => $model->project_paomai_id])->one()->project_quantity;
         $model->paomai_quality = ProjectPaomai::find()->where(['paomai_id' => $model->project_paomai_id])->one()->project_quality;
+        $model->paomai_time = ProjectPaomai::find()->where(['paomai_id' => $model->project_paomai_id])->one()->project_time;
 
         $model->budget_plan = BudgetDetails::find()->where(['activity_key' => $model->activity_key])->all();
         $model->temp_project_plan_id = ProjectPlan::find()->where(['plan_project_key' => $model->activity_key])->all();
         $model->lastpage_main = LastPage::find()->where(['project_act_key' => $model->activity_key])->all();
+        $model->temp_project_consistency = Consistency::find()->where(['project_act_key' => $model->activity_key])->all();
 
         if ($model->load(Yii::$app->request->post())) {
             $budgets = BudgetDetails::find()->where(['activity_key' => $model->activity_key])->all();
             $plans = ProjectPlan::find()->where(['plan_project_key' => $model->activity_key])->all();
             $lastpages = LastPage::find()->where(['project_act_key' => $model->activity_key])->all();
+            $consistencies = Consistency::find()->where(['project_act_key' => $model->activity_key])->all();
             $transaction = Yii::$app->db->beginTransaction();
             try {
                 $temp_project_plan_id = 0;
                 $temp_project_budget_details_id = 0;
                 $temp_lastpage_id = 0;
+                $temp_consistency_id = 0;
                 $items = Yii::$app->request->post();
 
-                foreach($budgets as $delete){
+                foreach ($consistencies as $delete) {
                     $delete->delete();
                 }
-                foreach($plans as $delete2){
+                foreach ($budgets as $delete) {
+                    $delete->delete();
+                }
+                foreach ($plans as $delete2) {
                     $delete2->delete();
                 }
-                foreach($lastpages as $delete3){
+                foreach ($lastpages as $delete3) {
                     $delete3->delete();
+                }
+
+                foreach ($items['Activity']['temp_project_consistency'] as $key => $val) {
+                    $project_consistency = new Consistency();
+                    $project_consistency->cons_strategic_id = $val['cons_strategic_id'];
+                    $project_consistency->cons_goal_id = $val['cons_goal_id'];
+                    $project_consistency->cons_strategy_id = $val['cons_strategy_id'];
+                    $project_consistency->cons_indicator_id = $val['cons_indicator_id'];
+                    $project_consistency->project_act_key = $model->activity_key;
+                    $project_consistency->save();
+                    $temp_consistency_id = $project_consistency->consistency_id;
                 }
 
                 foreach ($items['Activity']['budget_plan'] as $key => $val) {
@@ -291,6 +335,7 @@ class ActivityController extends Controller
             $project_paomai = new ProjectPaomai();
             $project_paomai->project_quantity = $model->paomai_quantity;
             $project_paomai->project_quality = $model->paomai_quality;
+            $project_paomai->project_time = $model->paomai_time;
             $project_paomai->save();
 
             $project_laksana = new ProjectLaksana();
@@ -301,11 +346,12 @@ class ActivityController extends Controller
             $model->project_laksana_id = $project_laksana->laksana_id;
             $model->project_paomai_id = $project_paomai->paomai_id;
             $model->budget_details_id = $temp_project_budget_details_id;
+            $model->activity_consistency_id = $temp_consistency_id;
             $model->project_plan_id = $temp_project_plan_id;
             $model->activity_status = Project::PROJECT_RUNNING;
             $model->lastpage_id = $temp_lastpage_id;
 
-            if ($model->validate()){
+            if ($model->validate()) {
                 $model->save();
                 Yii::$app->getSession()->setFlash('activity_update_ok', [
                     'type' => Growl::TYPE_SUCCESS,
@@ -322,12 +368,34 @@ class ActivityController extends Controller
                     'project_status' => $model->rootProject->project_status,
                 ]);
             }
-        }else{
+        } else {
+            $temp_id = $model->created_by;
+            $id = Yii::$app->user->identity->id;
             $status = Yii::$app->request->get('project_status');
+
+            $master = new Project();
+
             if ($status == Project::PROJECT_RUNNING) {
-                return $this->render('update', [
-                    'model' => $model,
-                ]);
+                if ($temp_id == $id) {
+                    return $this->render('update', [
+                        'model' => $model,
+                        'tempGoal' => '',
+                        'tempStrategy' => '',
+                        'tempIndicator' => ''
+                    ]);
+                } else {
+                    Yii::$app->getSession()->setFlash('activity_not_owner', [
+                        'type' => Growl::TYPE_DANGER,
+                        'duration' => 5000,
+                        'icon' => 'fa fa-close',
+                        'title' => 'คำสั่งลมเหลว',
+                        'message' => 'ไม่สามารถแก้ไขกิจกรรมของผู้ใช้งานคนอืนได้',
+                        'positonY' => 'bottom',
+                        'positonX' => 'right'
+                    ]);
+                    return $this->redirect(Yii::$app->request->referrer ?: Yii::$app->homeUrl);
+                }
+
             } else {
                 Yii::$app->getSession()->setFlash('activity_update_fail', [
                     'type' => Growl::TYPE_DANGER,
@@ -345,9 +413,19 @@ class ActivityController extends Controller
 
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
-
-        return $this->redirect(['index']);
+        $model = $this->findModel($id);
+        if ($model->delete()) {
+            Yii::$app->getSession()->setFlash('activity_delete_success', [
+                'type' => Growl::TYPE_SUCCESS,
+                'duration' => 5000,
+                'icon' => 'fa fa-check',
+                'title' => $model->activity_name,
+                'message' => 'ลบกิจกรรมสำเร็จ',
+                'positonY' => 'bottom',
+                'positonX' => 'right'
+            ]);
+        }
+        return $this->redirect(Yii::$app->request->referrer ?: Yii::$app->homeUrl);
     }
 
     protected function findModel($id)
@@ -368,12 +446,11 @@ class ActivityController extends Controller
         ]);
     }
 
-    public function actionPreview($activity_id, $activity_name) {
-        //$mpdf = new Mpdf(['mode' => 's']);
-        $mpdf = new \Mpdf\Mpdf(['tempDir' => __DIR__ . '/mpdf/temp']);
-
+    public function actionPreview($activity_id, $activity_name)
+    {
+        $mpdf = new Mpdf(['mode' => 's']);
         $model = $this->findModel($activity_id);
-        $content  = $this->renderPartial('activity_print', [
+        $content = $this->renderPartial('activity_print', [
             'model' => $model,
         ]);
 
@@ -395,17 +472,17 @@ class ActivityController extends Controller
         ";
 
         $mpdf->SetHeader('||{PAGENO}');
-        //$mpdf->SetFooter('|'.'ผู้รับผิดชอบ : '.$model->responsibleBy->responsible_by.'|');
-        //$mpdf->SetWatermarkText('Deshario');
-        //$mpdf->showWatermarkText = true;
-        //$mpdf->margin_bottom_collapse = 5;
+//        $mpdf->SetFooter('|'.'ผู้รับผิดชอบ : '.$model->responsibleBy->responsible_by.'|');
+//        $mpdf->SetWatermarkText('Deshario');
+//        $mpdf->showWatermarkText = true;
+//        $mpdf->margin_bottom_collapse = 5;
 
         $mpdf->AddPageByArray([
             'resetpagenum' => '1'
         ]);
 
-        $mpdf->WriteHTML($stylesheet,1);
-        $mpdf->WriteHTML($content,2);
+        $mpdf->WriteHTML($stylesheet, 1);
+        $mpdf->WriteHTML($content, 2);
         $mpdf->Output($activity_name . ' - ฉบับสมบูรณ์', 'D');
 
     }

@@ -28,7 +28,7 @@ class Strategy extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['strategy_name'], 'string', 'max' => 90],
+            [['strategy_name'], 'string', 'max' => 255],
         ];
     }
 

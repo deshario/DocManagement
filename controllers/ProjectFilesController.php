@@ -64,14 +64,13 @@ class ProjectFilesController extends Controller
 
     public function generateTable($model) {
 
-        //$mpdf = new Mpdf(['mode' => 's']);
-        $mpdf = new \Mpdf\Mpdf(['tempDir' => __DIR__ . '/mpdf/temp']);
+        $mpdf = new Mpdf(['mode' => 's']);
         $content = $this->renderPartial('project_table_pdf', [
             'model' => $model,
         ]);
         $tableCss = Yii::getAlias('@webroot').'/css/table.css';
         $stylesheet = file_get_contents($tableCss);
-        $mpdf->SetWatermarkText('Deshario');
+        $mpdf->SetWatermarkText('MCU NAN');
         $mpdf->showWatermarkText = true;
 
         $mpdf->WriteHTML($stylesheet,1);
@@ -94,14 +93,13 @@ class ProjectFilesController extends Controller
                 $i++;
             }
 
-            //$mpdf = new Mpdf(['mode' => 's']);
-            $mpdf = new \Mpdf\Mpdf(['tempDir' => __DIR__ . '/mpdf/temp']);
+            $mpdf = new Mpdf(['mode' => 's']);
             $content = $this->renderPartial('project_table_pdf', [
                 'model' => $data,
             ]);
             $tableCss = Yii::getAlias('@webroot').'/css/table.css';
             $stylesheet = file_get_contents($tableCss);
-            $mpdf->SetWatermarkText('Deshario');
+            $mpdf->SetWatermarkText('MCU NAN');
             $mpdf->showWatermarkText = true;
 
             $mpdf->WriteHTML($stylesheet,1);
@@ -127,8 +125,7 @@ class ProjectFilesController extends Controller
 
     public function Merge($project_name, $files)
     {
-        //$pdf = new mPDF();
-        $pdf = new \Mpdf\Mpdf(['tempDir' => __DIR__ . '/mpdf/temp']);
+        $pdf = new mPDF();
         $pdf->enableImports = true;
         foreach ($files as $file){
             $pdf->SetImportUse();
@@ -145,8 +142,7 @@ class ProjectFilesController extends Controller
     }
 
     public function generateLastPage($project_name){
-        //$mpdf = new Mpdf(['mode' => 's']);
-        $mpdf = new \Mpdf\Mpdf(['tempDir' => __DIR__ . '/mpdf/temp']);
+        $mpdf = new Mpdf(['mode' => 's']);
         $content = $this->renderPartial('lastpage');
         $stylesheet = "body{font-family: Garuda}";
         $mpdf->WriteHTML($stylesheet,1);

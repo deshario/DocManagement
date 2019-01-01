@@ -7,7 +7,7 @@ use yii\grid\GridView;
 /* @var $searchModel app\models\LastPageSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Last Pages';
+$this->title = 'ผู้รับผิดชอบโครงการ';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="last-page-index">
