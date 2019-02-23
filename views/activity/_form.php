@@ -266,6 +266,8 @@ $project_name = Yii::$app->request->get('proj_name');
 
             <?= $form->field($model, 'benefit')->textarea(['rows' => 3, 'placeholder' => '']) ?>
 
+            <?=$form->field($model, 'evaluation')->textarea(['rows' => 6])?>
+
             <?= $form->field($model, 'suggestion')->textarea(['rows' => 3, 'placeholder' => '']) ?>
 
             <div class="clearfix"></div>

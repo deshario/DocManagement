@@ -47,7 +47,7 @@ $space = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
 <?php
 echo '<p align="center">' . $project_name . ' <br/> วิทยาลัยสงฆ์นครน่าน มหาวิทยาลัยมหาจุฬาลงกรณราชวิทยาลัย <br/> เฉลิมพระเกียรติสมเด็จพระเทพรัตนราชสุดา สยามบรมราชกุมารี <br/>  ปีงบประมาณ พ.ศ. ' . $year . ' <br/> *************************************************</p>';
 
-echo '<p><strong>๑.ชื่อโครงการ</strong> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . $project_name . '</p>';
+echo '<p><strong>๑. ชื่อโครงการ</strong> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . $project_name . '</p>';
 
 
 echo '<p><strong>๒. ชื่อหน่วยงาน</strong> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . $organization . '</p>';
@@ -64,25 +64,25 @@ $consistency = Consistency::find()->where(['project_act_key' => $model->project_
 if (!empty($consistency)) {
     foreach ($consistency as $item) {
         if(!empty($item->consStrategic->strategic_name)){
-            echo '<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; '.$item->consStrategic->strategic_name.'</p>';
+            echo '<p>&nbsp;&nbsp;&nbsp;&nbsp;ยุทธศาสตร์&nbsp;:&nbsp;&nbsp;&nbsp; '.$item->consStrategic->strategic_name.'</p>';
         }
     }
 
     foreach ($consistency as $item) {
         if(!empty($item->consGoal->goal_name)){
-            echo '<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; '.$item->consGoal->goal_name.'</p>';
+            echo '<p>&nbsp;&nbsp;&nbsp;&nbsp;เป้าประสงค์&nbsp;:&nbsp;&nbsp;&nbsp; '.$item->consGoal->goal_name.'</p>';
         }
     }
 
     foreach ($consistency as $item) {
         if(!empty($item->consStrategy->strategy_name)){
-            echo '<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; '.$item->consStrategy->strategy_name.'</p>';
+            echo '<p>&nbsp;&nbsp;&nbsp;&nbsp;กลยุทธ์&nbsp;:&nbsp;&nbsp;&nbsp; '.$item->consStrategy->strategy_name.'</p>';
         }
     }
 
     foreach ($consistency as $item) {
         if(!empty($item->consIndicator->indicator_name)){
-            echo '<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; '.$item->consIndicator->indicator_name.'</p>';
+            echo '<p>&nbsp;&nbsp;&nbsp;&nbsp;ตัวชี้วัด&nbsp;:&nbsp;&nbsp;&nbsp; '.$item->consIndicator->indicator_name.'</p>';
         }
     }
 }
@@ -146,7 +146,11 @@ echo '<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 ' . $time . '</p>';
 
 echo '<p><strong>๑๑. ลักษณะกิจกรรม</strong></p>';
-echo '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . $lakshana_activity;
+$newlakshana_activity = explode("\n", $lakshana_activity);
+foreach($newlakshana_activity as $lakshana_activity) {
+    echo '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . $lakshana_activity.'<br/>';
+}
+
 
 $activity = Activity::find()->where(['root_project_id' => $model->project_id])->all();
 if (!empty($activity)) {
@@ -155,7 +159,6 @@ if (!empty($activity)) {
 
     foreach ($activity as $item) {
         $total_price = $total_price + $item->activity_money;
-        $i++;
     }
 
     echo '<p><strong>๑๒. แหล่งที่มาของงบประมาณ</strong></p>';
@@ -177,7 +180,7 @@ if (!empty($activity)) {
     foreach ($activity as $item) {
         echo "<tr>
                 <td align='center'>$i</td>
-                <td>$item->activity_name</td>
+                <td align='left'>$item->activity_name</td>
                 <td align='center'>$item->activity_money</td>
             </tr>";
         $i++;
@@ -213,13 +216,15 @@ if (!empty($project_plan)) {
         if ($item->plan_process == 1) {
             $temp = 'ชั้นว่างแผน (Plan)';
         } else if ($item->plan_process == 2) {
+            $temp = 'ชั้นดำเนินงาน (Do)';
+        } else if ($item->plan_process == 3) {
             $temp = 'ชั้นตรวจสอบ (Check)';
         } else {
             $temp = 'ชั้นปรับปรุง (Act)';
         }
         echo "<tr> 
                     <td>$temp</td>
-                    <td>$item->plan_detail</td>
+                    <td align='left'>$item->plan_detail</td>
                     <td align='center'>$item->plan_date</td>
                     <td align='center'>$item->plan_place</td>
                 </tr>";
@@ -248,7 +253,11 @@ foreach($newProjectBenefit as $value) {
 }
 
 echo '<p><strong>๑๙. ข้อเสนอแนะ</strong></p>';
-echo '<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . $suggestion . '</p>';
+$newsuggestion = explode("\n", $suggestion);
+foreach($newsuggestion as $suggestion) {
+    echo '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . $suggestion.'<br/>';
+
+}
 
 ?>
 
@@ -267,6 +276,7 @@ if (!empty($lastpages)) {
 
             if($type != 1){
         ?>
+
 
         <p align="center" style="margin-top: 80px">
             ความคิดเห็น

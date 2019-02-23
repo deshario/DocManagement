@@ -29,7 +29,9 @@ $quantity = $model->projectPaomai->project_quantity;
 $quality = $model->projectPaomai->project_quality;
 $time = $model->projectPaomai->project_time;
 $creator = $model->rootProject->createdBy->username;
+$suggestion = $model->suggestion;
 $benefit = $model->benefit;
+$evaluation = $model->evaluation;
 $space = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
 ?>
 
@@ -53,25 +55,25 @@ $consistency = Consistency::find()->where(['project_act_key' => $model->activity
 if (!empty($consistency)) {
     foreach ($consistency as $item) {
         if(!empty($item->consStrategic->strategic_name)){
-            echo '<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; '.$item->consStrategic->strategic_name.'</p>';
+            echo '<p>&nbsp;&nbsp;&nbsp;&nbsp;ยุทธศาสตร์&nbsp;:&nbsp;&nbsp;&nbsp; '.$item->consStrategic->strategic_name.'</p>';
         }
     }
 
     foreach ($consistency as $item) {
         if(!empty($item->consGoal->goal_name)){
-            echo '<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; '.$item->consGoal->goal_name.'</p>';
+            echo '<p>&nbsp;&nbsp;&nbsp;&nbsp;เป้าประสงค์&nbsp;:&nbsp;&nbsp;&nbsp; '.$item->consGoal->goal_name.'</p>';
         }
     }
 
     foreach ($consistency as $item) {
         if(!empty($item->consStrategy->strategy_name)){
-            echo '<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; '.$item->consStrategy->strategy_name.'</p>';
+            echo '<p>&nbsp;&nbsp;&nbsp;&nbsp;กลยุทธ์&nbsp;:&nbsp;&nbsp;&nbsp; '.$item->consStrategy->strategy_name.'</p>';
         }
     }
 
     foreach ($consistency as $item) {
         if(!empty($item->consIndicator->indicator_name)){
-            echo '<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; '.$item->consIndicator->indicator_name.'</p>';
+            echo '<p>&nbsp;&nbsp;&nbsp;&nbsp;ตัวชี้วัด&nbsp;:&nbsp;&nbsp;&nbsp; '.$item->consIndicator->indicator_name.'</p>';
         }
     }
 }
@@ -131,7 +133,7 @@ if (!empty($all_budget)) {
         echo "
                 <tr>
                     <td align='center'>$i</td>
-                    <td>$budget->detail_name</td>
+                    <td align='left'>$budget->detail_name</td>
                     <td align='center'>$budget->detail_price</td>
                 </tr>";
         $i++;
@@ -161,19 +163,22 @@ $project_plan = ProjectPlan::find()
     ->where(['plan_project_key' => $model->activity_key])
     ->orderBy('plan_process')
     ->all();
+
 if (!empty($project_plan)) {
     $i = 1;
     foreach ($project_plan as $item) {
         if ($item->plan_process == 1) {
             $temp = 'ชั้นว่างแผน (Plan)';
         } else if ($item->plan_process == 2) {
+            $temp = 'ชั้นดำเนินงาน (Do)';
+        } else if ($item->plan_process == 3) {
             $temp = 'ชั้นตรวจสอบ (Check)';
         } else {
             $temp = 'ชั้นปรับปรุง (Act)';
         }
         echo "<tr>
                     <td>$temp</td>
-                    <td>$item->plan_detail</td>
+                    <td align='left'>$item->plan_detail</td>
                     <td align='center'>$item->plan_date</td>
                     <td align='center'>$item->plan_place</td>
                 </tr>";
@@ -182,12 +187,20 @@ if (!empty($project_plan)) {
 }
 echo '</table>';
 
-echo '<p><strong>๑๓. ประโยชน์ที่ได้รับจากการดำเนินกิจกรรม</strong></p>';
+echo '<p><strong>๑๓. การประเมินผล</strong></p>';
+echo '<p><strong>'.$space.$evaluation.'</p>';
+
+echo '<p><strong>๑๔. ประโยชน์ที่ได้รับจากการดำเนินกิจกรรม</strong></p>';
 $newBenefit = explode("\n", $benefit);
 foreach($newBenefit as $value) {
     echo $space . $value.'<br/>';
 }
 
+echo '<p><strong>๑๕. ข้อเสนอแนะ</strong></p>';
+$newsuggestion = explode("\n", $suggestion);
+foreach($newsuggestion as $suggestion) {
+    echo '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . $suggestion.'<br/>';
+}
 ?>
 
 <?php
