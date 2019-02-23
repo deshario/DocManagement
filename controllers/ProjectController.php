@@ -6,6 +6,7 @@ use app\components\AccessRule;
 use app\models\Activity;
 use app\models\ActivityFiles;
 use app\models\Consistency;
+use app\models\ElementProduct;
 use app\models\LastPage;
 use app\models\Managers;
 use app\models\Procced;
@@ -113,6 +114,7 @@ class ProjectController extends Controller
                 $temp_project_kpi_id = 0;
                 $temp_project_plan_id = 0;
                 $temp_consistency_id = 0;
+                $temp_element_product_id = 0;
                 $temp_lastpage_id = 0;
 
                 //var_dump($items['Project']['temp_project_kpi_id']);
@@ -128,6 +130,15 @@ class ProjectController extends Controller
                     $project_consistency->project_act_key = $randomString;
                     $project_consistency->save();
                     $temp_consistency_id = $project_consistency->consistency_id;
+                }
+
+                foreach ($items['Project']['temp_element_product'] as $key => $val) {
+                    $element_product = new ElementProduct();
+                    $element_product->ep_element_id = $val['ep_element_id'];
+                    $element_product->ep_product_id = $val['ep_product_id'];
+                    $element_product->project_act_key = $randomString;
+                    $element_product->save();
+                    $temp_element_product_id = $element_product->element_product_id;
                 }
 
                 foreach ($items['Project']['temp_project_kpi_id'] as $key => $val) {
@@ -181,6 +192,7 @@ class ProjectController extends Controller
 
             $model->projecti_paomai_id = $project_paomai->paomai_id;
             $model->project_consistency_id = $temp_consistency_id;
+            $model->project_ep_id = $temp_element_product_id;
             $model->created_by = Yii::$app->user->identity->id;
             $model->project_status = Project::PROJECT_RUNNING;
             $model->project_laksana_id = $project_laksana->laksana_id;
@@ -229,6 +241,7 @@ class ProjectController extends Controller
             $model->temp_project_kpi_id = ProjectKpi::find()->where(['kpi_project_key' => $model->project_key])->all();
             $model->temp_project_plan_id = ProjectPlan::find()->where(['plan_project_key' => $model->project_key])->all();
             $model->temp_project_consistency = Consistency::find()->where(['project_act_key' => $model->project_key])->all();
+            $model->temp_element_product = ElementProduct::find()->where(['project_act_key' => $model->project_key])->all();
             $model->lastpage_main = LastPage::find()->where(['project_act_key' => $model->project_key])->all();
 
             $model->paomai_quantity = ProjectPaomai::find()->where(['paomai_id' => $model->projecti_paomai_id])->one()->project_quantity;
@@ -252,6 +265,7 @@ class ProjectController extends Controller
             $project_plan = ProjectPlan::find()->where(['plan_project_key' => $model->project_key])->all();
             $lastpages = LastPage::find()->where(['project_act_key' => $model->project_key])->all();
             $consistencies = Consistency::find()->where(['project_act_key' => $model->project_key])->all();
+            $element_n_products = ElementProduct::find()->where(['project_act_key' => $model->project_key])->all();
             $transaction = Yii::$app->db->beginTransaction();
             try {
                 $items = Yii::$app->request->post();
@@ -259,8 +273,12 @@ class ProjectController extends Controller
                 $temp_project_plan_id = 0;
                 $temp_lastpage_id = 0;
                 $temp_consistency_id = 0;
+                $temp_element_product_id = 0;
 
                 foreach($consistencies as $delete){
+                    $delete->delete();
+                }
+                foreach($element_n_products as $delete){
                     $delete->delete();
                 }
                 foreach($project_kpi as $delete){
@@ -282,6 +300,15 @@ class ProjectController extends Controller
                     $project_consistency->project_act_key = $model->project_key;
                     $project_consistency->save();
                     $temp_consistency_id = $project_consistency->consistency_id;
+                }
+
+                foreach ($items['Project']['temp_element_product'] as $key => $val) {
+                    $element_product = new ElementProduct();
+                    $element_product->ep_element_id = $val['ep_element_id'];
+                    $element_product->ep_product_id = $val['ep_product_id'];
+                    $element_product->project_act_key = $model->project_key;;
+                    $element_product->save();
+                    $temp_element_product_id = $element_product->element_product_id;
                 }
 
                 foreach ($items['Project']['temp_project_kpi_id'] as $key => $val) {
@@ -336,6 +363,7 @@ class ProjectController extends Controller
             $model->projecti_paomai_id = $project_paomai->paomai_id;
             $model->created_by = Yii::$app->user->identity->id;
             $model->project_consistency_id = $temp_consistency_id;
+            $model->project_ep_id = $temp_element_product_id;
             $model->project_status = Project::PROJECT_RUNNING;
             $model->project_laksana_id = $project_laksana->laksana_id;
             $model->project_kpi_id = $temp_project_kpi_id;
@@ -500,7 +528,7 @@ class ProjectController extends Controller
             'model' => $model,
         ]);
 
-//        return $content;
+        //return $content;
 
         $stylesheet = "
         body{font-family: Garuda}

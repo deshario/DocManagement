@@ -127,11 +127,11 @@ use yii\helpers\Url;
                     </div>
 
                     <div class="col-md-12">
-                        <?=$form->field($model, 'temp_project_consistency_ii')->widget(MultipleInput::className(), [
+                        <?=$form->field($model, 'temp_element_product')->widget(MultipleInput::className(), [
                             'max' => 30,
                             'columns' => [
                                 [
-                                    'name' => 'element_id',
+                                    'name' => 'ep_element_id',
                                     'type' => 'dropDownList',
                                     'title' => 'องค์ประกอบ',
                                     'items' => $model->getElementList(),
@@ -140,7 +140,7 @@ use yii\helpers\Url;
                                     ],
                                 ],
                                 [
-                                    'name' => 'product_id',
+                                    'name' => 'ep_product_id',
                                     'type' => 'dropDownList',
                                     'title' => 'ผลผลิต',
                                     'items' => $model->getProductList(),
@@ -154,14 +154,6 @@ use yii\helpers\Url;
 
                 </div>
             </div>
-
-            <!--  <div class="col-md-6">
-                <?=$form->field($model, 'element_id')->dropDownList($model->getElementList(), ['prompt' => 'กรุณาเลือกองค์ประกอบ'])?>
-            </div>
-            <div class="col-md-6">
-                <?=$form->field($model, 'product_id')->dropDownList($model->getProductList(), ['prompt' => 'กรุณาเลือกผลผลิต'])?>
-            </div>
-            -->
 
             <div class="clearfix"></div>
 

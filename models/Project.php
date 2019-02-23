@@ -12,10 +12,9 @@ use yii\helpers\ArrayHelper;
  * @property string $project_name ชือโครงการ
  * @property int $organization_id ชื่อหน่วยงาน
  * @property int $project_consistency_id ความสอดคล่อง
+ * @property int $project_ep_id องค์ประกอบ & ผลผลิต
  * @property int $responsibler_id ผู้รับผิดชอบ
  * @property int $project_laksana_id ลักษณะโครงการ
- * @property int $element_id องค์ประกอบ
- * @property int $product_id ผลผลิต
  * @property string $rationale หลักการและเหตุผล
  * @property string $objective วัตถุประสงค์
  * @property int $project_kpi_id เป้าหมายตัวชีวัด
@@ -40,11 +39,10 @@ use yii\helpers\ArrayHelper;
  * @property Activity[] $activities
  * @property BudgetType $budgetBudgetType
  * @property Consistency $projectConsistency
- * @property Element $element
+ * @property ElementProduct $projectEp
  * @property Lastpage $lastpage
  * @property Managers $createdBy
  * @property Organization $organization
- * @property Product $product
  * @property ProjectKpi $projectKpi
  * @property ProjectLaksana $projectLaksana
  * @property ProjectPaomai $projectiPaomai
@@ -83,7 +81,7 @@ class Project extends \yii\db\ActiveRecord
     public $temp_project_kpi_id;
     public $temp_project_plan_id;
     public $temp_project_consistency;
-    public $temp_project_consistency_ii;
+    public $temp_element_product;
 
     public $paomai_quantity; // เป้าหมายเชิงปริมาณ
     public $paomai_quality; // เป้าหมายเชิงคุณภาพ
@@ -104,8 +102,8 @@ class Project extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['project_money','project_name','responsibler_id','project_year','budget_budget_type','organization_id','element_id','product_id'], 'required'],
-            [['organization_id', 'responsibler_id', 'project_kpi_id','project_plan_id','project_laksana_id', 'element_id', 'product_id', 'projecti_paomai_id', 'created_by', 'budget_budget_type', 'project_status' ,'lastpage_id','project_consistency_id'], 'integer'],
+            [['project_money','project_name','responsibler_id','project_year','budget_budget_type','organization_id'], 'required'],
+            [['organization_id', 'responsibler_id', 'project_kpi_id','project_plan_id','project_laksana_id', 'projecti_paomai_id', 'created_by', 'budget_budget_type', 'project_status' ,'lastpage_id','project_consistency_id'], 'integer'],
             [['rationale', 'objective', 'lakshana_activity', 'project_evaluation','suggestion'], 'string'],
             [['project_year','realted_subject'], 'safe'],
 
@@ -118,7 +116,7 @@ class Project extends \yii\db\ActiveRecord
 
             [['lastpage_main','lastpage_role','lastpage_name','lastpage_position'], 'safe'],
 
-            [['temp_project_kpi_id','temp_project_plan_id','file','temp_project_consistency','temp_project_consistency_ii'], 'safe'],
+            [['temp_project_kpi_id','temp_project_plan_id','file','temp_project_consistency','temp_element_product'], 'safe'],
             [['plan_process','plan_detail','plan_date','plan_place'], 'safe'],
 
             [['cons_strategic_id','cons_goal_id','cons_strategy_id','cons_indicator_id'], 'safe'],
@@ -128,12 +126,12 @@ class Project extends \yii\db\ActiveRecord
             [['project_benefit'], 'string'],
 
             [['budget_budget_type'], 'exist', 'skipOnError' => true, 'targetClass' => BudgetType::className(), 'targetAttribute' => ['budget_budget_type' => 'budget_type_id']],
-            [['element_id'], 'exist', 'skipOnError' => true, 'targetClass' => Element::className(), 'targetAttribute' => ['element_id' => 'element_id']],
+            //[['element_id'], 'exist', 'skipOnError' => true, 'targetClass' => Element::className(), 'targetAttribute' => ['element_id' => 'element_id']],
             //[['goal_id'], 'exist', 'skipOnError' => true, 'targetClass' => Goal::className(), 'targetAttribute' => ['goal_id' => 'goal_id']],
             //[['indicator_id'], 'exist', 'skipOnError' => true, 'targetClass' => Indicator::className(), 'targetAttribute' => ['indicator_id' => 'indicator_id']],
             [['created_by'], 'exist', 'skipOnError' => true, 'targetClass' => Managers::className(), 'targetAttribute' => ['created_by' => 'id']],
             [['organization_id'], 'exist', 'skipOnError' => true, 'targetClass' => Organization::className(), 'targetAttribute' => ['organization_id' => 'organization_id']],
-            [['product_id'], 'exist', 'skipOnError' => true, 'targetClass' => Product::className(), 'targetAttribute' => ['product_id' => 'product_id']],
+            //[['product_id'], 'exist', 'skipOnError' => true, 'targetClass' => Product::className(), 'targetAttribute' => ['product_id' => 'product_id']],
             //[['project_budget_id'], 'exist', 'skipOnError' => true, 'targetClass' => ProjectBudget::className(), 'targetAttribute' => ['project_budget_id' => 'budget_id']],
             [['project_kpi_id'], 'exist', 'skipOnError' => true, 'targetClass' => ProjectKpi::className(), 'targetAttribute' => ['project_kpi_id' => 'kpi_id']],
             [['project_laksana_id'], 'exist', 'skipOnError' => true, 'targetClass' => ProjectLaksana::className(), 'targetAttribute' => ['project_laksana_id' => 'laksana_id']],
@@ -163,8 +161,8 @@ class Project extends \yii\db\ActiveRecord
             'cons_strategy_id' => 'กลยุทธ์',
             'cons_indicator_id' => 'ตัวชี้วัด',
 
-            'element_id' => 'องค์ประกอบ',
-            'product_id' => 'ผลผลิต',
+            //'element_id' => 'องค์ประกอบ',
+            //'product_id' => 'ผลผลิต',
             'rationale' => 'หลักการและเหตุผล',
             'objective' => 'วัตถุประสงค์',
             'project_kpi_id' => 'เป้าหมายตัวชี้วัด',
@@ -210,25 +208,12 @@ class Project extends \yii\db\ActiveRecord
         }
         return Yii::t('app',$this->projectStatus[$status]);
     }
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getElement()
-    {
-        return $this->hasOne(Element::className(), ['element_id' => 'element_id']);
-    } 
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
     public function getCreatedBy()
     {
         return $this->hasOne(Managers::className(), ['id' => 'created_by']);
     }
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
     public function getOrganization()
     {
         return $this->hasOne(Organization::className(), ['organization_id' => 'organization_id']);
@@ -237,14 +222,6 @@ class Project extends \yii\db\ActiveRecord
      public function getProjectConsistency() 
     { 
         return $this->hasOne(Consistency::className(), ['consistency_id' => 'project_consistency_id']);
-    } 
-    
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getProduct()
-    {
-        return $this->hasOne(Product::className(), ['product_id' => 'product_id']);
     }
 
     public function getProjectKpi()
@@ -252,33 +229,26 @@ class Project extends \yii\db\ActiveRecord
         return $this->hasOne(ProjectKpi::className(), ['kpi_id' => 'project_kpi_id']);
     }
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
     public function getProjectLaksana()
     {
         return $this->hasOne(ProjectLaksana::className(), ['laksana_id' => 'project_laksana_id']);
     }
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
     public function getProjectiPaomai()
     {
         return $this->hasOne(ProjectPaomai::className(), ['paomai_id' => 'projecti_paomai_id']);
     }
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
     public function getProjectPlan()
     {
         return $this->hasOne(ProjectPlan::className(), ['plan_id' => 'project_plan_id']);
     }
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
+    public function getProjectEp()
+    {
+        return $this->hasOne(ElementProduct::className(), ['element_product_id' => 'project_ep_id']);
+    }
+
     public function getResponsibler()
     {
         return $this->hasOne(Responsibler::className(), ['responsible_id' => 'responsibler_id']);

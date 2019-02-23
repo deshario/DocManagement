@@ -5,6 +5,7 @@ namespace app\controllers;
 use app\models\BudgetDetails;
 use app\models\Consistency;
 use app\models\Element;
+use app\models\ElementProduct;
 use app\models\Goal;
 use app\models\Indicator;
 use app\models\LastPage;
@@ -131,6 +132,7 @@ class ActivityController extends Controller
                 $temp_project_budget_details_id = 0;
                 $temp_lastpage_id = 0;
                 $temp_consistency_id = 0;
+                $temp_element_product_id = 0;
                 $items = Yii::$app->request->post();
                 $model->root_project_id = Yii::$app->request->get('proj_id');
 
@@ -143,6 +145,15 @@ class ActivityController extends Controller
                     $project_consistency->project_act_key = $randomString;
                     $project_consistency->save();
                     $temp_consistency_id = $project_consistency->consistency_id;
+                }
+
+                foreach ($items['Activity']['temp_element_product'] as $key => $val) {
+                    $element_product = new ElementProduct();
+                    $element_product->ep_element_id = $val['ep_element_id'];
+                    $element_product->ep_product_id = $val['ep_product_id'];
+                    $element_product->project_act_key = $randomString;
+                    $element_product->save();
+                    $temp_element_product_id = $element_product->element_product_id;
                 }
 
                 foreach ($items['Activity']['budget_plan'] as $key => $val) {
@@ -198,6 +209,7 @@ class ActivityController extends Controller
             $model->budget_details_id = $temp_project_budget_details_id;
             $model->project_plan_id = $temp_project_plan_id;
             $model->activity_consistency_id = $temp_consistency_id;
+            $model->activity_ep_id = $temp_element_product_id;
             $model->activity_status = Project::PROJECT_RUNNING;
             $model->lastpage_id = $temp_lastpage_id;
             $model->created_by = Yii::$app->user->identity->id;
@@ -257,21 +269,27 @@ class ActivityController extends Controller
         $model->temp_project_plan_id = ProjectPlan::find()->where(['plan_project_key' => $model->activity_key])->all();
         $model->lastpage_main = LastPage::find()->where(['project_act_key' => $model->activity_key])->all();
         $model->temp_project_consistency = Consistency::find()->where(['project_act_key' => $model->activity_key])->all();
+        $model->temp_element_product = ElementProduct::find()->where(['project_act_key' => $model->activity_key])->all();
 
         if ($model->load(Yii::$app->request->post())) {
             $budgets = BudgetDetails::find()->where(['activity_key' => $model->activity_key])->all();
             $plans = ProjectPlan::find()->where(['plan_project_key' => $model->activity_key])->all();
             $lastpages = LastPage::find()->where(['project_act_key' => $model->activity_key])->all();
             $consistencies = Consistency::find()->where(['project_act_key' => $model->activity_key])->all();
+            $element_n_products = ElementProduct::find()->where(['project_act_key' => $model->activity_key])->all();
             $transaction = Yii::$app->db->beginTransaction();
             try {
                 $temp_project_plan_id = 0;
                 $temp_project_budget_details_id = 0;
                 $temp_lastpage_id = 0;
                 $temp_consistency_id = 0;
+                $temp_element_product_id = 0;
                 $items = Yii::$app->request->post();
 
                 foreach ($consistencies as $delete) {
+                    $delete->delete();
+                }
+                foreach ($element_n_products as $delete) {
                     $delete->delete();
                 }
                 foreach ($budgets as $delete) {
@@ -293,6 +311,15 @@ class ActivityController extends Controller
                     $project_consistency->project_act_key = $model->activity_key;
                     $project_consistency->save();
                     $temp_consistency_id = $project_consistency->consistency_id;
+                }
+
+                foreach ($items['Activity']['temp_element_product'] as $key => $val) {
+                    $element_product = new ElementProduct();
+                    $element_product->ep_element_id = $val['ep_element_id'];
+                    $element_product->ep_product_id = $val['ep_product_id'];
+                    $element_product->project_act_key = $model->activity_key;;
+                    $element_product->save();
+                    $temp_element_product_id = $element_product->element_product_id;
                 }
 
                 foreach ($items['Activity']['budget_plan'] as $key => $val) {
@@ -347,6 +374,7 @@ class ActivityController extends Controller
             $model->project_paomai_id = $project_paomai->paomai_id;
             $model->budget_details_id = $temp_project_budget_details_id;
             $model->activity_consistency_id = $temp_consistency_id;
+            $model->activity_ep_id = $temp_element_product_id;
             $model->project_plan_id = $temp_project_plan_id;
             $model->activity_status = Project::PROJECT_RUNNING;
             $model->lastpage_id = $temp_lastpage_id;

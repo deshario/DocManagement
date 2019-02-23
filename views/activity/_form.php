@@ -124,15 +124,33 @@ $project_name = Yii::$app->request->get('proj_name');
                         <?= $form->field($model, 'related_subject')->textInput(['maxlength' => true]) ?>
                     </div>
 
+                    <div class="col-md-12">
+                        <?=$form->field($model, 'temp_element_product')->widget(MultipleInput::className(), [
+                            'max' => 30,
+                            'columns' => [
+                                [
+                                    'name' => 'ep_element_id',
+                                    'type' => 'dropDownList',
+                                    'title' => 'องค์ประกอบ',
+                                    'items' => $model->getElementList(),
+                                    'options' => [
+                                        'prompt' => 'กรุณาเลือกองค์ประกอบ',
+                                    ],
+                                ],
+                                [
+                                    'name' => 'ep_product_id',
+                                    'type' => 'dropDownList',
+                                    'title' => 'ผลผลิต',
+                                    'items' => $model->getProductList(),
+                                    'options' => [
+                                        'prompt' => 'กรุณาเลือกผลผลิต',
+                                    ],
+                                ],
+                            ],
+                        ])->label(false);?>
+                    </div>
+
                 </div>
-            </div>
-
-            <div class="col-md-4">
-                <?= $form->field($model, 'element_element_id')->dropDownList($model->getElementList(), ['prompt' => 'กรุณาเลือกองค์ประกอบ']) ?>
-            </div>
-
-            <div class="col-md-4">
-                <?= $form->field($model, 'product_product_id')->dropDownList($model->getProductList(), ['prompt' => 'กรุณาเลือกผลผลิต']) ?>
             </div>
 
             <div class="col-md-4">

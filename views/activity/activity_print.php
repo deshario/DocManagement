@@ -9,6 +9,7 @@ use app\models\BudgetDetails;
 use app\models\Consistency;
 use app\models\LastPage;
 use app\models\ProjectPlan;
+use app\models\ElementProduct;
 
 $activity_name = $model->activity_name;
 $activity_money = $model->activity_money;
@@ -19,8 +20,6 @@ $type = $model->projectLaksana->projectType->type_name;
 $procced = $model->projectLaksana->procced->procced_name;
 
 $realted_sub = $model->related_subject;
-$element_name = $model->elementElement->element_name;
-$product_name = $model->productProduct->product_name;
 $rationale = $model->activity_rationale;
 $objective = $model->objective;
 $year = $model->rootProject->project_year;
@@ -77,42 +76,50 @@ if (!empty($consistency)) {
         }
     }
 }
-//echo '<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ยุทธศาสตร์ : ' . $strategic . '</p>';
-//echo '<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;เปาประสงค์ : ' . $goal_name . '</p>';
-//echo '<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;กลยุทธ์ : ' . $strategy . '</p>';
-//echo '<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ตัวชี้วัด : ' . $indicator_name . '</p>';
 
-echo '<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;องค์ประกอบ : ' . $element_name . '</p>';
-echo '<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;รายวิชาที่สอดคล้อง/อาจารย์ที่ปรึกษา : ' . $realted_sub . '</p>';
+$element_products = ElementProduct::find()->where(['project_act_key' => $model->activity_key])->all();
+if (!empty($element_products)) {
+    foreach ($element_products as $epItem) {
+        if(!empty($epItem->epElement->element_name)){
+            echo '<p>&nbsp;&nbsp;&nbsp;&nbsp;องค์ประกอบ&nbsp;:&nbsp;&nbsp;&nbsp; '.$epItem->epElement->element_name.'</p>';
+        }
+    }
 
-echo '<p><strong>๖. ผลผลิต </strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . $product_name . '</p>';
+    foreach ($element_products as $epItem) {
+        if(!empty($epItem->epProduct->product_name)){
+            echo '<p>&nbsp;&nbsp;&nbsp;&nbsp;ผลผลิต&nbsp;:&nbsp;&nbsp;&nbsp; '.$epItem->epProduct->product_name.'</p>';
+        }
+    }
+}
 
-echo '<p><strong>๗. หลักการและเหตุผล</strong></p>';
+echo '<p>&nbsp;&nbsp;&nbsp;&nbsp;รายวิชาที่สอดคล้อง/อาจารย์ที่ปรึกษา : ' . $realted_sub . '</p>';
+
+echo '<p><strong>๖. หลักการและเหตุผล</strong></p>';
 echo $space . $rationale;
 
-echo '<p><strong>๘. วัตถุประสงค์</strong></p>';
+echo '<p><strong>๗. วัตถุประสงค์</strong></p>';
 $newObjective = explode("\n", $objective);
 foreach($newObjective as $value) {
     echo $space . $value.'<br/>';
 }
 
-echo '<p><strong>๙. ลักษณะกิจกรรม</strong></p>';
+echo '<p><strong>๘. ลักษณะกิจกรรม</strong></p>';
 echo $space . $lakshana_activity;
 
-echo '<p><strong>๑๐. เป้าหมายผลผลิต</strong></p>';
-echo '<p><strong>' . $space . '๑๐.๑ เชิงปริมาณ</strong></p>';
+echo '<p><strong>๙. เป้าหมายผลผลิต</strong></p>';
+echo '<p><strong>' . $space . '๙.๑ เชิงปริมาณ</strong></p>';
 echo '<p>' . $space . $space . $space . $quantity . '</p>';
 
-echo '<p><strong>'.$space.' ๑๐.๒ เชิงคุณภาพ</strong></p>';
+echo '<p><strong>'.$space.' ๙.๒ เชิงคุณภาพ</strong></p>';
 echo '<p>' . $space . $space . $space . $quality . '</p>';
 
-echo '<p><strong>'. $space. ' ๑๐.๓ เชิงเวลา</strong></p>';
+echo '<p><strong>'. $space. ' ๙.๓ เชิงเวลา</strong></p>';
 echo '<p>' . $space . $space . $space . $time . '</p>';
 
-echo '<p><strong>๑๑. งบประมาณดำเนินการ ปีงบประมาณ พ.ศ. ' . $year . '</strong></p>';
-echo '<p><strong>' . $space . '๑๑.๑ แหล่งที่มา ' . $budget_type . '</strong></p>';
-echo '<p><strong>' . $space . '๑๑.๒ งบประมาณรายรับ ' . $activity_money . ' บาท</strong></p>';
-echo '<p><strong>' . $space . '๑๑.๓ รายละเอียดของงบประมาณ</strong></p>';
+echo '<p><strong>๑๐. งบประมาณดำเนินการ ปีงบประมาณ พ.ศ. ' . $year . '</strong></p>';
+echo '<p><strong>' . $space . '๑๐.๑ แหล่งที่มา ' . $budget_type . '</strong></p>';
+echo '<p><strong>' . $space . '๑๐.๒ งบประมาณรายรับ ' . $activity_money . ' บาท</strong></p>';
+echo '<p><strong>' . $space . '๑๐.๓ รายละเอียดของงบประมาณ</strong></p>';
 echo "<table class='table table-striped' border='1'>
     <thead>
     <tr>
@@ -147,7 +154,7 @@ if (!empty($all_budget)) {
         ";
 }
 
-echo '<p><strong>๑๒. กิจกรรมการดำเนินงาน</strong></p>';
+echo '<p><strong>๑๑. กิจกรรมการดำเนินงาน</strong></p>';
 echo "<table class='table table-striped' border='1'>
         <thead>
         <tr>
@@ -187,16 +194,16 @@ if (!empty($project_plan)) {
 }
 echo '</table>';
 
-echo '<p><strong>๑๓. การประเมินผล</strong></p>';
+echo '<p><strong>๑๒. การประเมินผล</strong></p>';
 echo '<p><strong>'.$space.$evaluation.'</p>';
 
-echo '<p><strong>๑๔. ประโยชน์ที่ได้รับจากการดำเนินกิจกรรม</strong></p>';
+echo '<p><strong>๑๓. ประโยชน์ที่ได้รับจากการดำเนินกิจกรรม</strong></p>';
 $newBenefit = explode("\n", $benefit);
 foreach($newBenefit as $value) {
     echo $space . $value.'<br/>';
 }
 
-echo '<p><strong>๑๕. ข้อเสนอแนะ</strong></p>';
+echo '<p><strong>๑๔. ข้อเสนอแนะ</strong></p>';
 $newsuggestion = explode("\n", $suggestion);
 foreach($newsuggestion as $suggestion) {
     echo '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . $suggestion.'<br/>';

@@ -10,6 +10,7 @@ use app\models\ProjectKpi;
 use app\models\ProjectPlan;
 use app\models\LastPage;
 use app\models\Consistency;
+use app\models\ElementProduct;
 
 $project_name = $model->project_name;
 $project_money = $model->project_money;
@@ -22,14 +23,7 @@ $responsible_by = $model->responsibler->responsible_by;
 $type = $model->projectLaksana->projectType->type_name;
 $procced = $model->projectLaksana->procced->procced_name;
 
-//$strategic = $model->strategic->strategic_name;
-//$goal_name = $model->goal->goal_name;
-//$strategy = $model->strategy->strategy_name;
-//$indicator_name = $model->indicator->indicator_name;
-
 $realted_sub = $model->related_subject;
-$element_name = $model->element->element_name;
-$product_name = $model->product->product_name;
 $quantity = $model->projectiPaomai->project_quantity;
 $quality = $model->projectiPaomai->project_quality;
 $time = $model->projectiPaomai->project_time;
@@ -87,26 +81,33 @@ if (!empty($consistency)) {
     }
 }
 
-//echo '<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ยุทธศาสตร์ : ' . $strategic . '</p>';
-//echo '<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;เปาประสงค์ : ' . $goal_name . '</p>';
-//echo '<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;กลยุทธ์ : ' . $strategy . '</p>';
-//echo '<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ตัวชี้วัด : ' . $indicator_name . '</p>';
+$element_products = ElementProduct::find()->where(['project_act_key' => $model->project_key])->all();
+if (!empty($element_products)) {
+    foreach ($element_products as $epItem) {
+        if(!empty($epItem->epElement->element_name)){
+            echo '<p>&nbsp;&nbsp;&nbsp;&nbsp;องค์ประกอบ&nbsp;:&nbsp;&nbsp;&nbsp; '.$epItem->epElement->element_name.'</p>';
+        }
+    }
 
-echo '<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;องค์ประกอบ : ' . $element_name . '</p>';
-echo '<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;รายวิชาที่สอดคล้อง/อาจารย์ที่ปรึกษา : ' . $realted_sub . '</p>';
+    foreach ($element_products as $epItem) {
+        if(!empty($epItem->epProduct->product_name)){
+            echo '<p>&nbsp;&nbsp;&nbsp;&nbsp;ผลผลิต&nbsp;:&nbsp;&nbsp;&nbsp; '.$epItem->epProduct->product_name.'</p>';
+        }
+    }
+}
 
-echo '<p><strong>๖. ผลผลิต </strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . $product_name . '</p>';
+echo '<p>&nbsp;&nbsp;&nbsp;&nbsp;รายวิชาที่สอดคล้อง/อาจารย์ที่ปรึกษา : ' . $realted_sub . '</p>';
 
-echo '<p><strong>๗. หลักการและเหตุผล</strong></p>';
+echo '<p><strong>๖. หลักการและเหตุผล</strong></p>';
 echo '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . $rationale;
 
-echo '<p><strong>๘. วัตถุประสงค์</strong></p>';
+echo '<p><strong>๗. วัตถุประสงค์</strong></p>';
 $newObjective = explode("\n", $objective);
 foreach($newObjective as $value) {
     echo '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . $value.'<br/>';
 }
 
-echo '<p><strong>๙. เป้าหมายตัวชี้วัด</strong></p>';
+echo '<p><strong>๘. เป้าหมายตัวชี้วัด</strong></p>';
 echo "<table class='table table-striped' border='1'>
         <thead>
         <tr>
@@ -129,7 +130,7 @@ if (!empty($kpi)) {
 }
 echo "</table>";
 
-echo '<p><strong>๑๐. เป้าหมาย</strong></p>';
+echo '<p><strong>๙. เป้าหมาย</strong></p>';
 echo '<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ๑๐.๑ เชิงปริมาณ</strong></p>';
 echo '<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -145,7 +146,7 @@ echo '<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 ' . $time . '</p>';
 
-echo '<p><strong>๑๑. ลักษณะกิจกรรม</strong></p>';
+echo '<p><strong>๑๐. ลักษณะกิจกรรม</strong></p>';
 $newlakshana_activity = explode("\n", $lakshana_activity);
 foreach($newlakshana_activity as $lakshana_activity) {
     echo '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . $lakshana_activity.'<br/>';
@@ -161,7 +162,7 @@ if (!empty($activity)) {
         $total_price = $total_price + $item->activity_money;
     }
 
-    echo '<p><strong>๑๒. แหล่งที่มาของงบประมาณ</strong></p>';
+    echo '<p><strong>๑๑. แหล่งที่มาของงบประมาณ</strong></p>';
     echo '<p><strong>' . $space . 'งบประมาณดำเนินการ ปีงบประมาณ พ.ศ. ' . $year . '</strong></p>';
     echo '<p><strong>' . $space . 'แหล่งที่มา ' . $budget_type . '</strong></p>';
     echo '<p><strong>' . $space . $space . '๑๒.๑ งบประมาณรายรับ ' . $project_money . ' บาท</strong></p>';
@@ -194,7 +195,7 @@ if (!empty($activity)) {
         ";
 }
 
-echo '<p><strong>๑๓. แผนปฏิบัติการกิจกรรม</strong></p>';
+echo '<p><strong>๑๒. แผนปฏิบัติการกิจกรรม</strong></p>';
 echo "<table class='table table-striped' border='1'>
         <thead>
         <tr>
@@ -234,29 +235,28 @@ if (!empty($project_plan)) {
 echo '</table>';
 
 
-echo '<p><strong>๑๔. ระยะเวลาดำเนินการ</strong></p>';
+echo '<p><strong>๑๓. ระยะเวลาดำเนินการ</strong></p>';
 echo '<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . $duration . '</p>';
 
-echo '<p><strong>๑๕. สถานที่ดำเนินการ</strong></p>';
+echo '<p><strong>๑๔. สถานที่ดำเนินการ</strong></p>';
 echo '<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . $project_location . '</p>';
 
-echo '<p><strong>๑๖. หน่วยงานที่รับผิดชอบ</strong></p>';
+echo '<p><strong>๑๕. หน่วยงานที่รับผิดชอบ</strong></p>';
 echo '<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . $organization . '</p>';
 
-echo '<p><strong>๑๗. การประเมินผล</strong></p>';
+echo '<p><strong>๑๖. การประเมินผล</strong></p>';
 echo '<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . $project_evaluation . '</p>';
 
-echo '<p><strong>๑๘. ประโยชน์ที่คาดว่าจะได้รับ</strong></p>';
+echo '<p><strong>๑๗. ประโยชน์ที่คาดว่าจะได้รับ</strong></p>';
 $newProjectBenefit = explode("\n", $project_benefit);
 foreach($newProjectBenefit as $value) {
     echo '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . $value.'<br/>';
 }
 
-echo '<p><strong>๑๙. ข้อเสนอแนะ</strong></p>';
+echo '<p><strong>๑๘. ข้อเสนอแนะ</strong></p>';
 $newsuggestion = explode("\n", $suggestion);
 foreach($newsuggestion as $suggestion) {
     echo '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . $suggestion.'<br/>';
-
 }
 
 ?>

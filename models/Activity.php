@@ -21,8 +21,7 @@ use yii\helpers\Json;
  * @property int $organization_organization_id หน่วยงาน
  * @property int $responsible_by ผู้รับผิดชอบ
  * @property int $activity_consistency_id ความสอดคล่อง
- * @property int $element_element_id องค์ประกอบ
- * @property int $product_product_id ผลผลิต
+ * @property int $activity_ep_id องค์ประกอบ & ผลผลิต
  * @property int $project_laksana_id ลักษณะโครงการ
  * @property int $project_paomai_id เป้าหมายผลผลิต
  * @property int $project_plan_id กิจกรรมการดำเนินงาน
@@ -39,11 +38,10 @@ use yii\helpers\Json;
  * @property BudgetDetails $budgetDetails
  * @property BudgetType $budgetType
  * @property Consistency $activityConsistency
- * @property Element $elementElement
+ * @property ElementProduct $activityEp
  * @property Lastpage $lastpage
  * @property Managers $createdBy
  * @property Organization $organizationOrganization
- * @property Product $productProduct
  * @property Project $rootProject
  * @property ProjectLaksana $projectLaksana
  * @property ProjectPaomai $projectPaomai
@@ -89,6 +87,7 @@ class Activity extends \yii\db\ActiveRecord
     public $cons_indicator_id;
 
     public $temp_project_consistency;
+    public $temp_element_product;
 
     public static function tableName()
     {
@@ -102,13 +101,13 @@ class Activity extends \yii\db\ActiveRecord
     {
         return [
             //[['root_project_id', 'product_product_id'], 'required'],
-            [['activity_name','activity_money','organization_organization_id','responsible_by','created_by','element_element_id','product_product_id'], 'required'],
+            [['activity_name','activity_money','organization_organization_id','responsible_by','created_by'], 'required'],
             [['activity_type','activity_rationale','benefit','objective'], 'required'],
             [['project_laksana_id','budget_type_id','temp_type', 'temp_procced','suggestion'], 'required'],
-            [['activity_temp_files','temp_project_plan_id','activity_plan','temp_project_consistency'], 'safe'],
+            [['activity_temp_files','temp_project_plan_id','activity_plan','temp_project_consistency','temp_element_product'], 'safe'],
             [['temp_max_amount','budget_plan'], 'safe'],
             [['temp_max_amount','activity_money'], 'number'],
-            [['root_project_id', 'organization_organization_id', 'element_element_id', 'product_product_id','responsible_by', 'lastpage_id','activity_consistency_id'], 'integer'],
+            [['root_project_id', 'organization_organization_id','responsible_by', 'lastpage_id','activity_consistency_id'], 'integer'],
             [['activity_rationale', 'objective', 'activity_type', 'evaluation', 'benefit', 'suggestion'], 'string'],
             [['activity_name'], 'string', 'max' => 255],
             [['cons_strategic_id','cons_goal_id','cons_strategy_id','cons_indicator_id'], 'safe'],
@@ -122,9 +121,9 @@ class Activity extends \yii\db\ActiveRecord
           //  [['temp_project_name','temp_organization','temp_strategic','temp_goal','temp_strategy','temp_indicator','temp_element','temp_product'], 'required'],
             [['budget_details_id'], 'exist', 'skipOnError' => true, 'targetClass' => BudgetDetails::className(), 'targetAttribute' => ['budget_details_id' => 'detail_id']],
             [['budget_type_id'], 'exist', 'skipOnError' => true, 'targetClass' => BudgetType::className(), 'targetAttribute' => ['budget_type_id' => 'budget_type_id']],
-            [['element_element_id'], 'exist', 'skipOnError' => true, 'targetClass' => Element::className(), 'targetAttribute' => ['element_element_id' => 'element_id']],
+            //[['element_element_id'], 'exist', 'skipOnError' => true, 'targetClass' => Element::className(), 'targetAttribute' => ['element_element_id' => 'element_id']],
             [['organization_organization_id'], 'exist', 'skipOnError' => true, 'targetClass' => Organization::className(), 'targetAttribute' => ['organization_organization_id' => 'organization_id']],
-            [['product_product_id'], 'exist', 'skipOnError' => true, 'targetClass' => Product::className(), 'targetAttribute' => ['product_product_id' => 'product_id']],
+            //[['product_product_id'], 'exist', 'skipOnError' => true, 'targetClass' => Product::className(), 'targetAttribute' => ['product_product_id' => 'product_id']],
             [['root_project_id'], 'exist', 'skipOnError' => true, 'targetClass' => Project::className(), 'targetAttribute' => ['root_project_id' => 'project_id']],
             [['project_laksana_id'], 'exist', 'skipOnError' => true, 'targetClass' => ProjectLaksana::className(), 'targetAttribute' => ['project_laksana_id' => 'laksana_id']],
             [['project_paomai_id'], 'exist', 'skipOnError' => true, 'targetClass' => ProjectPaomai::className(), 'targetAttribute' => ['project_paomai_id' => 'paomai_id']],
@@ -153,14 +152,14 @@ class Activity extends \yii\db\ActiveRecord
             'organization_organization_id' => 'ชื่อหน่วยงาน',
 
             'activity_consistency_id' => 'ความสอดคล่อง',
-
+            'activity_ep_id' => 'องค์ประกอบ & ผลผลิต',
             'cons_strategic_id' => 'ยุทธศาสตร์',
             'cons_goal_id' => 'เป้าประสงค์',
             'cons_strategy_id' => 'กลยุทธ์',
             'cons_indicator_id' => 'ตัวชี้วัด',
 
-            'element_element_id' => 'องค์ประกอบ',
-            'product_product_id' => 'ผลผลิต',
+           // 'element_element_id' => 'องค์ประกอบ',
+           // 'product_product_id' => 'ผลผลิต',
             'activity_temp_files' => 'ไฟล์ประกอบ',
             'activity_key' => 'Activity Key',
 
@@ -220,20 +219,9 @@ class Activity extends \yii\db\ActiveRecord
         return $this->hasOne(BudgetDetails::className(), ['detail_id' => 'budget_details_id']);
     }
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
     public function getBudgetType()
     {
         return $this->hasOne(BudgetType::className(), ['budget_type_id' => 'budget_type_id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getElementElement()
-    {
-        return $this->hasOne(Element::className(), ['element_id' => 'element_element_id']);
     }
 
     public function getOrganizationOrganization()
@@ -241,57 +229,36 @@ class Activity extends \yii\db\ActiveRecord
         return $this->hasOne(Organization::className(), ['organization_id' => 'organization_organization_id']);
     }
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
     public function getRealtedSubject()
     {
         return $this->hasOne(RealtedSubject::className(), ['subject_id' => 'realted_subject_id']);
     }
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getProductProduct()
+    public function getActivityEp()
     {
-        return $this->hasOne(Product::className(), ['product_id' => 'product_product_id']);
+        return $this->hasOne(ElementProduct::className(), ['element_product_id' => 'activity_ep_id']);
     }
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
     public function getRootProject()
     {
         return $this->hasOne(Project::className(), ['project_id' => 'root_project_id']);
     }
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
     public function getProjectLaksana()
     {
         return $this->hasOne(ProjectLaksana::className(), ['laksana_id' => 'project_laksana_id']);
     }
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
     public function getProjectPaomai()
     {
         return $this->hasOne(ProjectPaomai::className(), ['paomai_id' => 'project_paomai_id']);
     }
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
     public function getProjectPlan()
     {
         return $this->hasOne(ProjectPlan::className(), ['plan_id' => 'project_plan_id']);
     }
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
     public function getResponsibleBy()
     {
         return $this->hasOne(Responsibler::className(), ['responsible_id' => 'responsible_by']);
