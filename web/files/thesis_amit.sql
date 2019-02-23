@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 01, 2019 at 08:46 AM
+-- Generation Time: Feb 23, 2019 at 02:27 PM
 -- Server version: 10.1.36-MariaDB
 -- PHP Version: 7.2.10
 
@@ -40,8 +40,7 @@ CREATE TABLE `activity` (
   `organization_organization_id` int(11) DEFAULT NULL COMMENT 'หน่วยงาน',
   `responsible_by` int(11) DEFAULT NULL COMMENT 'ผู้รับผิดชอบ',
   `activity_consistency_id` int(11) DEFAULT NULL COMMENT 'ความสอดคล่อง',
-  `element_element_id` int(11) DEFAULT NULL COMMENT 'องค์ประกอบ',
-  `product_product_id` int(11) DEFAULT NULL COMMENT 'ผลผลิต',
+  `activity_ep_id` int(11) DEFAULT NULL COMMENT 'องค์ประกอบ & ผลผลิต',
   `project_laksana_id` int(11) DEFAULT NULL COMMENT 'ลักษณะโครงการ',
   `project_paomai_id` int(11) DEFAULT NULL COMMENT 'เป้าหมายผลผลิต',
   `project_plan_id` int(11) DEFAULT NULL COMMENT 'กิจกรรมการดำเนินงาน',
@@ -106,7 +105,10 @@ INSERT INTO `budget_details` (`detail_id`, `detail_name`, `detail_price`, `activ
 (36, 'asd', 342, 'RpENWe1o-_Loy_O'),
 (37, 'sdfs', 345, 'k7jX1LVAwmedtv5'),
 (38, 'sdf', 324234, 'ePL2VF_9GGSEoZA'),
-(117, 'sad', 5000, 'y7cCuv2K4rCd9D5');
+(117, 'sad', 5000, 'y7cCuv2K4rCd9D5'),
+(172, 'act1', 111, 'JEyUO5830YmTS5W'),
+(173, 'act2', 222, 'JEyUO5830YmTS5W'),
+(174, 'act3', 333, 'JEyUO5830YmTS5W');
 
 -- --------------------------------------------------------
 
@@ -163,7 +165,12 @@ INSERT INTO `consistency` (`consistency_id`, `cons_strategic_id`, `cons_goal_id`
 (30, NULL, NULL, NULL, NULL, 'd6abgyuXKMwdQLC'),
 (117, 1, 2, 1, 2, 'TILrut_QgeiiKYt'),
 (120, 1, 1, 2, 1, 'sa2KNck9PCiIlqk'),
-(121, 1, 1, 2, 2, 'y7cCuv2K4rCd9D5');
+(121, 1, 1, 2, 2, 'y7cCuv2K4rCd9D5'),
+(151, 1, 1, 2, 1, '05afU-8mdm7VWNb'),
+(152, 1, 1, 2, 1, 'Wik8O3qwVLY3iHB'),
+(160, 2, 2, 2, 1, 'JEyUO5830YmTS5W'),
+(161, 1, 2, 1, 1, 'znAs_kEb5zaoW9a'),
+(162, 2, 3, 1, 2, 'znAs_kEb5zaoW9a');
 
 -- --------------------------------------------------------
 
@@ -183,6 +190,32 @@ CREATE TABLE `element` (
 INSERT INTO `element` (`element_id`, `element_name`) VALUES
 (1, 'องค์ประกอบ 1'),
 (2, 'องค์ประกอบ 2');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `element_product`
+--
+
+CREATE TABLE `element_product` (
+  `element_product_id` int(11) NOT NULL,
+  `ep_element_id` int(11) DEFAULT NULL COMMENT 'องค์ประกอบ',
+  `ep_product_id` int(11) DEFAULT NULL COMMENT 'ผลผลิต',
+  `project_act_key` varchar(255) DEFAULT NULL COMMENT 'อ้างอิง project รึ Act'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `element_product`
+--
+
+INSERT INTO `element_product` (`element_product_id`, `ep_element_id`, `ep_product_id`, `project_act_key`) VALUES
+(17, 2, 1, '05afU-8mdm7VWNb'),
+(18, 2, 1, 'Wik8O3qwVLY3iHB'),
+(19, 1, NULL, 'Wik8O3qwVLY3iHB'),
+(28, 1, 2, 'JEyUO5830YmTS5W'),
+(29, 2, NULL, 'JEyUO5830YmTS5W'),
+(30, 1, 1, 'znAs_kEb5zaoW9a'),
+(31, NULL, 2, 'znAs_kEb5zaoW9a');
 
 -- --------------------------------------------------------
 
@@ -237,6 +270,16 @@ CREATE TABLE `lastpage` (
   `project_act_key` varchar(255) NOT NULL COMMENT 'อ้างอิง project'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Dumping data for table `lastpage`
+--
+
+INSERT INTO `lastpage` (`last_id`, `last_role`, `last_user`, `last_position`, `project_act_key`) VALUES
+(25, 3, 'sadsad', 'sad', '05afU-8mdm7VWNb'),
+(26, 3, 'sadsad', 'sad', 'Wik8O3qwVLY3iHB'),
+(32, 2, 'fgh', 'fgh', 'JEyUO5830YmTS5W'),
+(33, 2, 'asd', 'asdasdad', 'znAs_kEb5zaoW9a');
+
 -- --------------------------------------------------------
 
 --
@@ -263,7 +306,7 @@ CREATE TABLE `managers` (
 
 INSERT INTO `managers` (`id`, `username`, `auth_key`, `password_hash`, `password_reset_token`, `email`, `created_at`, `updated_at`, `roles`, `status`, `picture`) VALUES
 (1, 'amit', 'ZIJ-hJxg9mFNIbLR0xv7XCjtVEfU_P6N', '$2y$13$fMAwC9LVwGFW0VROj375derZg6LdYKA4.HxKyHPaegQeJ2TCsNoEa', NULL, 'amit@gmail.com', 1538491076, 1538491076, 20, 10, NULL),
-(14, 'deshario', 'qAWiDIgIA3xpGLXj5CBg9AV3FmS_1Vo3', '$2y$13$hCu5gUT6fnJRP961kIzc3eA1NJhj54YhZVPLvkxdq1SA9MWnUsft2', NULL, 'deshario@admin.com', 1544287271, 1544287271, 20, 10, 'deshario.png');
+(2, 'deshario', 'qAWiDIgIA3xpGLXj5CBg9AV3FmS_1Vo3', '$2y$13$hCu5gUT6fnJRP961kIzc3eA1NJhj54YhZVPLvkxdq1SA9MWnUsft2', NULL, 'deshario@admin.com', 1544287271, 1544287271, 20, 10, 'deshario.png');
 
 -- --------------------------------------------------------
 
@@ -334,10 +377,9 @@ CREATE TABLE `project` (
   `project_name` varchar(255) DEFAULT NULL COMMENT 'ชือโครงการ',
   `organization_id` int(11) DEFAULT NULL COMMENT 'ชื่อหน่วยงาน',
   `project_consistency_id` int(11) DEFAULT NULL COMMENT 'ความสอดคล่อง',
+  `project_ep_id` int(11) DEFAULT NULL COMMENT 'องค์ประกอบ & ผลผลิต',
   `responsibler_id` int(11) DEFAULT NULL COMMENT 'ผู้รับผิดชอบ',
   `project_laksana_id` int(11) DEFAULT NULL COMMENT 'ลักษณะโครงการ',
-  `element_id` int(11) DEFAULT NULL COMMENT 'องค์ประกอบ',
-  `product_id` int(11) DEFAULT NULL COMMENT 'ผลผลิต',
   `rationale` text COMMENT 'หลักการและเหตุผล',
   `objective` text COMMENT 'วัตถุประสงค์',
   `project_kpi_id` int(11) DEFAULT NULL COMMENT 'เป้าหมายตัวชีวัด',
@@ -359,6 +401,13 @@ CREATE TABLE `project` (
   `lastpage_id` int(11) DEFAULT NULL COMMENT 'หน้าสุดท้าย',
   `suggestion` text COMMENT 'ข้อเสนอแนะ'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `project`
+--
+
+INSERT INTO `project` (`project_id`, `project_name`, `organization_id`, `project_consistency_id`, `project_ep_id`, `responsibler_id`, `project_laksana_id`, `rationale`, `objective`, `project_kpi_id`, `projecti_paomai_id`, `lakshana_activity`, `project_plan_id`, `project_start`, `related_subject`, `project_end`, `project_location`, `project_evaluation`, `project_benefit`, `created_by`, `project_money`, `budget_budget_type`, `project_year`, `project_status`, `project_key`, `lastpage_id`, `suggestion`) VALUES
+(1, 'eeeeeeeeeeeeeeeeeeeeeeeeer', 2, 162, 31, 1, 273, 'asd', 'sad', 87, 224, 'sad', 387, '2562-02-14', 'dsa', '2562-02-28', 'hjk', 'sad', 'asd', NULL, 222, 1, '2560', 10, 'znAs_kEb5zaoW9a', 33, 'asd');
 
 -- --------------------------------------------------------
 
@@ -407,7 +456,10 @@ INSERT INTO `project_kpi` (`kpi_id`, `kpi_name`, `kpi_goal`, `kpi_project_key`) 
 (63, 'kpi1', 'val1', 'VphFEx85HZ9lTja'),
 (64, 'kpi2', 'val2', 'VphFEx85HZ9lTja'),
 (73, 'asd', 'asd', 'TILrut_QgeiiKYt'),
-(76, 'asd', '22', 'sa2KNck9PCiIlqk');
+(76, 'asd', '22', 'sa2KNck9PCiIlqk'),
+(83, 'asd', 'asd', '05afU-8mdm7VWNb'),
+(84, 'asd', 'asd', 'Wik8O3qwVLY3iHB'),
+(87, 'asd', 'sad', 'znAs_kEb5zaoW9a');
 
 -- --------------------------------------------------------
 
@@ -661,7 +713,40 @@ INSERT INTO `project_laksana` (`laksana_id`, `project_type_id`, `procced_id`) VA
 (237, 3, 1),
 (238, 3, 1),
 (239, 3, 1),
-(240, 2, 1);
+(240, 2, 1),
+(241, 3, 1),
+(242, 1, 1),
+(243, 1, 1),
+(244, 1, 1),
+(245, 3, 1),
+(246, 1, 1),
+(247, 1, 1),
+(248, 1, 1),
+(249, 1, 1),
+(250, 3, 1),
+(251, 3, 1),
+(252, 3, 1),
+(253, 1, 1),
+(254, 1, 1),
+(255, 1, 1),
+(256, 1, 1),
+(257, 1, 1),
+(258, 1, 1),
+(259, 1, 1),
+(260, 1, 1),
+(261, 1, 1),
+(262, 1, 1),
+(263, 1, 1),
+(264, 3, 1),
+(265, 3, 1),
+(266, 3, 1),
+(267, 1, 1),
+(268, 1, 1),
+(269, 1, 1),
+(270, 3, 1),
+(271, 3, 1),
+(272, 1, 1),
+(273, 3, 1);
 
 -- --------------------------------------------------------
 
@@ -871,7 +956,40 @@ INSERT INTO `project_paomai` (`paomai_id`, `project_quantity`, `project_quality`
 (188, '11', '22', '334'),
 (189, '11', '22', '334'),
 (190, '11', '22', '334'),
-(191, 'aa', 'bbt', '111');
+(191, 'aa', 'bbt', '111'),
+(192, 'sad', 'sad', 'sadsad'),
+(193, 'fgh', 'fgh', 'fg'),
+(194, 'fgh', 'fgh', 'fg'),
+(195, 'fgh', 'fgh', 'fg'),
+(196, 'sad', 'sad', 'sadsad'),
+(197, 'fgh', 'fgh', 'fg'),
+(198, 'fgh', 'fgh', 'fg'),
+(199, 'fgh', 'fgh', 'fg'),
+(200, 'fgh', 'fgh', 'fg'),
+(201, 'sad', 'sad', 'sadsad'),
+(202, 'sad', 'sad', 'sadsad'),
+(203, 'sad', 'sad', 'sadsad'),
+(204, 'fgh', 'fgh', 'fg'),
+(205, 'fgh', 'fgh', 'fg'),
+(206, 'fgh', 'fgh', 'fg'),
+(207, 'fgh', 'fgh', 'fg'),
+(208, 'fgh', 'fgh', 'fg'),
+(209, 'fgh', 'fgh', 'fg'),
+(210, 'fgh', 'fgh', 'fg'),
+(211, 'fgh', 'fgh', 'fg'),
+(212, 'fgh', 'fgh', 'fg'),
+(213, 'fgh', 'fgh', 'fg'),
+(214, 'fgh', 'fgh', 'fg'),
+(215, 'dasd', 'sa', 'asd'),
+(216, 'dasd', 'sa', 'asd'),
+(217, 'dasd', 'sa', 'asd'),
+(218, 'fgh', 'fgh', 'fg'),
+(219, 'fgh', 'fgh', 'fg'),
+(220, 'fgh', 'fgh', 'fg'),
+(221, 'sad', 'sad', 'sadsad'),
+(222, 'sad', 'sad', 'sadsad'),
+(223, 'fgh', 'fgh', 'fg'),
+(224, 'sad', 'sad', 'sadsad');
 
 -- --------------------------------------------------------
 
@@ -950,7 +1068,18 @@ INSERT INTO `project_plan` (`plan_id`, `plan_process`, `plan_detail`, `plan_date
 (162, 1, '324', '2018-12-12', '324324', 'ePL2VF_9GGSEoZA'),
 (249, 2, 'asd', '2561-12-12', 'asd', 'TILrut_QgeiiKYt'),
 (252, 2, 'sad', '2562-01-19', 'asd', 'sa2KNck9PCiIlqk'),
-(253, 1, 'dsad', '2019-01-18', 'asd', 'y7cCuv2K4rCd9D5');
+(253, 1, 'dsad', '2019-01-18', 'asd', 'y7cCuv2K4rCd9D5'),
+(354, 1, 'sad', '2562-02-21', 'asdsad', '05afU-8mdm7VWNb'),
+(355, 1, 'sad', '2562-02-21', 'asdsad', 'Wik8O3qwVLY3iHB'),
+(379, 1, 'plan1', '2019-02-14', 'aa', 'JEyUO5830YmTS5W'),
+(380, 2, 'do1', '2019-02-21', 'bb', 'JEyUO5830YmTS5W'),
+(381, 3, 'check1', '2019-02-25', 'cc', 'JEyUO5830YmTS5W'),
+(382, 1, 'plan2', '2019-02-27', 'dd', 'JEyUO5830YmTS5W'),
+(383, 2, 'do2', '2019-02-28', 'ee', 'JEyUO5830YmTS5W'),
+(384, 1, 'plan1', '2562-02-20', 'aa', 'znAs_kEb5zaoW9a'),
+(385, 2, 'do1', '2562-02-18', 'bb', 'znAs_kEb5zaoW9a'),
+(386, 3, 'check1', '2562-02-25', 'cc', 'znAs_kEb5zaoW9a'),
+(387, 4, 'act1', '2562-02-27', 'dd', 'znAs_kEb5zaoW9a');
 
 -- --------------------------------------------------------
 
@@ -1041,8 +1170,6 @@ ALTER TABLE `activity`
   ADD PRIMARY KEY (`activity_id`),
   ADD KEY `fk_activity_project1_idx` (`root_project_id`),
   ADD KEY `fk_activity_organization1_idx` (`organization_organization_id`),
-  ADD KEY `fk_activity_element1_idx` (`element_element_id`),
-  ADD KEY `fk_activity_product1_idx` (`product_product_id`),
   ADD KEY `fk_activity_project_responsible1_idx` (`responsible_by`),
   ADD KEY `fk_activity_project_laksana1_idx` (`project_laksana_id`),
   ADD KEY `fk_activity_project_paomai1_idx` (`project_paomai_id`),
@@ -1051,7 +1178,8 @@ ALTER TABLE `activity`
   ADD KEY `fk_activity_budget_details1_idx` (`budget_details_id`),
   ADD KEY `fk_activity_lastpage1_idx` (`lastpage_id`),
   ADD KEY `fk_activity_managers1_idx` (`created_by`),
-  ADD KEY `fk_activity_consistency1_idx` (`activity_consistency_id`);
+  ADD KEY `fk_activity_consistency1_idx` (`activity_consistency_id`),
+  ADD KEY `fk_activity_element_product1_idx` (`activity_ep_id`);
 
 --
 -- Indexes for table `activity_files`
@@ -1087,6 +1215,14 @@ ALTER TABLE `consistency`
 --
 ALTER TABLE `element`
   ADD PRIMARY KEY (`element_id`);
+
+--
+-- Indexes for table `element_product`
+--
+ALTER TABLE `element_product`
+  ADD PRIMARY KEY (`element_product_id`),
+  ADD KEY `fk_element_product_element1_idx` (`ep_element_id`),
+  ADD KEY `fk_element_product_product1_idx` (`ep_product_id`);
 
 --
 -- Indexes for table `goal`
@@ -1142,14 +1278,13 @@ ALTER TABLE `project`
   ADD KEY `fk_project_organization1_idx` (`organization_id`),
   ADD KEY `fk_project_responsibler1_idx` (`responsibler_id`),
   ADD KEY `fk_project_project_laksana1_idx` (`project_laksana_id`),
-  ADD KEY `fk_project_element1_idx` (`element_id`),
-  ADD KEY `fk_project_product1_idx` (`product_id`),
   ADD KEY `fk_project_project_kpi1_idx` (`project_kpi_id`),
   ADD KEY `fk_project_project_paomai1_idx` (`projecti_paomai_id`),
   ADD KEY `fk_project_project_plan1_idx` (`project_plan_id`),
   ADD KEY `fk_project_budget_type1_idx` (`budget_budget_type`),
   ADD KEY `fk_project_lastpage1_idx` (`lastpage_id`),
-  ADD KEY `fk_project_consistency1_idx` (`project_consistency_id`);
+  ADD KEY `fk_project_consistency1_idx` (`project_consistency_id`),
+  ADD KEY `fk_project_element_product1_idx` (`project_ep_id`);
 
 --
 -- Indexes for table `project_files`
@@ -1228,7 +1363,7 @@ ALTER TABLE `activity_files`
 -- AUTO_INCREMENT for table `budget_details`
 --
 ALTER TABLE `budget_details`
-  MODIFY `detail_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=118;
+  MODIFY `detail_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=175;
 
 --
 -- AUTO_INCREMENT for table `budget_type`
@@ -1240,13 +1375,19 @@ ALTER TABLE `budget_type`
 -- AUTO_INCREMENT for table `consistency`
 --
 ALTER TABLE `consistency`
-  MODIFY `consistency_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=122;
+  MODIFY `consistency_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=163;
 
 --
 -- AUTO_INCREMENT for table `element`
 --
 ALTER TABLE `element`
   MODIFY `element_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `element_product`
+--
+ALTER TABLE `element_product`
+  MODIFY `element_product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- AUTO_INCREMENT for table `goal`
@@ -1264,13 +1405,13 @@ ALTER TABLE `indicator`
 -- AUTO_INCREMENT for table `lastpage`
 --
 ALTER TABLE `lastpage`
-  MODIFY `last_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `last_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- AUTO_INCREMENT for table `managers`
 --
 ALTER TABLE `managers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `organization`
@@ -1294,7 +1435,7 @@ ALTER TABLE `product`
 -- AUTO_INCREMENT for table `project`
 --
 ALTER TABLE `project`
-  MODIFY `project_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `project_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `project_files`
@@ -1306,25 +1447,25 @@ ALTER TABLE `project_files`
 -- AUTO_INCREMENT for table `project_kpi`
 --
 ALTER TABLE `project_kpi`
-  MODIFY `kpi_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=77;
+  MODIFY `kpi_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=88;
 
 --
 -- AUTO_INCREMENT for table `project_laksana`
 --
 ALTER TABLE `project_laksana`
-  MODIFY `laksana_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=241;
+  MODIFY `laksana_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=274;
 
 --
 -- AUTO_INCREMENT for table `project_paomai`
 --
 ALTER TABLE `project_paomai`
-  MODIFY `paomai_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'เป้าหมาย', AUTO_INCREMENT=192;
+  MODIFY `paomai_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'เป้าหมาย', AUTO_INCREMENT=225;
 
 --
 -- AUTO_INCREMENT for table `project_plan`
 --
 ALTER TABLE `project_plan`
-  MODIFY `plan_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=254;
+  MODIFY `plan_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=388;
 
 --
 -- AUTO_INCREMENT for table `project_type`
@@ -1361,11 +1502,10 @@ ALTER TABLE `activity`
   ADD CONSTRAINT `fk_activity_budget_details_new` FOREIGN KEY (`budget_details_id`) REFERENCES `budget_details` (`detail_id`) ON DELETE SET NULL ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_activity_budget_type1` FOREIGN KEY (`budget_type_id`) REFERENCES `budget_type` (`budget_type_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_activity_consistency1` FOREIGN KEY (`activity_consistency_id`) REFERENCES `consistency` (`consistency_id`) ON DELETE SET NULL ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_activity_element1` FOREIGN KEY (`element_element_id`) REFERENCES `element` (`element_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_activity_element_product1` FOREIGN KEY (`activity_ep_id`) REFERENCES `element_product` (`element_product_id`) ON DELETE SET NULL ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_activity_lastpage1` FOREIGN KEY (`lastpage_id`) REFERENCES `lastpage` (`last_id`) ON DELETE SET NULL ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_activity_managers1` FOREIGN KEY (`created_by`) REFERENCES `managers` (`id`) ON DELETE SET NULL ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_activity_organization1` FOREIGN KEY (`organization_organization_id`) REFERENCES `organization` (`organization_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_activity_product1` FOREIGN KEY (`product_product_id`) REFERENCES `product` (`product_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_activity_project1` FOREIGN KEY (`root_project_id`) REFERENCES `project` (`project_id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_activity_project_laksana1` FOREIGN KEY (`project_laksana_id`) REFERENCES `project_laksana` (`laksana_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_activity_project_paomai1` FOREIGN KEY (`project_paomai_id`) REFERENCES `project_paomai` (`paomai_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
@@ -1388,16 +1528,22 @@ ALTER TABLE `consistency`
   ADD CONSTRAINT `fk_consistency_strategy1` FOREIGN KEY (`cons_strategy_id`) REFERENCES `strategy` (`strategy_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
+-- Constraints for table `element_product`
+--
+ALTER TABLE `element_product`
+  ADD CONSTRAINT `fk_element_product_element1` FOREIGN KEY (`ep_element_id`) REFERENCES `element` (`element_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_element_product_product1` FOREIGN KEY (`ep_product_id`) REFERENCES `product` (`product_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
 -- Constraints for table `project`
 --
 ALTER TABLE `project`
   ADD CONSTRAINT `fk_project_budget_type1` FOREIGN KEY (`budget_budget_type`) REFERENCES `budget_type` (`budget_type_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_project_consistency1` FOREIGN KEY (`project_consistency_id`) REFERENCES `consistency` (`consistency_id`) ON DELETE SET NULL ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_project_element1` FOREIGN KEY (`element_id`) REFERENCES `element` (`element_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_project_element_product1` FOREIGN KEY (`project_ep_id`) REFERENCES `element_product` (`element_product_id`) ON DELETE SET NULL ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_project_lastpage1` FOREIGN KEY (`lastpage_id`) REFERENCES `lastpage` (`last_id`) ON DELETE SET NULL ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_project_managers` FOREIGN KEY (`created_by`) REFERENCES `managers` (`id`) ON DELETE SET NULL ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_project_organization1` FOREIGN KEY (`organization_id`) REFERENCES `organization` (`organization_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_project_product1` FOREIGN KEY (`product_id`) REFERENCES `product` (`product_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_project_project_kpi1` FOREIGN KEY (`project_kpi_id`) REFERENCES `project_kpi` (`kpi_id`) ON DELETE SET NULL ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_project_project_laksana1` FOREIGN KEY (`project_laksana_id`) REFERENCES `project_laksana` (`laksana_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_project_project_paomai1` FOREIGN KEY (`projecti_paomai_id`) REFERENCES `project_paomai` (`paomai_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
