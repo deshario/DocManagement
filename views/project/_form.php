@@ -126,15 +126,42 @@ use yii\helpers\Url;
                         <?=$form->field($model, 'related_subject')->textInput(['maxlength' => true])?>
                     </div>
 
+                    <div class="col-md-12">
+                        <?=$form->field($model, 'temp_project_consistency_ii')->widget(MultipleInput::className(), [
+                            'max' => 30,
+                            'columns' => [
+                                [
+                                    'name' => 'element_id',
+                                    'type' => 'dropDownList',
+                                    'title' => 'องค์ประกอบ',
+                                    'items' => $model->getElementList(),
+                                    'options' => [
+                                        'prompt' => 'กรุณาเลือกองค์ประกอบ',
+                                    ],
+                                ],
+                                [
+                                    'name' => 'product_id',
+                                    'type' => 'dropDownList',
+                                    'title' => 'ผลผลิต',
+                                    'items' => $model->getProductList(),
+                                    'options' => [
+                                        'prompt' => 'กรุณาเลือกผลผลิต',
+                                    ],
+                                ],
+                            ],
+                        ])->label(false);?>
+                    </div>
+
                 </div>
             </div>
 
-            <div class="col-md-6">
+            <!--  <div class="col-md-6">
                 <?=$form->field($model, 'element_id')->dropDownList($model->getElementList(), ['prompt' => 'กรุณาเลือกองค์ประกอบ'])?>
             </div>
             <div class="col-md-6">
                 <?=$form->field($model, 'product_id')->dropDownList($model->getProductList(), ['prompt' => 'กรุณาเลือกผลผลิต'])?>
             </div>
+            -->
 
             <div class="clearfix"></div>
 

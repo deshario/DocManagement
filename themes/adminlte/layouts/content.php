@@ -40,8 +40,12 @@ if ($this->title !== null) {
 
 <footer class="main-footer">
    <div class="pull-right hidden-xs">
-    <b>Version</b> 2.0
+      <a href="https://github.com/deshario/DocManagement" target="_blank">
+          <img style="margin-top:-5px; height: 30px; width: 30px;" src="<?php echo Yii::getAlias('@web').'/img/opensource.png'; ?>"/>
+          <b>&nbsp;Version</b> 1.0
+      </a>
    </div>
    <strong>Copyright &copy; 2018 <a>
    Rajamangala University of Technology Lanna Nan</a></strong>
+
 </footer>

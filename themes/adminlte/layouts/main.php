@@ -48,7 +48,7 @@ if (Yii::$app->controller->action->id === 'login') {
     <head>
         <meta charset="<?= Yii::$app->charset ?>"/>
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="shortcut icon" href="<?php echo Yii::$app->request->baseUrl; ?>/cloud.png" type="image/x-icon" />
+        <link rel="shortcut icon" href="<?php echo $directoryAsset.'/img/opensource.ico'; ?>" type="image/x-icon" />
         <link href="https://fonts.googleapis.com/css?family=Abel" rel="stylesheet">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
         <?= Html::csrfMetaTags() ?>

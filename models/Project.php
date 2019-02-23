@@ -83,6 +83,7 @@ class Project extends \yii\db\ActiveRecord
     public $temp_project_kpi_id;
     public $temp_project_plan_id;
     public $temp_project_consistency;
+    public $temp_project_consistency_ii;
 
     public $paomai_quantity; // เป้าหมายเชิงปริมาณ
     public $paomai_quality; // เป้าหมายเชิงคุณภาพ
@@ -117,7 +118,7 @@ class Project extends \yii\db\ActiveRecord
 
             [['lastpage_main','lastpage_role','lastpage_name','lastpage_position'], 'safe'],
 
-            [['temp_project_kpi_id','temp_project_plan_id','file','temp_project_consistency'], 'safe'],
+            [['temp_project_kpi_id','temp_project_plan_id','file','temp_project_consistency','temp_project_consistency_ii'], 'safe'],
             [['plan_process','plan_detail','plan_date','plan_place'], 'safe'],
 
             [['cons_strategic_id','cons_goal_id','cons_strategy_id','cons_indicator_id'], 'safe'],
